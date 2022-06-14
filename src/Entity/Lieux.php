@@ -50,7 +50,11 @@ class Lieux
     private $longitude;
 
     /**
+<<<<<<< HEAD
      * @var \Villes
+=======
+     * @var Villes
+>>>>>>> 0544f3e9343c7a78ca4a946d02ae532fa2a84134
      *
      * @ORM\ManyToOne(targetEntity="Villes")
      * @ORM\JoinColumns({
