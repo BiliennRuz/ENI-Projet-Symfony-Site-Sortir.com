@@ -33,5 +33,19 @@ class HomeController extends AbstractController {
         return $this->render("layouts/base.html.twig");
     }
 
+    /**
+     * @Route("/",name="app_villes")
+     */
+    public function index4():Response{
+        
+        return $this->render("layouts/base.html.twig");
+    }
 
+    /**
+     * @Route("/",name="app_sites")
+     */
+    public function index5():Response{
+        
+        return $this->render("layouts/base.html.twig");
+    }
 }

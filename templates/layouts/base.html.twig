@@ -17,16 +17,19 @@
             {# Création d'une variable sur twig #}
             {% set menuNotConnected = ["Accueil"] %}
             {% set menuConnected = ["Accueil","Mon profil","Se deconnecter"] %}
+            {% set menuAdminConnected = ["Villes", "Sites", "Accueil","Mon profil","Se deconnecter"] %}
 
             {% if app.user %}
             {% set menu = menuConnected %}
+            {% elseif is_granted("ROLE_ADMIN") %}
+            {% set menu = menuAdminConnected %}
             {% else %}
             {% set menu = menuNotConnected %}
-            {% endif %}
+            {% endif %} #}
 
             <div data-role="appbar" data-expand-point="md">
                 
-                        <img src="assets/img/logo.png">
+                        <img src="assets/img/logo.png" alt="logo sortir.com">
                 
 
                 <ul class="app-bar-menu ">
