@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -64,13 +66,6 @@ class Sorties
     private $descriptioninfos;
 
     /**
-     * @var int|null
-     *
-     * @ORM\Column(name="etatsortie", type="integer", nullable=true)
-     */
-    private $etatsortie;
-
-    /**
      * @var string|null
      *
      * @ORM\Column(name="urlPhoto", type="string", length=250, nullable=true)
@@ -78,7 +73,7 @@ class Sorties
     private $urlphoto;
 
     /**
-     * @var \Etats
+     * @var Etats
      *
      * @ORM\ManyToOne(targetEntity="Etats")
      * @ORM\JoinColumns({
@@ -88,7 +83,7 @@ class Sorties
     private $etatsNoEtat;
 
     /**
-     * @var \Participants
+     * @var Participants
      *
      * @ORM\ManyToOne(targetEntity="Participants")
      * @ORM\JoinColumns({
@@ -98,7 +93,7 @@ class Sorties
     private $organisateur;
 
     /**
-     * @var \Lieux
+     * @var Lieux
      *
      * @ORM\ManyToOne(targetEntity="Lieux")
      * @ORM\JoinColumns({
@@ -128,6 +123,155 @@ class Sorties
     public function __construct()
     {
         $this->participantsNoParticipant = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function getNoSortie(): ?int
+    {
+        return $this->noSortie;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getDatedebut(): ?\DateTimeInterface
+    {
+        return $this->datedebut;
+    }
+
+    public function setDatedebut(\DateTimeInterface $datedebut): self
+    {
+        $this->datedebut = $datedebut;
+
+        return $this;
+    }
+
+    public function getDuree(): ?int
+    {
+        return $this->duree;
+    }
+
+    public function setDuree(?int $duree): self
+    {
+        $this->duree = $duree;
+
+        return $this;
+    }
+
+    public function getDatecloture(): ?\DateTimeInterface
+    {
+        return $this->datecloture;
+    }
+
+    public function setDatecloture(\DateTimeInterface $datecloture): self
+    {
+        $this->datecloture = $datecloture;
+
+        return $this;
+    }
+
+    public function getNbinscriptionsmax(): ?int
+    {
+        return $this->nbinscriptionsmax;
+    }
+
+    public function setNbinscriptionsmax(int $nbinscriptionsmax): self
+    {
+        $this->nbinscriptionsmax = $nbinscriptionsmax;
+
+        return $this;
+    }
+
+    public function getDescriptioninfos(): ?string
+    {
+        return $this->descriptioninfos;
+    }
+
+    public function setDescriptioninfos(?string $descriptioninfos): self
+    {
+        $this->descriptioninfos = $descriptioninfos;
+
+        return $this;
+    }
+
+    public function getUrlphoto(): ?string
+    {
+        return $this->urlphoto;
+    }
+
+    public function setUrlphoto(?string $urlphoto): self
+    {
+        $this->urlphoto = $urlphoto;
+
+        return $this;
+    }
+
+    public function getEtatsNoEtat(): ?Etats
+    {
+        return $this->etatsNoEtat;
+    }
+
+    public function setEtatsNoEtat(?Etats $etatsNoEtat): self
+    {
+        $this->etatsNoEtat = $etatsNoEtat;
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?Participants
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?Participants $organisateur): self
+    {
+        $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
+    public function getLieuxNoLieu(): ?Lieux
+    {
+        return $this->lieuxNoLieu;
+    }
+
+    public function setLieuxNoLieu(?Lieux $lieuxNoLieu): self
+    {
+        $this->lieuxNoLieu = $lieuxNoLieu;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participants>
+     */
+    public function getParticipantsNoParticipant(): Collection
+    {
+        return $this->participantsNoParticipant;
+    }
+
+    public function addParticipantsNoParticipant(Participants $participantsNoParticipant): self
+    {
+        if (!$this->participantsNoParticipant->contains($participantsNoParticipant)) {
+            $this->participantsNoParticipant[] = $participantsNoParticipant;
+        }
+
+        return $this;
+    }
+
+    public function removeParticipantsNoParticipant(Participants $participantsNoParticipant): self
+    {
+        $this->participantsNoParticipant->removeElement($participantsNoParticipant);
+
+        return $this;
     }
 
 }
