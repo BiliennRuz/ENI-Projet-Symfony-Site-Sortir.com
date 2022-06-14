@@ -53,7 +53,7 @@ class SortiesControllerTest extends WebTestCase
             'sorty[datecloture]' => 'Testing',
             'sorty[nbinscriptionsmax]' => 'Testing',
             'sorty[descriptioninfos]' => 'Testing',
-            'sorty[etatsortie]' => 'Testing',
+           
             'sorty[urlphoto]' => 'Testing',
             'sorty[etatsNoEtat]' => 'Testing',
             'sorty[organisateur]' => 'Testing',
@@ -76,7 +76,7 @@ class SortiesControllerTest extends WebTestCase
         $fixture->setDatecloture('My Title');
         $fixture->setNbinscriptionsmax('My Title');
         $fixture->setDescriptioninfos('My Title');
-        $fixture->setEtatsortie('My Title');
+       
         $fixture->setUrlphoto('My Title');
         $fixture->setEtatsNoEtat('My Title');
         $fixture->setOrganisateur('My Title');
@@ -103,7 +103,7 @@ class SortiesControllerTest extends WebTestCase
         $fixture->setDatecloture('Value');
         $fixture->setNbinscriptionsmax('Value');
         $fixture->setDescriptioninfos('Value');
-        $fixture->setEtatsortie('Value');
+       
         $fixture->setUrlphoto('Value');
         $fixture->setEtatsNoEtat('Value');
         $fixture->setOrganisateur('Value');
@@ -122,7 +122,7 @@ class SortiesControllerTest extends WebTestCase
             'sorty[datecloture]' => 'Something New',
             'sorty[nbinscriptionsmax]' => 'Something New',
             'sorty[descriptioninfos]' => 'Something New',
-            'sorty[etatsortie]' => 'Something New',
+           
             'sorty[urlphoto]' => 'Something New',
             'sorty[etatsNoEtat]' => 'Something New',
             'sorty[organisateur]' => 'Something New',
@@ -140,7 +140,7 @@ class SortiesControllerTest extends WebTestCase
         self::assertSame('Something New', $fixture[0]->getDatecloture());
         self::assertSame('Something New', $fixture[0]->getNbinscriptionsmax());
         self::assertSame('Something New', $fixture[0]->getDescriptioninfos());
-        self::assertSame('Something New', $fixture[0]->getEtatsortie());
+      
         self::assertSame('Something New', $fixture[0]->getUrlphoto());
         self::assertSame('Something New', $fixture[0]->getEtatsNoEtat());
         self::assertSame('Something New', $fixture[0]->getOrganisateur());
@@ -158,7 +158,7 @@ class SortiesControllerTest extends WebTestCase
         $fixture->setDatecloture('Value');
         $fixture->setNbinscriptionsmax('Value');
         $fixture->setDescriptioninfos('Value');
-        $fixture->setEtatsortie('Value');
+     
         $fixture->setUrlphoto('Value');
         $fixture->setEtatsNoEtat('Value');
         $fixture->setOrganisateur('Value');
