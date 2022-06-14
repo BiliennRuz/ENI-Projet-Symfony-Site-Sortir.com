@@ -10,12 +10,12 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
- * @extends ServiceEntityRepository<User>
+ * @extends ServiceEntityRepository<Participants>
  *
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Participants|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Participants|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Participants[]    findAll()
+ * @method Participants[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ParticipantsRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
@@ -45,15 +45,15 @@ class ParticipantsRepository extends ServiceEntityRepository implements Password
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
-    public function upgradePassword(PasswordAuthenticatedUserInterface $participants, string $newHashedPassword): void
+    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
-        if (!$participants instanceof Participants) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($participants)));
+        if (!$user instanceof Participants) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
         }
 
-        $participants->setPassword($newHashedPassword);
+        $user->setPassword($newHashedPassword);
 
-        $this->add($participants, true);
+        $this->add($user, true);
     }
 
 //    /**
@@ -61,10 +61,10 @@ class ParticipantsRepository extends ServiceEntityRepository implements Password
 //     */
 //    public function findByExampleField($value): array
 //    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
+//        return $this->createQueryBuilder('p')
+//            ->andWhere('p.exampleField = :val')
 //            ->setParameter('val', $value)
-//            ->orderBy('u.noParticipant', 'ASC')
+//            ->orderBy('p.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
@@ -73,8 +73,8 @@ class ParticipantsRepository extends ServiceEntityRepository implements Password
 
 //    public function findOneBySomeField($value): ?Participants
 //    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
+//        return $this->createQueryBuilder('p')
+//            ->andWhere('p.exampleField = :val')
 //            ->setParameter('val', $value)
 //            ->getQuery()
 //            ->getOneOrNullResult()
