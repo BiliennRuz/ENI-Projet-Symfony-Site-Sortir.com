@@ -65,12 +65,7 @@ class Sorties
      */
     private $descriptioninfos;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="etatsortie", type="integer", nullable=true)
-     */
-    private $etatsortie;
+
 
     /**
      * @var string|null
@@ -80,7 +75,7 @@ class Sorties
     private $urlphoto;
 
     /**
-     * @var \Etats
+     * @var Etats
      *
      * @ORM\ManyToOne(targetEntity="Etats")
      * @ORM\JoinColumns({
@@ -90,7 +85,7 @@ class Sorties
     private $etatsNoEtat;
 
     /**
-     * @var \Participants
+     * @var Participants
      *
      * @ORM\ManyToOne(targetEntity="Participants")
      * @ORM\JoinColumns({
@@ -100,7 +95,7 @@ class Sorties
     private $organisateur;
 
     /**
-     * @var \Lieux
+     * @var Lieux
      *
      * @ORM\ManyToOne(targetEntity="Lieux")
      * @ORM\JoinColumns({
@@ -209,17 +204,7 @@ class Sorties
         return $this;
     }
 
-    public function getEtatsortie(): ?int
-    {
-        return $this->etatsortie;
-    }
 
-    public function setEtatsortie(?int $etatsortie): self
-    {
-        $this->etatsortie = $etatsortie;
-
-        return $this;
-    }
 
     public function getUrlphoto(): ?string
     {
