@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use App\Repository\ParticipantsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -12,22 +14,19 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Participants
  *
  * @ORM\Table(name="participants", uniqueConstraints={@ORM\UniqueConstraint(name="participants_pseudo_uk", columns={"pseudo"})}, indexes={@ORM\Index(name="participants_sites_fk", columns={"sites_no_site"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=ParticipantsRepository::class)
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class Participants implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="no_participant", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(name="no_participant", type="integer", nullable=false)
      */
-    private $noParticipant;
+    private $id;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="pseudo", type="string", length=30, nullable=false)
      */
     private $pseudo;
@@ -54,23 +53,20 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     private $telephone;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="mail", type="string", length=50, nullable=false)
      */
-    private $mail;
+    private $email;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="mot_de_passe", type="string", length=50, nullable=false)
-     */
-    private $motDePasse;
-
-     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(name="roles", type="json", nullable=false)
      */
     private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(name="mot_de_passe", type="string", length=250, nullable=false)
+     */
+    private $password;
 
     /**
      * @var bool
@@ -96,6 +92,7 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $sortiesNoSortie;
 
+
     /**
      * Constructor
      */
@@ -104,9 +101,9 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
         $this->sortiesNoSortie = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function getNoParticipant(): ?int
+    public function getId(): ?int
     {
-        return $this->noParticipant;
+        return $this->id;
     }
 
     public function getPseudo(): ?string
@@ -157,26 +154,48 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getMail(): ?string
+    public function getEmail(): ?string
     {
-        return $this->mail;
+        return $this->email;
     }
 
-    public function setMail(string $mail): self
+    public function setEmail(string $email): self
     {
-        $this->mail = $mail;
+        $this->email = $email;
 
         return $this;
     }
 
-    public function getMotDePasse(): ?string
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
     {
-        return $this->motDePasse;
+        return $this->password;
     }
 
-    public function setMotDePasse(string $motDePasse): self
+    public function setPassword(string $password): self
     {
-        $this->motDePasse = $motDePasse;
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }
@@ -232,6 +251,7 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
     /**
      * A visual identifier that represents this user.
      *
@@ -239,7 +259,7 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->mail;
+        return (string) $this->email;
     }
 
     /**
@@ -247,41 +267,7 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->mail;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
+        return (string) $this->email;
     }
 
     /**
