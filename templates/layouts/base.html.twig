@@ -37,7 +37,7 @@
                     {% endif %}
 
                     {# ajouté pour les test et à supprimer #}
-                    {% set menu = ["Villes", "Sites", "Accueil","Mon profil","Se deconnecter"] %}
+                    {# {% set menu = ["Villes", "Sites", "Accueil","Mon profil","Se deconnecter"] %} #}
 
                     <ul class="app-bar-menu">
 
@@ -46,8 +46,8 @@
                         <li>
                             {# affichage == Echo #}
                             {# concaténation tilde ~ #}
-                            {# <a href=" {{ path('app_'~ele|lower|replace({' ':''})) }}">{{ele|upper}}</a> #}
-                            <a href="#">{{ele|upper}}</a>
+                            <a href=" {{ path('app_'~ele|lower|replace({' ':''})) }}">{{ele|upper}}</a>
+                            {# <a href="#">{{ele|upper}}</a> #}
                         </li>
                         {% endfor %}
                         {# Fin de la boucle #}
