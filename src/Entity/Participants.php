@@ -53,6 +53,7 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     private $telephone;
 
     /**
+
      * @ORM\Column(name="mail", type="string", length=50, nullable=false)
      */
     private $email;
@@ -91,7 +92,6 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\ManyToMany(targetEntity="Sorties", mappedBy="participantsNoParticipant")
      */
     private $sortiesNoSortie;
-
 
     /**
      * Constructor
@@ -165,6 +165,7 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
 
     /**
      * @see PasswordAuthenticatedUserInterface
@@ -289,4 +290,5 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
 }
