@@ -4,8 +4,8 @@
 
 {% block body %}
 
-<div class="row grid m-5 flex-align-center ">
-    <div class=" cell-12 p-5 ">
+<div class="row grid m-5 flex-align-center text-center ">
+    <div class="cell-3 p-5 ">
         <form method="post">
 
             {% if error %}
@@ -21,10 +21,10 @@
             <h1> Connexion</h1>
 
             <input type="email" placeholder="Entrez votre email" value="{{ last_username }}" name="email"
-                id="inputEmail" class="form-group" autocomplete="email" required autofocus>
+                id="inputEmail" class="metro-input" autocomplete="email" required autofocus>
 
-            <input type="password" placeholder="Entrez votre email" name="password" id="inputPassword"
-                class="form-group" autocomplete="current-password" required>
+            <input type="password" placeholder="Entrez votre mot de passe" name="password" id="inputPassword"
+                class="metro-input" autocomplete="current-password" required>
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
@@ -34,7 +34,7 @@
             See https://symfony.com/doc/current/security/remember_me.html
             #}
             <input type="checkbox" data-role="checkbox" data-caption="Remember me">
-            <br>
+            
             <button class="button success" type="submit">
                 Valider
             </button>
