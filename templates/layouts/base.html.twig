@@ -21,7 +21,7 @@
                 <img src="assets/img/logo.png" alt="logo sortir.com">
             </div>
 
-            <div class="cell-6 text-right">
+            <div class="cell-6 ">
 
                 {# Création d'une variable sur twig #}
                 {% set menuNotConnected = ["Accueil"] %}
@@ -36,39 +36,38 @@
                 {% set menu = menuNotConnected %}
                 {% endif %}
 
-                {# <div data-role="appbar" data-expand-point="md">            #}
-                    
-                    <ul class="app-bar-menu ">
-                        
-                        {# Début de la boucle #}
-                        {% for ele in menu %}
-                        <li>
-                            {# affichage == Echo #}
-                            {# concaténation tilde ~ #}
-                            <a href="{{ path('app_'~ele|lower|replace({' ':''})) }}">{{ele|upper}}</a>
-                        </li>
-                        {% endfor %}
-                        {# Fin de la boucle #}
-                        
-                    </ul>
-                    
-                {# </div> #}
-                
-            </div>
-        </div>
-    </div>
+                <ul class="h-menu large text-right ">
 
-    <div class="grid m-5">
-        <div class="row flex-align-center">
-            <div class=" cell-12 p-5 text-center">
-                {% block body %}
+                    {# Début de la boucle #}
+                    {% for ele in menu %}
+                    <li>
+                        {# affichage == Echo #}
+                        {# concaténation tilde ~ #}
+                        <a href="{{ path('app_'~ele|lower|replace({' ':''})) }}">{{ele|upper}}</a>
+                    </li>
+                    {% endfor %}
+                    {# Fin de la boucle #}
 
-                {% endblock %}
-            </div>
+                </ul>
+
+                {#
+            </div> #}
 
         </div>
     </div>
+    
+    <main>
+        <div style="min-height:75vh" class="grid m-5 flex-align-center">
+            <div class="row ">
+                <div class=" cell-12 p-5 text-center">
+                    {% block body %}
 
+                    {% endblock %}
+                </div>
+
+            </div>
+        </div>
+    </main>
     <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
 </body>
 
