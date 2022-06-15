@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * @Route("/participants")
@@ -59,12 +60,18 @@ class ParticipantsController extends AbstractController
     /**
      * @Route("/{id}/edit", name="app_participants_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Participants $participant, ParticipantsRepository $participantsRepository): Response
+    public function edit(Request $request, Participants $participant, ParticipantsRepository $participantsRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $form = $this->createForm(ParticipantsType::class, $participant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $participant->setPassword(
+                $userPasswordHasher->hashPassword(
+                        $participant,
+                        $form->get('password')->getData()
+                )
+            );
             $participantsRepository->add($participant, true);
 
             return $this->redirectToRoute('app_participants_index', [], Response::HTTP_SEE_OTHER);
