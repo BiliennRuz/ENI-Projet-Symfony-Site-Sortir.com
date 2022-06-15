@@ -59,6 +59,12 @@ class Lieux
      */
     private $villesNoVille;
 
+    public function __toString() {
+
+        return $this->nomLieu;
+
+    }
+
     public function getNoLieu(): ?int
     {
         return $this->noLieu;
