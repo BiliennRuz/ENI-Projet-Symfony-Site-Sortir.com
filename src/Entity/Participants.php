@@ -53,7 +53,6 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     private $telephone;
 
     /**
-
      * @ORM\Column(name="mail", type="string", length=50, nullable=false)
      */
     private $email;
@@ -165,7 +164,6 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
 
     /**
      * @see PasswordAuthenticatedUserInterface

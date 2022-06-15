@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Modification des sites ENI{% endblock %}
+
+{% block body %}
+    <h1>Modification des sites ENI</h1>
+    <div class="container-fluid">
+        <div class="cell-4 offset-4 p-2">
+            {{ include('sites/_form.html.twig', {'button_label': 'Update'}) }}
+        
+            <a href="{{ path('app_sites') }}">back to list</a>
+        
+            {{ include('sites/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
