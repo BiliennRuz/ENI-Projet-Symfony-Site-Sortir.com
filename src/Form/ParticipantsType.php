@@ -10,28 +10,30 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 
 class ParticipantsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('pseudo')
-            ->add('prenom')
-            ->add('nom')
-            ->add('telephone')
-            ->add('email')
-            ->add('password',  RepeatedType::class, [
-                'type' => PasswordType::class,
-                'options' => ['attr' => ['class' => 'password-field']],
-                'first_options'  => ['label' => 'Mot de Passe'] ,
-                'second_options' => ['label' => 'Confirmer Mot de Passe'],
+            ->add('pseudo',TextType::class, array ('attr' => array('class' => 'metro-input cell-9','placeholder'=>"pseudo")))       
+            ->add('prenom',TextType::class, array ('attr' => array('class' => 'metro-input cell-9','placeholder'=>"Prénom")))
+            ->add('nom',TextType::class, array ('attr' => array('class' => 'metro-input cell-9','placeholder'=>"Nom")))
+            ->add('telephone',TextType::class, array ('attr' => array('class' => 'metro-input cell-9','placeholder'=>"Téléphone")))
+            ->add('email',TextType::class, array ('attr' => array('class' => 'metro-input cell-9','placeholder'=>"Email")))
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class, 'options' => ['attr' => ['class' => 'password-field']],
+                'first_options'  => ['label' => 'Mot de Passe'] , 
+                'second_options' => ['label' => 'Confirmer Mot de Passe']
         ])
-            ->add('sitesNoSite', EntityType::class,[
+            ->add('sitesNoSite', EntityType::class, [
 
                 'class' =>  Sites::class,
                 'choice_label' => 'nomSite',
                 'label' => "Villes de rattachement",
+                'attr' => array('class' => 'metro-input cell-9')
 
             ]);
     }
