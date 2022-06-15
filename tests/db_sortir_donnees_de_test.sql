@@ -75,7 +75,7 @@ INSERT INTO `sites` (`no_site`, `nom_site`) VALUES
 --
 
 INSERT INTO `sorties` (`no_sortie`, `nom`, `datedebut`, `duree`, `datecloture`, `nbinscriptionsmax`, `descriptioninfos`, `urlPhoto`, `organisateur`, `lieux_no_lieu`, `etats_no_etat`) VALUES
-(1, 'After V&B', '2022-06-17 17:00:00', 90, '2022-06-17 16:06:03', 100, 'une p\'tit binouze !', NULL, 4, 1, 1),
+(1, 'After V&B', '2022-06-17 17:00:00', 90, '2022-06-17 16:06:03', 100, 'une ptit binouze !', NULL, 4, 1, 1),
 (2, 'After au Run', '2022-06-24 17:00:00', 90, '2022-06-22 16:17:50', 50, 'vous connaissez pas le Run ?', NULL, 4, 2, 2);
 
 --
