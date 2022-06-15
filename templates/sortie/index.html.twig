@@ -1,0 +1,49 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Sorties index{% endblock %}
+
+{% block body %}
+    <h1>Sorties index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>NoSortie</th>
+                <th>Nom</th>
+                <th>Datedebut</th>
+                <th>Duree</th>
+                <th>Datecloture</th>
+                <th>Nbinscriptionsmax</th>
+                <th>Descriptioninfos</th>
+               
+                <th>Urlphoto</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sorty in sorties %}
+            <tr>
+                <td>{{ sorty.noSortie }}</td>
+                <td>{{ sorty.nom }}</td>
+                <td>{{ sorty.datedebut ? sorty.datedebut|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sorty.duree }}</td>
+                <td>{{ sorty.datecloture ? sorty.datecloture|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sorty.nbinscriptionsmax }}</td>
+                <td>{{ sorty.descriptioninfos }}</td>
+              
+                <td>
+                    <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}">show</a>
+                    <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}">edit</a>
+                    <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}">annuler</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_sortie_new') }}">Create new</a>
+{% endblock %}

@@ -28,6 +28,10 @@ class Sites
      */
     private $nomSite;
 
+    public function __toString() {
+        return $this->nomSite;
+    }
+
     public function getNoSite(): ?int
     {
         return $this->noSite;

@@ -66,13 +66,6 @@ class Sorties
     private $descriptioninfos;
 
     /**
-     * @var int|null
-     *
-     * @ORM\Column(name="etatsortie", type="integer", nullable=true)
-     */
-    private $etatsortie;
-
-    /**
      * @var string|null
      *
      * @ORM\Column(name="urlPhoto", type="string", length=250, nullable=true)
@@ -123,6 +116,12 @@ class Sorties
      * )
      */
     private $participantsNoParticipant;
+    
+    
+    public function __toString() {
+        return $this->nom;
+    }
+    
 
     /**
      * Constructor
@@ -205,18 +204,6 @@ class Sorties
     public function setDescriptioninfos(?string $descriptioninfos): self
     {
         $this->descriptioninfos = $descriptioninfos;
-
-        return $this;
-    }
-
-    public function getEtatsortie(): ?int
-    {
-        return $this->etatsortie;
-    }
-
-    public function setEtatsortie(?int $etatsortie): self
-    {
-        $this->etatsortie = $etatsortie;
 
         return $this;
     }
