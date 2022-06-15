@@ -2,11 +2,6 @@
 
 namespace App\Entity;
 
-<<<<<<< HEAD
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-=======
 use App\Repository\ParticipantsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -14,30 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
->>>>>>> 0544f3e9343c7a78ca4a946d02ae532fa2a84134
 
 /**
  * Participants
  *
  * @ORM\Table(name="participants", uniqueConstraints={@ORM\UniqueConstraint(name="participants_pseudo_uk", columns={"pseudo"})}, indexes={@ORM\Index(name="participants_sites_fk", columns={"sites_no_site"})})
-<<<<<<< HEAD
- * @ORM\Entity
- */
-class Participants
-{
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="no_participant", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $noParticipant;
-
-    /**
-     * @var string
-     *
-=======
  * @ORM\Entity(repositoryClass=ParticipantsRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
@@ -51,7 +27,6 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
->>>>>>> 0544f3e9343c7a78ca4a946d02ae532fa2a84134
      * @ORM\Column(name="pseudo", type="string", length=30, nullable=false)
      */
     private $pseudo;
@@ -78,27 +53,6 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     private $telephone;
 
     /**
-<<<<<<< HEAD
-     * @var string
-     *
-     * @ORM\Column(name="mail", type="string", length=20, nullable=false)
-     */
-    private $mail;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="mot_de_passe", type="string", length=20, nullable=false)
-     */
-    private $motDePasse;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="administrateur", type="boolean", nullable=false)
-     */
-    private $administrateur;
-=======
      * @ORM\Column(name="mail", type="string", length=50, nullable=false)
      */
     private $email;
@@ -113,7 +67,6 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(name="mot_de_passe", type="string", length=250, nullable=false)
      */
     private $password;
->>>>>>> 0544f3e9343c7a78ca4a946d02ae532fa2a84134
 
     /**
      * @var bool
@@ -123,11 +76,7 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     private $actif;
 
     /**
-<<<<<<< HEAD
-     * @var \Sites
-=======
      * @var Sites
->>>>>>> 0544f3e9343c7a78ca4a946d02ae532fa2a84134
      *
      * @ORM\ManyToOne(targetEntity="Sites")
      * @ORM\JoinColumns({
@@ -143,10 +92,6 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $sortiesNoSortie;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 0544f3e9343c7a78ca4a946d02ae532fa2a84134
     /**
      * Constructor
      */
@@ -155,15 +100,9 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
         $this->sortiesNoSortie = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-<<<<<<< HEAD
-    public function getNoParticipant(): ?int
-    {
-        return $this->noParticipant;
-=======
     public function getId(): ?int
     {
         return $this->id;
->>>>>>> 0544f3e9343c7a78ca4a946d02ae532fa2a84134
     }
 
     public function getPseudo(): ?string
@@ -214,16 +153,6 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-<<<<<<< HEAD
-    public function getMail(): ?string
-    {
-        return $this->mail;
-    }
-
-    public function setMail(string $mail): self
-    {
-        $this->mail = $mail;
-=======
     public function getEmail(): ?string
     {
         return $this->email;
@@ -232,21 +161,10 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
->>>>>>> 0544f3e9343c7a78ca4a946d02ae532fa2a84134
 
         return $this;
     }
 
-<<<<<<< HEAD
-    public function getMotDePasse(): ?string
-    {
-        return $this->motDePasse;
-    }
-
-    public function setMotDePasse(string $motDePasse): self
-    {
-        $this->motDePasse = $motDePasse;
-=======
     /**
      * @see PasswordAuthenticatedUserInterface
      */
@@ -258,21 +176,10 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
->>>>>>> 0544f3e9343c7a78ca4a946d02ae532fa2a84134
 
         return $this;
     }
 
-<<<<<<< HEAD
-    public function isAdministrateur(): ?bool
-    {
-        return $this->administrateur;
-    }
-
-    public function setAdministrateur(bool $administrateur): self
-    {
-        $this->administrateur = $administrateur;
-=======
     /**
      * @see UserInterface
      */
@@ -288,7 +195,6 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
->>>>>>> 0544f3e9343c7a78ca4a946d02ae532fa2a84134
 
         return $this;
     }
@@ -344,8 +250,6 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-<<<<<<< HEAD
-=======
 
     /**
      * A visual identifier that represents this user.
@@ -384,5 +288,5 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
->>>>>>> 0544f3e9343c7a78ca4a946d02ae532fa2a84134
+
 }

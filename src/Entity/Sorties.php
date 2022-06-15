@@ -116,6 +116,12 @@ class Sorties
      * )
      */
     private $participantsNoParticipant;
+    
+    
+    public function __toString() {
+        return $this->nom;
+    }
+    
 
     /**
      * Constructor

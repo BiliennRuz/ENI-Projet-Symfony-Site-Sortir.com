@@ -1,0 +1,6 @@
+<form method="post" action="{{ path('app_sites_delete', {'noSite': site.noSite}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ site.noSite) }}">
+    <div class="p-2">
+        <button class="btn button"><span class="mif-bin mif-2x fg-red"></span></button>
+    </div>
+</form>
