@@ -10,6 +10,8 @@
     <!-- Metro 4 -->
     <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <!-- Pour les animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <title>{% block title %} Sortir.com {% endblock %}</title>
 </head>
 
@@ -74,6 +76,15 @@
 
     </main>
     <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+    <!-- Pour les animations aos -->
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<script>
+
+    AOS.init();
+
+</script>
 </body>
 
 </html>
