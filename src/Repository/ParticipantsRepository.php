@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Participants;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -17,7 +18,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  * @method Participants[]    findAll()
  * @method Participants[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ParticipantsRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class ParticipantsRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, UserLoaderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -80,4 +81,27 @@ class ParticipantsRepository extends ServiceEntityRepository implements Password
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function loadUserByUsername($usernameOrEmail)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.pseudo = :query OR p.email = :query')
+            ->setParameter('query', $usernameOrEmail)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function loadUserByIdentifier(string $usernameOrEmail): ?Participants
+    {
+        $entityManager = $this->getEntityManager();
+
+        return $entityManager->createQuery(
+                'SELECT p
+                FROM App\Entity\Participants p
+                WHERE p.pseudo = :query
+                OR p.email = :query'
+            )
+            ->setParameter('query', $usernameOrEmail)
+            ->getOneOrNullResult();
+    }
 }
