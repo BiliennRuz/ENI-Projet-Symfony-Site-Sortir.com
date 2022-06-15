@@ -26,9 +26,10 @@
                 <div class="cell-9 text-right">
 
                     {# Création d'une variable sur twig #}
-                    {% set menuNotConnected = ["Accueil"] %}
+                    {% set menuNotConnected = [] %}
                     {% set menuConnected = ["Accueil","Mon profil","Se deconnecter"] %}
                     {% set menuAdminConnected = ["Villes", "Sites", "Accueil","Mon profil","Se deconnecter"] %}
+                    {# ,"Mon profil"#}
 
                     {% if app.user %}
                     {% set menu = menuConnected %}
@@ -46,11 +47,25 @@
                         {# Début de la boucle #}
                         {% for ele in menu %}
                         <li>
+                            {% if ele == 'Accueil' %}
+                                <a href="{{ path('app_sortie_index') }}">ACCUEIL</a>
+                            {% elseif ele == 'Mon profil' %}
+                                <a href="{{ path('app_monprofil', {'id': app.user.id}) }}">MON PROFIL</a>
+                            {% elseif ele == 'Se deconnecter' %}
+                                <a href="{{ path('app_sedeconnecter') }}">SE DECONNECTER</a>
+                            {% elseif ele == 'Villes' %}
+                                <a href="{{ path('app_villes') }}">VILLES</a>
+                            {% elseif ele == 'Sites' %}
+                                <a href="{{ path('app_sites') }}">SITES</a>
+                            {#{% if ele == 'Mon profil' %}
+                                <a href="{{ path('app_monprofil', {'id': app.user.id}) }}">MON PROFIL</a>
+                            {% else %}#}
                             {# affichage == Echo #}
                             {# concaténation tilde ~ #}
-                            <a href=" {{ path('app_'~ele|lower|replace({' ':''})) }}">{{ele|upper}}</a>
+                            {#<a href=" {{ path('app_'~ele|lower|replace({' ':''})) }}">{{ele|upper}}</a>#}
                             {# <a href="#">{{ele|upper}}</a> #}
                         </li>
+                        {% endif %}
                         {% endfor %}
                         {# Fin de la boucle #}
 
