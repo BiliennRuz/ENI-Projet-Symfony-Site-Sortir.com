@@ -27,7 +27,11 @@ class Etats
      * @ORM\Column(name="libelle", type="string", length=30, nullable=false)
      */
     private $libelle;
+    public function __toString() {
 
+        return $this->libelle;
+
+    }
     public function getNoEtat(): ?int
     {
         return $this->noEtat;
