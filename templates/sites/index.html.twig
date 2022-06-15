@@ -1,0 +1,66 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Gérer les sites ENI{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Gérer les sites ENI</h1>
+
+    <div class="container-fluid">
+        
+        <div class="row flex-align-center">
+            <div class="cell-6 offset-1 p-2">
+                
+                <label for="Input_nom">Le nom contient</label>
+                <input id="Input_nom" type="text" onkeyup="">
+
+
+            </div>
+        </div>
+        
+        <div class="row flex-align-center">
+            <div class="cell-6 offset-1 p-2">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Ville</th>
+                            <th>actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for site in sites %}
+                        <tr>
+                            <td>{{ site.noSite }}</td>
+                            <td>{{ site.nomSite }}</td>
+                            <td>
+                                <a href="{{ path('app_sites_edit', {'noSite': site.noSite}) }}">
+                                    <span class="mif-pencil mif-2x fg-blue"></span>
+                                </a>
+                                {#
+                                {{ include('sites/_delete_form.html.twig') }}
+                                #}
+                                <a href="{{ path('app_sites_delete', {'noSite': site.noSite}) }}">
+                                    <span class="mif-bin mif-2x fg-red"></span>
+                                </a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="3">no records found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    <div class="row">
+        <div class="cell-6 offset-1 p-2">
+            <a href="{{ path('app_sites_new') }}">
+                <button class="btn button"><span class="mif-create-new-folder mif-2x fg-green p-2"></span> Nouveau</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
