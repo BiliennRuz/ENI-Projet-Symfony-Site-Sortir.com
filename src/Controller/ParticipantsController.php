@@ -58,7 +58,7 @@ class ParticipantsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_participants_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="app_monprofil", methods={"GET", "POST"})
      */
     public function edit(Request $request, Participants $participant, ParticipantsRepository $participantsRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {

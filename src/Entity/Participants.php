@@ -92,6 +92,12 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $sortiesNoSortie;
 
+    public function __toString() {
+
+        return $this->pseudo;
+
+    }
+
     /**
      * Constructor
      */
