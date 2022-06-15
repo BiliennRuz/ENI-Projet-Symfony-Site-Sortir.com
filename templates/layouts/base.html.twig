@@ -27,8 +27,8 @@
 
                     {# Création d'une variable sur twig #}
                     {% set menuNotConnected = ["Accueil"] %}
-                    {% set menuConnected = ["Accueil","Se deconnecter"] %}
-                    {% set menuAdminConnected = ["Villes", "Sites", "Accueil","Se deconnecter"] %}
+                    {% set menuConnected = ["Accueil","Mon profil","Se deconnecter"] %}
+                    {% set menuAdminConnected = ["Villes", "Sites", "Accueil","Mon profil","Se deconnecter"] %}
                     {# ,"Mon profil"#}
 
                     {% if app.user %}
@@ -47,11 +47,15 @@
                         {# Début de la boucle #}
                         {% for ele in menu %}
                         <li>
+                            {% if ele == 'Mon profil' %}
+                                <a href="{{ path('app_monprofil', {'id': app.user.id}) }}">MON PROFIL</a>
+                            {% else %}
                             {# affichage == Echo #}
                             {# concaténation tilde ~ #}
                             <a href=" {{ path('app_'~ele|lower|replace({' ':''})) }}">{{ele|upper}}</a>
                             {# <a href="#">{{ele|upper}}</a> #}
                         </li>
+                        {% endif %}
                         {% endfor %}
                         {# Fin de la boucle #}
 
