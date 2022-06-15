@@ -1,0 +1,30 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Villes{% endblock %}
+
+{% block body %}
+    <h1>Villes</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>NoVille</th>
+                <td>{{ ville.noVille }}</td>
+            </tr>
+            <tr>
+                <th>NomVille</th>
+                <td>{{ ville.nomVille }}</td>
+            </tr>
+            <tr>
+                <th>CodePostal</th>
+                <td>{{ ville.codePostal }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_villes') }}">back to list</a>
+
+    <a href="{{ path('app_villes_edit', {'noVille': ville.noVille}) }}">edit</a>
+
+    {{ include('villes/_delete_form.html.twig') }}
+{% endblock %}
