@@ -18,7 +18,7 @@ class SortiesType extends AbstractType
             ->add('datecloture')
             ->add('nbinscriptionsmax')
             ->add('descriptioninfos')
-            ->add('etatsortie')
+           
             ->add('urlphoto')
             ->add('etatsNoEtat')
             ->add('organisateur')
