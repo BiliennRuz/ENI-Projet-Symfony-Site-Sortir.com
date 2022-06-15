@@ -93,4 +93,23 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
+    /**
+     * @Route("/{noSortie}/annuler", name="app_sortie_annuler", methods={"GET"})
+     */
+    public function annuler(Request $request,Sorties $sorty,EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(SortiesType::class, $sorty);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('sortie/annuler.html.twig', [
+            'sorty' => $sorty,
+            'form' => $form,
+        ]);
+    }
 }
