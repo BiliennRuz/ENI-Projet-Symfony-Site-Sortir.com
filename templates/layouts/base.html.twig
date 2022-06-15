@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Metro 4 -->
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <title>{% block titre %} Sortir.com {% endblock %}</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+        <header>
+            {# Création d'une variable sur twig #}
+            {% set menuNotConnected = ["Villes", "Sites"] %}
+            {% set menuConnected = ["Accueil","Mon profil","Se deconnecter"] %}
+            {% set menuAdminConnected = ["Villes", "Sites", "Accueil","Mon profil","Se deconnecter"] %}
+
+            {% if app.user %}
+            {% set menu = menuConnected %}
+            {% elseif is_granted("ROLE_ADMIN") %}
+            {% set menu = menuAdminConnected %}
+            {% else %}
+            {% set menu = menuNotConnected %}
+            {% endif %} #}
+
+            <div data-role="appbar" data-expand-point="md">
+                
+                        <img src="assets/img/logo.png" alt="logo sortir.com">
+                
+
+                <ul class="app-bar-menu ">
+
+                    {# Début de la boucle #}
+                    {% for ele in menu %}
+                    <li>
+                        {# affichage == Echo #}
+                        {# concaténation tilde ~ #}
+                        <a href="{{ path('app_'~ele|lower|replace({' ':''})) }}">{{ele|upper}}</a>
+                    </li>
+                    {% endfor %}
+                    {# Fin de la boucle #}
+
+                </ul>
+            </div>
+
+        </header>
+        <main>
+
+            {% block body %}
+
+            {% endblock %}
+        </main>
+    </div>
+    <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+  </body>
+</html>
