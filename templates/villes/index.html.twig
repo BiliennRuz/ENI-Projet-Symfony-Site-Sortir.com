@@ -1,0 +1,36 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Villes index{% endblock %}
+
+{% block body %}
+    <h1>Villes index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>NoVille</th>
+                <th>NomVille</th>
+                <th>CodePostal</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ville in villes %}
+            <tr>
+                <td>{{ ville.noVille }}</td>
+                <td>{{ ville.nomVille }}</td>
+                <td>{{ ville.codePostal }}</td>
+                <td>
+                    <a href="{{ path('app_villes_edit', {'noVille': ville.noVille}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_villes_new') }}">Create new</a>
+{% endblock %}

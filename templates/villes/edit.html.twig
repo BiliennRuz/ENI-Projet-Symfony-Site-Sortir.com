@@ -1,0 +1,13 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Edit Villes{% endblock %}
+
+{% block body %}
+    <h1>Edit Villes</h1>
+
+    {{ include('villes/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_villes') }}">back to list</a>
+
+    {{ include('villes/_delete_form.html.twig') }}
+{% endblock %}
