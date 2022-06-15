@@ -27,8 +27,9 @@
 
                     {# Création d'une variable sur twig #}
                     {% set menuNotConnected = ["Accueil"] %}
-                    {% set menuConnected = ["Accueil","Mon profil","Se deconnecter"] %}
-                    {% set menuAdminConnected = ["Villes", "Sites", "Accueil","Mon profil","Se deconnecter"] %}
+                    {% set menuConnected = ["Accueil","Se deconnecter"] %}
+                    {% set menuAdminConnected = ["Villes", "Sites", "Accueil","Se deconnecter"] %}
+                    {# ,"Mon profil"#}
 
                     {% if app.user %}
                     {% set menu = menuConnected %}
