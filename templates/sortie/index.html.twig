@@ -5,18 +5,18 @@
 {% block body %}
     <h1>Sorties index</h1>
 
-    <table class="table">
+    <table class="table flex-align-center">
         <thead>
             <tr>
-                <th>NoSortie</th>
+                <th>#</th>
                 <th>Nom</th>
-                <th>Datedebut</th>
+                <th>Date </th>
                 <th>Duree</th>
-                <th>Datecloture</th>
-                <th>Nbinscriptionsmax</th>
-                <th>Descriptioninfos</th>
-               
-                <th>Urlphoto</th>
+                <th>Date de cloture des inscriptions</th>
+                <th>Nombre d'inscrits (todo)</th>
+                <th>Etat</th>
+                <th>Inscrits</th>
+                <th>Organisateurs</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -29,11 +29,12 @@
                 <td>{{ sorty.duree }}</td>
                 <td>{{ sorty.datecloture ? sorty.datecloture|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ sorty.nbinscriptionsmax }}</td>
+                <td>{{  sorty.duree }}</td>
+                <td>{{  sorty.duree }}</td>
                 <td>{{ sorty.descriptioninfos }}</td>
-              
                 <td>
-                    <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}">show</a>
-                    <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}">edit</a>
+                    <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second primary"><span class="mif-eye"></span></a>
+                    <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
                     <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}">annuler</a>
                 </td>
             </tr>
@@ -44,6 +45,6 @@
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('app_sortie_new') }}" class="action-button success "><span class="icon"><span class="mif-plus"></span></span></a>
+    <a href="{{ path('app_sortie_new') }}" class="action-button rotate success "><span class="icon"><span class="mif-plus"></span></span></a>
     <p>Créer une sortie</p>
 {% endblock %}
