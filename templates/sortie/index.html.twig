@@ -33,12 +33,13 @@
                 <td>{{  sorty.duree }}</td>
                 <td>{{  sorty.duree }}</td>
                 <td>{{ sorty.descriptioninfos }}</td>
-                
-                <!--onmouseover="show()" -->
+                <td><a href="{{ path('app_participants_show', {'pseudo': sorty.organisateur}) }}">{{ sorty.organisateur }}</a></td>
+              
                 <td>
                     <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second primary" id="buttonShow"><span class="mif-eye"></span></a>
                     <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
                     <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}">annuler</a>
+                    {# <a href="{{ path('app_inscription_new', {'noSortie': sorty.noSortie, 'id': app.user.id}) }}">s'inscrire</a> #}
                 </td>
             </tr>
         {% else %}

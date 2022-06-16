@@ -54,11 +54,11 @@ INSERT INTO `lieux` (`no_lieu`, `nom_lieu`, `rue`, `latitude`, `longitude`, `vil
 -- Déchargement des données de la table `participants`
 --
 
-INSERT INTO `participants` (`no_participant`, `pseudo`, `nom`, `prenom`, `telephone`, `mail`, `mot_de_passe`, `administrateur`, `actif`, `sites_no_site`) VALUES
-(1, 'participantActif', 'NomParticipantActif', 'PrenomParticipantActif', '0612345678', 'participant.actif@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', 0, 1, 1),
-(2, 'participantInactif', 'NomParticipantInactif', 'PrenomParticipantInactif', '0612345678', 'participant.inactif@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', 0, 0, 2),
-(3, 'admin', 'NomAdmin', 'PrenomAdmin', '0612345678', 'admin@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', 1, 1, 3),
-(4, 'organisateur', 'NomOrganisateur', 'PrenomOrganisateur', '0612345678', 'organisateur@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', 0, 1, 4);
+INSERT INTO `participants` (`no_participant`, `pseudo`, `nom`, `prenom`, `telephone`, `mail`, `mot_de_passe`, `role`, `actif`, `sites_no_site`) VALUES
+(1, 'participantActif', 'NomParticipantActif', 'PrenomParticipantActif', '0612345678', 'participant.actif@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', [], 1, 1),
+(2, 'participantInactif', 'NomParticipantInactif', 'PrenomParticipantInactif', '0612345678', 'participant.inactif@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', [], 0, 2),
+(3, 'admin', 'NomAdmin', 'PrenomAdmin', '0612345678', 'admin@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', ["ROLE_ADMIN"], 1, 3),
+(4, 'organisateur', 'NomOrganisateur', 'PrenomOrganisateur', '0612345678', 'organisateur@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', [], 1, 4);
 
 --
 -- Déchargement des données de la table `sites`
