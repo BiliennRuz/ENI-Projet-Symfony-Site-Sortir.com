@@ -8,13 +8,12 @@
     <table class="table">
         <thead>
             <tr>
-                <th>NoSortie</th>
                 <th>Nom</th>
                 <th>Datedebut</th>
-                <th>Duree</th>
                 <th>Datecloture</th>
-                <th>Nbinscriptionsmax</th>
-                <th>Descriptioninfos</th>
+                <th>Inscrits/Place</th>
+                <th>Etat</th>
+                <th>Inscrit</th>
                 <th>Oragnisateur</th>
                 <th>actions</th>
             </tr>
@@ -22,19 +21,19 @@
         <tbody>
         {% for sorty in sorties %}
             <tr>
-                <td>{{ sorty.noSortie }}</td>
                 <td>{{ sorty.nom }}</td>
                 <td>{{ sorty.datedebut ? sorty.datedebut|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sorty.duree }}</td>
                 <td>{{ sorty.datecloture ? sorty.datecloture|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sorty.nbinscriptionsmax }}</td>
-                <td>{{ sorty.descriptioninfos }}</td>
+                <td>Hewwo World{#Count inscriptions where id sortie = id de cette sortie    / sorty.nbinscriptionsmax#}</td>
+                <td>{{ sorty.etatsNoEtat }}</td>
+                <td>X {#  if inscriptions with app.user.id et id sortie alors "X" else " "  #}</td>
                 <td><a href="{{ path('app_participants_show', {'pseudo': sorty.organisateur}) }}">{{ sorty.organisateur }}</a></td>
               
                 <td>
                     <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}">show</a>
                     <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}">edit</a>
                     <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}">annuler</a>
+                    <a href="{{ path('app_inscriptions_new') }}">s'inscrire</a>
                     {# <a href="{{ path('app_inscription_new', {'noSortie': sorty.noSortie, 'id': app.user.id}) }}">s'inscrire</a> #}
                 </td>
             </tr>
