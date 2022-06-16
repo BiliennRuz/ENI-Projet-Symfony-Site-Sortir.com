@@ -24,9 +24,9 @@ class ParticipantsType extends AbstractType
             ->add('telephone',TextType::class, array ('attr' => array('class' => 'metro-input cell-9','placeholder'=>"Téléphone")))
             ->add('email',TextType::class, array ('attr' => array('class' => 'metro-input cell-9','placeholder'=>"Email")))
             ->add('password', RepeatedType::class, [
-                'type' => PasswordType::class, 'options' => ['attr' => ['class' => 'password-field']],
-                'first_options'  => ['label' => 'Mot de Passe'] , 
-                'second_options' => ['label' => 'Confirmer Mot de Passe']
+                'type' => PasswordType::class, 'options' => ['attr' => ['class' => 'password-field metro-input cell-9','placeholder'=>"mdp"]],
+                'first_options'  => ['label' => ' '] , 
+                'second_options' => ['label' => ' ']
         ])
             ->add('sitesNoSite', EntityType::class, [
 
