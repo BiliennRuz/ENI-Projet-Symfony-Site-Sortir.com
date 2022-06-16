@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Sorties;
 use App\Form\SortiesType;
+use App\Repository\SortiesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,10 +55,14 @@ class SortieController extends AbstractController
     /**
      * @Route("/{noSortie}", name="app_sortie_show", methods={"GET"})
      */
-    public function show(Sorties $sorty): Response
+    public function show(Sorties $sorty, SortiesRepository $repository): Response
     {
+        $noSorty = $sorty->getNoSortie();
+        $inscrits = $repository->inscripBySortie($noSorty);
+
         return $this->render('sortie/show.html.twig', [
             'sorty' => $sorty,
+            'inscrits' => $inscrits,
         ]);
     }
 
