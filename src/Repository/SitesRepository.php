@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Service\SearchDataNom;
 use App\Entity\Sites;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,5 +21,51 @@ class SitesRepository extends ServiceEntityRepository
         parent::__construct($registry, Sites::class);
     }
 
+    public function add(Sites $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(Sites $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    /**
+     * Récupère les sites en lien avec une recherche
+     * @return Sites[]
+     */
+    public function findSearch(SearchDataNom $search): array
+    {
+
+        $query = $this
+            ->createQueryBuilder('s');
+            //->select('c', 'p')
+            //->join('p.categories', 'c');
+
+            
+        if (!empty($search->nom)) {
+            $query = $query
+                ->andWhere('s.nomSite LIKE :nom')
+                ->setParameter('nom', "%{$search->nom}%");
+        }
+
+        return $query->getQuery()->getResult();
+        /*
+        return $this->paginator->paginate(
+            $query,
+            $search->page,
+            9
+        );
+        */
+    }
     
 }

@@ -1,6 +1,15 @@
-<form method="post" action="{{ path('app_sites_delete', {'noSite': site.noSite}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ site.noSite) }}">
-    <div class="p-2">
-        <button class="btn button"><span class="mif-bin mif-2x fg-red"></span></button>
+<h4 class="text-left">Filtrer les sites</h4>
+
+{{ form_start(formSearch) }}
+
+    <div class="d-flex flex-row flex-align-center p-2">
+        <div>
+            {{ form_widget(formSearch) }}
+        </div>
+        <div class="p-2">
+            <button type="submit" class="btn button primary outline"><span class="mif-search mif-2x fg-green p-2"></span>Rechercher</button>
+        </div>
     </div>
-</form>
+
+
+{{ form_end(formSearch) }}
