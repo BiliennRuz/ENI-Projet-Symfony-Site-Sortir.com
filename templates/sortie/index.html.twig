@@ -15,8 +15,7 @@
                 <th>Datecloture</th>
                 <th>Nbinscriptionsmax</th>
                 <th>Descriptioninfos</th>
-               
-                <th>Urlphoto</th>
+                <th>Oragnisateur</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -30,11 +29,13 @@
                 <td>{{ sorty.datecloture ? sorty.datecloture|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ sorty.nbinscriptionsmax }}</td>
                 <td>{{ sorty.descriptioninfos }}</td>
+                <td><a href="{{ path('app_participants_show', {'pseudo': sorty.organisateur}) }}">{{ sorty.organisateur }}</a></td>
               
                 <td>
                     <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}">show</a>
                     <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}">edit</a>
                     <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}">annuler</a>
+                    {# <a href="{{ path('app_inscription_new', {'noSortie': sorty.noSortie, 'id': app.user.id}) }}">s'inscrire</a> #}
                 </td>
             </tr>
         {% else %}

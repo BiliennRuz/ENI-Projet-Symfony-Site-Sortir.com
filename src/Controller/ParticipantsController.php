@@ -48,7 +48,7 @@ class ParticipantsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_participants_show", methods={"GET"})
+     * @Route("/{pseudo}", name="app_participants_show", methods={"GET"})
      */
     public function show(Participants $participant): Response
     {
