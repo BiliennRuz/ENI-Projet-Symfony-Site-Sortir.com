@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Sites;
+use App\Form\SearchFormNom;
 use App\Form\SitesType;
+use App\Repository\SitesRepository;
+use App\Service\SearchDataNom;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,30 +21,34 @@ class SitesController extends AbstractController
     /**
      * @Route("/", name="app_sites", methods={"GET"})
      */
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, SitesRepository $repository, Request $request): Response
     {
-        $sites = $entityManager
-            ->getRepository(Sites::class)
-            ->findAll();
+        $data = new SearchDataNom();
+        $formSearch = $this->createForm(SearchFormNom::class, $data);
+        $formSearch->handleRequest($request);
+        
+        $sites = $repository->findSearch($data);
 
         return $this->render('sites/index.html.twig', [
             'sites' => $sites,
+            'formSearch' => $formSearch->createView(),
         ]);
     }
 
     /**
      * @Route("/new", name="app_sites_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, SitesRepository $repository): Response
     {
         $site = new Sites();
         $form = $this->createForm(SitesType::class, $site);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($site);
-            $entityManager->flush();
-
+            $repository->add($site);
+            //$entityManager->persist($site);
+            //$entityManager->flush();
+            dd($repository);
             return $this->redirectToRoute('app_sites', [], Response::HTTP_SEE_OTHER);
         }
 
