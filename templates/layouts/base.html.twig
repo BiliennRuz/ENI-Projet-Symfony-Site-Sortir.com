@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- Metro 4 -->
     <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- Pour les animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -16,7 +14,7 @@
 </head>
 
 <body>
-    <div class="grid m-5 p-1">
+    <div class="grid m-5 p-5">
         <div data-role="appbar" data-expand-point="md">
             <div class="row flex-align-center">
                 <div class=" cell-3 text-left">
@@ -38,34 +36,21 @@
                     {% else %}
                     {% set menu = menuNotConnected %}
                     {% endif %}
-
-                    {# ajouté pour les test et à supprimer #}
-                    {# {% set menu = ["Villes", "Sites", "Accueil","Mon profil","Se deconnecter"] %} #}
-
                     <ul class="app-bar-menu">
 
                         {# Début de la boucle #}
                         {% for ele in menu %}
                         <li>
                             {% if ele == 'Accueil' %}
-                                <a href="{{ path('app_sortie_index') }}">ACCUEIL</a>
+                            <a href="{{ path('app_sortie_index') }}">ACCUEIL</a>
                             {% elseif ele == 'Mon profil' %}
-                                <a href="{{ path('app_monprofil', {'id': app.user.id}) }}">MON PROFIL</a>
+                            <a href="{{ path('app_monprofil', {'id': app.user.id}) }}">MON PROFIL</a>
                             {% elseif ele == 'Se deconnecter' %}
-                                <a href="{{ path('app_sedeconnecter') }}">SE DECONNECTER</a>
+                            <a href="{{ path('app_sedeconnecter') }}">SE DECONNECTER</a>
                             {% elseif ele == 'Villes' %}
-                                <a href="{{ path('app_villes') }}">VILLES</a>
+                            <a href="{{ path('app_villes') }}">VILLES</a>
                             {% elseif ele == 'Sites' %}
-                                <a href="{{ path('app_sites') }}">SITES</a>
-                            {% elseif ele == 'Se connecter' %}
-                                <a href="{{ path('app_accueil') }}">SE CONNECTER</a>
-                            {#{% if ele == 'Mon profil' %}
-                                <a href="{{ path('app_monprofil', {'id': app.user.id}) }}">MON PROFIL</a>
-                            {% else %}#}
-                            {# affichage == Echo #}
-                            {# concaténation tilde ~ #}
-                            {#<a href=" {{ path('app_'~ele|lower|replace({' ':''})) }}">{{ele|upper}}</a>#}
-                            {# <a href="#">{{ele|upper}}</a> #}
+                            <a href="{{ path('app_sites') }}">SITES</a>
                         </li>
                         {% endif %}
                         {% endfor %}
@@ -81,12 +66,9 @@
         <div class="grid">
             <div class="row m-5">
                 <div class="col-12 flex-align-center text-center ">
-
-
                     {% block body %}
 
                     {% endblock %}
-
                 </div>
             </div>
         </div>
@@ -94,14 +76,8 @@
     </main>
     <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
     <!-- Pour les animations aos -->
-
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-<script>
-
-    AOS.init();
-
-</script>
+    <script> AOS.init(); </script>
 </body>
 
 </html>

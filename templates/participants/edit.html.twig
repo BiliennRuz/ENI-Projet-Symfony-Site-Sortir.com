@@ -3,13 +3,34 @@
 {% block title %}Edit Participants{% endblock %}
 
 {% block body %}
-    <h1>Edit Participants</h1>
-
+    <h1>Mon profil</h1>
+    <div class="row grid m-5 flex-align-center text-center ">
+        <div class="cell-9 p-5 ">
+           
     {{ include('participants/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_sortie_index') }}">back to list</a>
 
+    </div>
+    </div>
     {#
     {{ include('participants/_delete_form.html.twig') }}
     #}
 {% endblock %}
+
+
+{# <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second primary"><span class="mif-eye"></span></a>
+<a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
+<a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}">annuler</a>
+</td>
+</tr>
+{% else %}
+<tr>
+<td colspan="10">no records found</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<a href="{{ path('app_sortie_new') }}" class="action-button rotate success "><span class="icon"><span class="mif-plus"></span></span></a>
+<p>Créer une sortie</p>
+{% endblock %} #}
