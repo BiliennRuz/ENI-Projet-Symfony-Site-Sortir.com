@@ -24,7 +24,7 @@
                 <div class="cell-9 text-right">
 
                     {# Création d'une variable sur twig #}
-                    {% set menuNotConnected = [] %}
+                    {% set menuNotConnected = ["Se connecter"] %}
                     {% set menuConnected = ["Accueil","Mon profil","Se deconnecter"] %}
                     {% set menuAdminConnected = ["Villes", "Sites", "Accueil","Mon profil","Se deconnecter"] %}
                     {# ,"Mon profil"#}
@@ -51,7 +51,6 @@
                             <a href="{{ path('app_villes') }}">VILLES</a>
                             {% elseif ele == 'Sites' %}
                             <a href="{{ path('app_sites') }}">SITES</a>
-
                         </li>
                         {% endif %}
                         {% endfor %}
