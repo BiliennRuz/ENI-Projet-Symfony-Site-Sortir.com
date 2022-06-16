@@ -54,11 +54,11 @@ INSERT INTO `lieux` (`no_lieu`, `nom_lieu`, `rue`, `latitude`, `longitude`, `vil
 -- Déchargement des données de la table `participants`
 --
 
-INSERT INTO `participants` (`no_participant`, `pseudo`, `nom`, `prenom`, `telephone`, `mail`, `mot_de_passe`, `administrateur`, `actif`, `sites_no_site`) VALUES
-(1, 'participantActif', 'NomParticipantActif', 'PrenomParticipantActif', '0612345678', 'participant.actif@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', 0, 1, 1),
-(2, 'participantInactif', 'NomParticipantInactif', 'PrenomParticipantInactif', '0612345678', 'participant.inactif@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', 0, 0, 2),
-(3, 'admin', 'NomAdmin', 'PrenomAdmin', '0612345678', 'admin@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', 1, 1, 3),
-(4, 'organisateur', 'NomOrganisateur', 'PrenomOrganisateur', '0612345678', 'organisateur@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', 0, 1, 4);
+INSERT INTO `participants` (`no_participant`, `pseudo`, `nom`, `prenom`, `telephone`, `mail`, `mot_de_passe`, `role`, `actif`, `sites_no_site`) VALUES
+(1, 'participantActif', 'NomParticipantActif', 'PrenomParticipantActif', '0612345678', 'participant.actif@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', [], 1, 1),
+(2, 'participantInactif', 'NomParticipantInactif', 'PrenomParticipantInactif', '0612345678', 'participant.inactif@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', [], 0, 2),
+(3, 'admin', 'NomAdmin', 'PrenomAdmin', '0612345678', 'admin@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', ["ROLE_ADMIN"], 1, 3),
+(4, 'organisateur', 'NomOrganisateur', 'PrenomOrganisateur', '0612345678', 'organisateur@campus-eni.fr', 'e10adc3949ba59abbe56e057f20f883e', [], 1, 4);
 
 --
 -- Déchargement des données de la table `sites`
@@ -75,7 +75,7 @@ INSERT INTO `sites` (`no_site`, `nom_site`) VALUES
 --
 
 INSERT INTO `sorties` (`no_sortie`, `nom`, `datedebut`, `duree`, `datecloture`, `nbinscriptionsmax`, `descriptioninfos`, `urlPhoto`, `organisateur`, `lieux_no_lieu`, `etats_no_etat`) VALUES
-(1, 'After V&B', '2022-06-17 17:00:00', 90, '2022-06-17 16:06:03', 100, 'une p\'tit binouze !', NULL, 4, 1, 1),
+(1, 'After V&B', '2022-06-17 17:00:00', 90, '2022-06-17 16:06:03', 100, 'une ptit binouze !', NULL, 4, 1, 1),
 (2, 'After au Run', '2022-06-24 17:00:00', 90, '2022-06-22 16:17:50', 50, 'vous connaissez pas le Run ?', NULL, 4, 2, 2);
 
 --

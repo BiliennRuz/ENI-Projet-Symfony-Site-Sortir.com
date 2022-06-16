@@ -6,25 +6,17 @@
     <h1 class="text-center">Gérer les sites ENI</h1>
 
     <div class="container-fluid">
-        
-        <div class="row flex-align-center">
-            <div class="cell-6 offset-1 p-2">
-                
-                <label for="Input_nom">Le nom contient</label>
-                <input id="Input_nom" type="text" onkeyup="">
-
-
+        <div class="cell-8 offset-2 p-2">
+            <div class="row">
+                    {{ include('sites/_filter.html.twig') }}
             </div>
-        </div>
-        
-        <div class="row flex-align-center">
-            <div class="cell-6 offset-1 p-2">
+            <div class="row">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Ville</th>
-                            <th>actions</th>
+                            <th class="text-center">#</th>
+                            <th class="text-center">Ville</th>
+                            <th class="text-center">actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,11 +45,12 @@
                 </table>
             </div>
         </div>
+    </div>
 
     <div class="row">
-        <div class="cell-6 offset-1 p-2">
+        <div class="cell-8 offset-2 p-2">
             <a href="{{ path('app_sites_new') }}">
-                <button class="btn button"><span class="mif-create-new-folder mif-2x fg-green p-2"></span> Nouveau</button>
+                <button class="btn button primary outline"><span class="mif-create-new-folder mif-2x fg-green p-2"></span> Nouveau</button>
             </a>
         </div>
     </div>
