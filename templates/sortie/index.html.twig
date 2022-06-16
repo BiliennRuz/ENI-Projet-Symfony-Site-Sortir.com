@@ -4,7 +4,10 @@
 
 {% block body %}
     <h1>Sorties index</h1>
-
+<div class="row">
+        {{ include('sortie/_filter.html.twig') }}
+</div>
+<div class="row">
     <table class="table">
         <thead>
             <tr>
@@ -44,6 +47,6 @@
         {% endfor %}
         </tbody>
     </table>
-
+</div>
     <a href="{{ path('app_sortie_new') }}">Create new</a>
 {% endblock %}

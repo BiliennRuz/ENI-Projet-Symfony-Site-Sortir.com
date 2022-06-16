@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Sorties;
+use App\Form\SearchFormSorties;
 use App\Form\SortiesType;
+use App\Service\SearchDataSorties;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,14 +20,19 @@ class SortieController extends AbstractController
     /**
      * @Route("/", name="app_sortie_index", methods={"GET"})
      */
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Request $request): Response
     {
+        $data = new SearchDataSorties();
+        $formSearch = $this->createForm(SearchFormSorties::class, $data);
+        $formSearch->handleRequest($request);
+
         $sorties = $entityManager
             ->getRepository(Sorties::class)
             ->findAll();
 
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,
+            'formSearch' => $formSearch->createView(),
         ]);
     }
 

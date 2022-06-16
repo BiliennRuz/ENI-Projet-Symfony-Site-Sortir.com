@@ -1,0 +1,56 @@
+{{ form_start(formSearch) }}
+<div class="d-flex flex-row flex-align-center p-2">
+
+
+<h4 class="d-flex text-left">Filtrer les sorties</h4>
+
+
+
+    <div class="d-flex flex-column flex-align-center p-2">
+        <div>
+            {{ form_label(formSearch.sites) }}
+            {{ form_widget(formSearch.sites) }}
+        </div>
+        <div>
+            {{ form_label(formSearch.nom) }}
+            {{ form_widget(formSearch.nom) }}
+        </div>
+        <div class="d-flex flex-row flex-align-center p-2">
+            <div>
+                {{ form_label(formSearch.dateDebut) }}
+            </div>
+            <div>
+                {{ form_widget(formSearch.dateDebut) }}
+            </div>
+            <div>
+                {{ form_label(formSearch.dateFin) }}
+            </div>
+            <div>
+                {{ form_widget(formSearch.dateFin) }}
+            </div>
+        </div>
+        <div>
+            <div>
+            {{ form_label(formSearch.isOrganisateur) }}
+            {{ form_widget(formSearch.isOrganisateur) }}
+            </div>
+            <div>
+            {{ form_label(formSearch.isInscrit) }}
+            {{ form_widget(formSearch.isInscrit) }}
+            </div>
+            <div>
+            {{ form_label(formSearch.isnotInscrit) }}
+            {{ form_widget(formSearch.isnotInscrit) }}
+            </div>
+            <div>
+            {{ form_label(formSearch.isSortiePassee) }}
+            {{ form_widget(formSearch.isSortiePassee) }}
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-column flex-align-center p-2">
+        <button type="submit" class="btn button primary outline"><span class="mif-search mif-2x fg-green p-2"></span>Rechercher</button>
+    </div>
+</div>
+
+{{ form_end(formSearch) }}
