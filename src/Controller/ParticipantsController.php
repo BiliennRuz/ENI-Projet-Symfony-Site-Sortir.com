@@ -48,7 +48,7 @@ class ParticipantsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_participants_show", methods={"GET"})
+     * @Route("/{pseudo}", name="app_participants_show", methods={"GET"})
      */
     public function show(Participants $participant): Response
     {
@@ -58,7 +58,7 @@ class ParticipantsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_participants_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="app_monprofil", methods={"GET", "POST"})
      */
     public function edit(Request $request, Participants $participant, ParticipantsRepository $participantsRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
@@ -74,7 +74,7 @@ class ParticipantsController extends AbstractController
             );
             $participantsRepository->add($participant, true);
 
-            return $this->redirectToRoute('app_participants_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('participants/edit.html.twig', [

@@ -93,11 +93,23 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     private $sortiesNoSortie;
 
     /**
+     * @ORM\OneToMany(targetEntity=Inscriptions::class, mappedBy="participantsNoParticipant")
+     */
+    private $inscriptions;
+
+    public function __toString() {
+
+        return $this->pseudo;
+
+    }
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->sortiesNoSortie = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -287,6 +299,36 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Inscriptions>
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscriptions $inscription): self
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+            $inscription->setParticipantsNoParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscriptions $inscription): self
+    {
+        if ($this->inscriptions->removeElement($inscription)) {
+            // set the owning side to null (unless already changed)
+            if ($inscription->getParticipantsNoParticipant() === $this) {
+                $inscription->setParticipantsNoParticipant(null);
+            }
+        }
+
+        return $this;
     }
 
 }

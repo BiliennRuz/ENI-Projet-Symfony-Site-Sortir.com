@@ -116,6 +116,11 @@ class Sorties
      * )
      */
     private $participantsNoParticipant;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Inscriptions::class, mappedBy="sortiesNoSortie")
+     */
+    private $inscriptions;
     
     
     public function __toString() {
@@ -123,12 +128,15 @@ class Sorties
     }
     
 
+   
+    
     /**
      * Constructor
      */
     public function __construct()
     {
         $this->participantsNoParticipant = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
     }
 
     public function getNoSortie(): ?int
@@ -276,6 +284,36 @@ class Sorties
     public function removeParticipantsNoParticipant(Participants $participantsNoParticipant): self
     {
         $this->participantsNoParticipant->removeElement($participantsNoParticipant);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Inscriptions>
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscriptions $inscription): self
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+            $inscription->setSortiesNoSortie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscriptions $inscription): self
+    {
+        if ($this->inscriptions->removeElement($inscription)) {
+            // set the owning side to null (unless already changed)
+            if ($inscription->getSortiesNoSortie() === $this) {
+                $inscription->setSortiesNoSortie(null);
+            }
+        }
 
         return $this;
     }
