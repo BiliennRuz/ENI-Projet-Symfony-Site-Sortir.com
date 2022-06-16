@@ -12,48 +12,78 @@
                 </div>
                 <div class="card-content p-2 text-center">
                 <table class="table">
-                    <tr>
-                        <th>NoSortie</th>
-                        <td>{{ sorty.noSortie }}</td>
-                    </tr>
+                    
                     <tr>
                         <th>Nom de la sortie</th>
                         <td>{{ sorty.nom }}</td>
                     </tr>
                     <tr>
-                        <th>Datedebut</th>
+                        <th>Date et heure de la sortie</th>
                         <td>{{ sorty.datedebut ? sorty.datedebut|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                  
+                    <tr>
+                        <th>Date limite d'inscription</th>
+                        <td>{{ sorty.datecloture ? sorty.datecloture|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <th>Nbinscriptionsmax</th>
+                        <td>{{ sorty.nbinscriptionsmax }}</td>
                     </tr>
                     <tr>
                         <th>Duree</th>
                         <td>{{ sorty.duree }}</td>
                     </tr>
                     <tr>
-                        <th>Date limite d'inscription</th>
-                        <td>{{ sorty.datecloture ? sorty.datecloture|date('Y-m-d H:i:s') : '' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Nbinscriptionsmax</th>
-                        <td>{{ sorty.nbinscriptionsmax }}</td>
-                    </tr>
-                    <tr>
                         <th>Descriptions et infos</th>
                         <td>{{ sorty.descriptioninfos }}</td>
-                    </tr>
-                  
-                    <tr>
-                        <th>Urlphoto</th>
-                        <td>{{ sorty.urlphoto }}</td>
-                    </tr>
-                </div>
+                    </tr>              
             </table>
-                <div class="card-footer text-center">
+        </div>
+         <div class="card-footer text-center">
+        
                     <a href="{{ path('app_sortie_index') }}">back to list</a>
+         </div> 
 
-                    <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}">edit</a>
+         <div class="card">
+          
+            <div class="card-content p-2 text-center">
+            
+                <table class="table">
+                <tr>
+                    <th>Ville organisatrice</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Lieu</th>
+                    <td></td>
+                </tr>
+              
+                <tr>
+                    <th>Rue</th>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <th>Code postal</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Latitude</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Longitude</th>
+                    <td></td>
+                </tr>              
+        </table>
+    </div>
+     
+                     {#<a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}">edit</a>
                 
                     {{ include('sortie/_delete_form.html.twig') }}
-                </div>
+                </div>#}
             </div>
             
         </tbody>
