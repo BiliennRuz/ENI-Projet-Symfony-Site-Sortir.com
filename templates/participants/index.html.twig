@@ -33,8 +33,8 @@
                 <td>{{ participant.password }}</td>
                 <td>{{ participant.actif ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="{{ path('app_participants_show', {'id': participant.id}) }}">show</a>
-                    <a href="{{ path('app_participants_edit', {'id': participant.id}) }}">edit</a>
+                    <a href="{{ path('app_participants_show', {'pseudo': participant.pseudo}) }}">show</a>
+                    <a href="{{ path('app_monprofil', {'id': participant.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
