@@ -31,7 +31,7 @@
                 <td><a href="{{ path('app_participants_show', {'pseudo': sorty.organisateur}) }}">{{ sorty.organisateur }}</a></td>
               
                 <td>
-                    <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second primary" id="buttonShow"><span class="mif-eye"></span></a>
+                    <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second link"  onmouseover="show2()" onmouseout="out()"><span class="mif-eye"></span></a>
                     <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
                     <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}">annuler</a>
                     <a href="{{ path('app_inscriptions_new') }}">s'inscrire</a>
@@ -45,7 +45,7 @@
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('app_sortie_new') }}" class="action-button rotate success "><span class="icon"><span class="mif-plus"></span></span></a>
+    <a href="{{ path('app_sortie_new') }}" class="action-button second success"  onmouseover="show3()" onmouseout="out2()"><span class="icon"><span class="mif-plus"></span></span></a>
     <p>Créer une sortie</p>
     {# // <script src="{{ asset('assets/js/script.js') }}"></script> #}
 {% endblock %}
