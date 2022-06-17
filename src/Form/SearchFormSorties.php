@@ -20,12 +20,13 @@ class SearchFormSorties extends AbstractType
     {
         $builder
             ->add('sites', EntityType::class, [
-                'label' => 'Site : ',
+               // 'label' => 'Site : ',
                 'required' => false,
                 'class' => Sites::class,
+                //'choices' => $listSites->getNomSite(),
                 // uses the Sites.nomSite property as the visible option string
                 'choice_label' => 'nomSite',
-                'expanded' => true,
+                'expanded' => false,
                 'multiple' => true
             ])
 
@@ -40,30 +41,39 @@ class SearchFormSorties extends AbstractType
             ->add('dateDebut', DateType::class, [
                 'label' => 'Entre ',
                 'required' => false,
-                'widget' => 'choice',
+                'widget' => 'single_text',
             ])
             ->add('dateFin', DateType::class, [
                 'label' => 'Et ',
                 'required' => false,
-                'widget' => 'choice',
+                'widget' => 'single_text',
             ])
 
             ->add('isOrganisateur', CheckboxType::class, [
-                'label' => 'Sorties dont je suis l\'organisateur\/trice',
+                'label' => 'Sorties dont je suis l\'organisateur/trice',
                 'required' => false,
             ])
             ->add('isInscrit', CheckboxType::class, [
-                'label' => 'Sorties auquelles je suis inscrit\/e',
+                'label' => 'Sorties auquelles je suis inscrit/e',
                 'required' => false,
             ])
             ->add('isnotInscrit', CheckboxType::class, [
-                'label' => 'Sorties auquelles je ne suis pas inscrit\/e',
+                'label' => 'Sorties auquelles je ne suis pas inscrit/e',
                 'required' => false,
             ])
             ->add('isSortiePassee', CheckboxType::class, [
-                'label' => 'Sortie passées',
+                'label' => 'Sorties passées',
                 'required' => false,
             ])
+            ->add('isSortieArchivee', CheckboxType::class, [
+                'label' => 'Sorties non archivées',
+                'required' => false,
+            ])
+            ->add('isSortieCloturee', CheckboxType::class, [
+                'label' => 'Sorties non cloturées',
+                'required' => false,
+            ])
+            
         ;
     }
 

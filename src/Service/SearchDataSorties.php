@@ -41,9 +41,19 @@ class SearchDataSorties
      */
     public $isnotInscrit = false;
 
-        /**
+    /**
      * @var boolean
      */
     public $isSortiePassee = false;
+
+    /**
+     * @var boolean
+     */
+    public $isSortieArchivee = false;
+
+    /**
+     * @var boolean
+     */
+    public $isSortieCloturee = false;
 
 }

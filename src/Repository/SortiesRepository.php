@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Sorties;
+use App\Service\SearchDataSorties;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,96 @@ class SortiesRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+
+    /**
+     * Récupère les sites en lien avec une recherche
+     * @return Sites[]
+     */
+    public function findSearch(SearchDataSorties $search): array
+    {
+
+        $query = $this
+            ->createQueryBuilder('so');
+        //    ->select('so', 'si')
+        //    ->join('si.nomSite', 'so');
+
+            
+        if (!empty($search->sites)) {
+            $query = $query
+                // TODO : mettre à jour la requete
+                ->andWhere('so.nom LIKE :sites')
+                ->setParameter('nom', "%{$search->nom}%");
+        }
+
+        if (!empty($search->nom)) {
+            $query = $query
+                ->andWhere('so.nom LIKE :nom')
+                ->setParameter('nom', "%{$search->nom}%");
+        }
+
+        if (!empty($search->dateDebut)) {
+            $query = $query
+                ->andWhere('so.datedebut >= :dateDebut')
+                ->setParameter('dateDebut', $search->dateDebut);
+        }
+
+        if (!empty($search->dateFin)) {
+            $query = $query
+                ->andWhere('so.datedebut <= :dateFin')
+                ->setParameter('dateFin', $search->dateFin);
+        }
+
+        if (!empty($search->isOrganisateur)) {
+            $query = $query
+                // TODO : mettre à jour la requete
+                ->andWhere('so.organisateur LIKE :nom')
+                ->setParameter('isOrganisateur', $search->isOrganisateur);
+        }
+        
+        if (!empty($search->isInscrit)) {
+            $query = $query
+                // TODO : mettre à jour la requete
+                ->andWhere('so.nom LIKE :nom')
+                ->setParameter('nom', "%{$search->nom}%");
+        }
+        
+        if (!empty($search->isnotInscrit)) {
+            $query = $query
+                // TODO : mettre à jour la requete
+                ->andWhere('so.nom LIKE :nom')
+                ->setParameter('nom', "%{$search->nom}%");
+        }
+
+        if (!empty($search->isSortiePassee)) {
+            $query = $query
+                ->andWhere('so.datedebut <= :dateNow')
+                ->setParameter('dateNow', new \DateTime('now'));
+        }
+
+        if (!empty($search->isArchivee)) {
+            $dateArchivage = new \DateTime('now');
+            $dateArchivage->modify('+1 month');
+            $query = $query
+                ->andWhere('so.datedebut <= :dateArchive')
+                ->setParameter('dateArchive', new \DateTime('now'));
+        }
+
+        if (!empty($search->isCloturee)) {
+            $query = $query
+                ->andWhere('so.datecloture <= :dateNow')
+                ->setParameter('dateNow', new \DateTime('now'));
+        }
+
+        return $query->getQuery()->getResult();
+        /*
+        return $this->paginator->paginate(
+            $query,
+            $search->page,
+            9
+        );
+        */
     }
 
 //    /**
