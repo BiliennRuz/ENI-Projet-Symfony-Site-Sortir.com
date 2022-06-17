@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/sortie")
@@ -19,14 +20,21 @@ class SortieController extends AbstractController
     /**
      * @Route("/", name="app_sortie_index", methods={"GET"})
      */
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, SortiesRepository $repository, Security $security): Response
     {
         $sorties = $entityManager
             ->getRepository(Sorties::class)
             ->findAll();
-
+        /*$userId = $this->getUser()->getId();
+        foreach ($sorties as $sorty) {
+            $noSorty = $sorty->getNoSortie();
+            $nbinscrit = $repository -> countInscrip($noSorty);
+            $testinscr = $repository -> inscripBySortie($noSorty,$userId );
+        };*/
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,
+        /*    'nbinscrit' => $nbinscrit,
+            'testinscr' => $testinscr,  */
         ]);
     }
 

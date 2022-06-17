@@ -67,12 +67,12 @@ class SortiesRepository extends ServiceEntityRepository
     public function inscripBySortie($noSortie){
     $em = $this->getEntityManager();
     $dql  = "
-        SELECT p.pseudo as Pseudo, p.prenom AS Prenom, p.nom AS Nom FROM App\Entity\Participants p
-        JOIN App\Entity\Inscriptions i 
+        SELECT p.pseudo, p.prenom, p.nom  FROM App\Entity\Participants p
+        INNER JOIN p.inscriptions i
         WHERE i.sortiesNoSortie = :sortie
     ";
     $query = $em->createQuery($dql);
-    $query->setParameter("sortie","%$noSortie%");
+    $query->setParameter("sortie",$noSortie);
     return $query->getResult();
 }
 
@@ -81,12 +81,11 @@ class SortiesRepository extends ServiceEntityRepository
     $dql  = "
         SELECT COUNT(*)
         FROM App\Entity\Participants p
-        INNER JOIN App\Entity\Inscriptions i
-        ON p.id = i.participantsNoParticipant
+        INNER JOIN p.inscriptions i
         WHERE i.sortiesNoSortie LIKE :sorti
     ";
     $query = $em->createQuery($dql);
-    $query     ->setParameter("sorti","%$noSortie%" );
+    $query     ->setParameter("sorti",$noSortie );
     return $query->getResult();
 }
 
