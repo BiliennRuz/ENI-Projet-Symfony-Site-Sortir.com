@@ -2,15 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieux;
+use App\Entity\ModelView;
 use App\Entity\Sorties;
 use App\Form\SortiesType;
 use App\Repository\SortiesRepository;
+use App\Repository\ParticipantsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\User;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * @Route("/sortie")
@@ -20,21 +24,35 @@ class SortieController extends AbstractController
     /**
      * @Route("/", name="app_sortie_index", methods={"GET"})
      */
-    public function index(EntityManagerInterface $entityManager, SortiesRepository $repository, Security $security): Response
+    public function index(EntityManagerInterface $entityManager, SortiesRepository $sortiesRepository, ParticipantsRepository $participantsRepository): Response
     {
         $sorties = $entityManager
             ->getRepository(Sorties::class)
             ->findAll();
-        /*$userId = $this->getUser()->getId();
-        foreach ($sorties as $sorty) {
+
+        $userIdentifier = $this->getUser()->getUserIdentifier();
+        $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
+        $array1 = $userId[0];
+        $ID = intval($array1["id"]);
+
+        $i = 0;
+
+        foreach ($sorties as $sorty){
             $noSorty = $sorty->getNoSortie();
-            $nbinscrit = $repository -> countInscrip($noSorty);
-            $testinscr = $repository -> inscripBySortie($noSorty,$userId );
-        };*/
+            $nbinscrit[$i] = $sortiesRepository -> countInscrip($noSorty);
+            $testinscr[$i] = $sortiesRepository -> inscripTrueFalse($noSorty,$ID );
+            $i= $i + 1;
+           /* $model = new ModelView();
+            $model->setSortie ($sorty);
+            $model->setNb (count($nbinscrit));
+           array_push($modelTab;$model).*/
+
+        };
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,
-        /*    'nbinscrit' => $nbinscrit,
-            'testinscr' => $testinscr,  */
+            'nbinscrits' => $nbinscrit,
+            'testinscrits' => $testinscr,
+           /* 'tab'=>$modelTab */
         ]);
     }
 

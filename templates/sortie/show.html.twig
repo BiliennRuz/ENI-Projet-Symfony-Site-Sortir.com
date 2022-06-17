@@ -98,7 +98,7 @@
         <tbody>
         {% for inscrit in inscrits %}
             <tr>
-                <td>{{ inscrit.pseudo }}</td>
+                <td><a href="{{ path('app_participants_show', {'pseudo': inscrit.pseudo}) }}">{{ inscrit.pseudo }}</a></td>
                 <td>{{ inscrit.prenom }}</td>
                 <td>{{ inscrit.nom }}</td>
             </tr>

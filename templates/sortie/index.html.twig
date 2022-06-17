@@ -20,24 +20,38 @@
             </tr>
         </thead>
         <tbody>
+        {% set k3y = 0 %}
         {% for sorty in sorties %}
             <tr>
                 <td>{{ sorty.nom }}</td>
                 <td>{{ sorty.datedebut ? sorty.datedebut|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ sorty.datecloture ? sorty.datecloture|date('Y-m-d H:i:s') : '' }}</td>
-                <td> /{{ sorty.nbinscriptionsmax }}{#Count inscriptions where id sortie = id de cette sortie    / sorty.nbinscriptionsmax#}</td>
+                <td>{{nbinscrits[loop.index0].0.count}}/{{ sorty.nbinscriptionsmax}}</td>
                 <td>{{ sorty.etatsNoEtat }}</td>
-                <td> X </td>
+                {% if testinscrits[loop.index0].0.count ==1 %}
+                    <td>X</td>
+                {% else %}
+                    <td>&nbsp;</td>
+                {% endif %}
+                {# <td>{{testinscrits[loop.index0].0.count}}</td> #}
                 <td><a href="{{ path('app_participants_show', {'pseudo': sorty.organisateur}) }}">{{ sorty.organisateur }}</a></td>
               
                 <td>
                     <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second primary" id="buttonShow"><span class="mif-eye"></span></a>
                     <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
                     <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}">annuler</a>
-                    <a href="{{ path('app_inscriptions_new') }}">s'inscrire</a>
+                    {% if testinscrits[loop.index0].0.count ==1 %}
+                        {% if nbinscrits[loop.index0].0.count < sorty.nbinscriptionsmax %}
+                            <a href="{{ path('app_sortie_index') }}">se desister</a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ path('app_sortie_index') }}">s'inscrire</a>
+                    {% endif %}
+                    
                     {# <a href="{{ path('app_inscription_new', {'noSortie': sorty.noSortie, 'id': app.user.id}) }}">s'inscrire</a> #}
                 </td>
             </tr>
+            {% set k3y = k3y + 1 %}
         {% else %}
             <tr>
                 <td colspan="10">no records found</td>

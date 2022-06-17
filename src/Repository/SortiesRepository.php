@@ -79,10 +79,10 @@ class SortiesRepository extends ServiceEntityRepository
     public function countInscrip($noSortie){
     $em = $this->getEntityManager();
     $dql  = "
-        SELECT COUNT(*)
+        SELECT COUNT(i.participantsNoParticipant) as count
         FROM App\Entity\Participants p
         INNER JOIN p.inscriptions i
-        WHERE i.sortiesNoSortie LIKE :sorti
+        WHERE i.sortiesNoSortie = :sorti
     ";
     $query = $em->createQuery($dql);
     $query     ->setParameter("sorti",$noSortie );
@@ -92,14 +92,13 @@ class SortiesRepository extends ServiceEntityRepository
     public function inscripTrueFalse($noSortie, $id){
     $em = $this->getEntityManager();
     $dql  = "
-        SELECT COUNT(*)
-        FROM App/Entity/Inscriptions i
-        WHERE participantsNoParticipant = :parti
-        ANDWHERE i.sortiesNoSortie = :sorti
+        SELECT COUNT(i.participantsNoParticipant) as count
+        FROM App\Entity\Inscriptions i
+        WHERE i.participantsNoParticipant = :parti AND i.sortiesNoSortie = :sorti
     ";
     $query = $em->createQuery($dql);
-    $query     ->setParameter("sorti","%$noSortie%" )
-                    ->setParameter( "parti","%$id%" );
+    $query     ->setParameter("sorti",$noSortie )
+                    ->setParameter( "parti",$id );
     return $query->getResult();
 }
 }
