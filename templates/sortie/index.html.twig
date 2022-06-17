@@ -25,9 +25,9 @@
                 <td>{{ sorty.nom }}</td>
                 <td>{{ sorty.datedebut ? sorty.datedebut|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ sorty.datecloture ? sorty.datecloture|date('Y-m-d H:i:s') : '' }}</td>
-                <td>Hewwo World{#Count inscriptions where id sortie = id de cette sortie    / sorty.nbinscriptionsmax#}</td>
+                <td> /{{ sorty.nbinscriptionsmax }}{#Count inscriptions where id sortie = id de cette sortie    / sorty.nbinscriptionsmax#}</td>
                 <td>{{ sorty.etatsNoEtat }}</td>
-                <td>X {#  if inscriptions with app.user.id et id sortie alors "X" else " "  #}</td>
+                <td> X </td>
                 <td><a href="{{ path('app_participants_show', {'pseudo': sorty.organisateur}) }}">{{ sorty.organisateur }}</a></td>
               
                 <td>
