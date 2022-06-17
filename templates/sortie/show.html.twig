@@ -79,6 +79,28 @@
                 </tr>              
         </table>
     </div>
+    <table class="table flex-align-center">
+        <thead>
+            <tr>
+                <th>pseudo</th>
+                <th>prenom</th>
+                <th>nom</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for inscrits in inscrits %}
+            <tr>
+                <td>{{ inscrit.pseudo }}</td>
+                <td>{{ inscrit.prenom }}</td>
+                <td>{{ inscrit.nom }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
      
                      {#<a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}">edit</a>
                 
