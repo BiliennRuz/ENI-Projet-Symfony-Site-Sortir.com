@@ -14,6 +14,7 @@ class Inscriptions
 
     /**
      * @ORM\Column(type="datetime")
+     *  
      */
     private $dateInscription;
 

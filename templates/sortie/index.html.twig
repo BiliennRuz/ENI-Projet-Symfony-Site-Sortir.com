@@ -4,12 +4,9 @@
 {% block javascript %}{% endblock %}
 
 {% block body %}
-    <h1>Sorties index</h1>
 
-<div class="row">
-        {{ include('sortie/_filter.html.twig') }}
-</div>
-<div class="row">
+    {{ include('sortie/_filter.html.twig') }}
+
     <table class="table striped table-border cell-border cell-center">
         <thead class="text-center">
             <tr>
@@ -40,21 +37,25 @@
                 <td><a href="{{ path('app_participants_show', {'pseudo': sorty.organisateur}) }}">{{ sorty.organisateur }}</a></td>
                 {#  Test recuperation date actuelle {{ 'now'|date('Y-m-d H:i:s') }} #}
                 <td>
-                    <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second primary" id="buttonShow"><span class="mif-eye"></span></a>
+                    <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second link"  onmouseover="show2()" onmouseout="out()"><span class="mif-eye"></span></a>
                     <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
-                    <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
-                    {% if testinscrits[loop.index0].0.count ==1 %}
-                        {% if nbinscrits[loop.index0].0.count < sorty.nbinscriptionsmax %}
-                            <a href="{{ path('app_sortie_index') }}">se desister</a>
-                        {% endif %}
-                    {% else %}
-                        {% if nbinscrits[loop.index0].0.count < sorty.nbinscriptionsmax %}
-                            <a href="{{ path('app_sortie_index') }}">s'inscrire</a>
-                        {% endif %}
+                    
+                    {% if  app.user.pseudo == sorty.organisateur  %}
+                        <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
                     {% endif %}
 
+                    {% if  date() < date(sorty.datecloture) %}
+                        {% if testinscrits[loop.index0].0.count ==1 %}
+                                <a href="{{ path('app_sortie_deleteInscri',{'noSortie': sorty.noSortie}) }}">se desister</a>
+                        {% else %}
+                            {% if nbinscrits[loop.index0].0.count < sorty.nbinscriptionsmax %}
+                                <a href="{{ path('app_sortie_addInscri',{'noSortie': sorty.noSortie}) }}">s'inscrire</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
                     {# <a href="{{ path('app_inscriptions_new') }}" class="action-button second success"><span class="mif-plus"></span></a> #}
                 </td>
+           
             </tr>
         {% else %}
             <tr>
@@ -63,7 +64,7 @@
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('app_sortie_new') }}" class="action-button rotate success "><span class="icon"><span class="mif-plus"></span></span></a>
-    <p>Créer une sortie</p>
+    <a href="{{ path('app_sortie_new') }}" class="action-button second success"  onmouseover="show3()" onmouseout="out2()"><span class="icon"><span class="mif-plus"></span></span></a>
+    
     {# // <script src="{{ asset('assets/js/script.js') }}"></script> #}
 {% endblock %}

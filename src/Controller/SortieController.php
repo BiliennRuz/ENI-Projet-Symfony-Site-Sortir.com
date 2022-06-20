@@ -13,8 +13,9 @@ use App\Form\SearchFormSorties;
 >>>>>>> 7fb38e9e0168ab695a1068e3134e3f5fbec05245
 use App\Form\SortiesType;
 use App\Repository\SortiesRepository;
-use App\Service\SearchDataSorties;
 use App\Repository\ParticipantsRepository;
+use App\Repository\InscriptionsRepository;
+use App\Service\SearchDataSorties;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +33,6 @@ class SortieController extends AbstractController
      * @Route("/", name="app_sortie_index", methods={"GET"})
      */
     public function index(EntityManagerInterface $entityManager, SortiesRepository $sortiesRepository, ParticipantsRepository $participantsRepository, Request $request): Response
-
     {
         $data = new SearchDataSorties();
         $formSearch = $this->createForm(SearchFormSorties::class, $data);
@@ -43,7 +43,7 @@ class SortieController extends AbstractController
             ->findAll();
             ->findSearch($data);
 */
-        $sorties = $repository->findSearch($data);
+        $sorties = $sortiesRepository->findSearch($data);
 
         $userIdentifier = $this->getUser()->getUserIdentifier();
         $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
@@ -82,6 +82,7 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+          // dd($sorty);
             $entityManager->persist($sorty);
             $entityManager->flush();
 
@@ -157,5 +158,36 @@ class SortieController extends AbstractController
             'sorty' => $sorty,
             'form' => $form,
         ]);
+    }
+
+    /**
+     * @Route("/{noSortie}/desiste", name="app_sortie_deleteInscri", methods={"GET","POST"})
+     */
+    public function deleteInscri(Sorties $sorty, InscriptionsRepository $inscriptionsRepository,  ParticipantsRepository $participantsRepository): Response
+    {
+        $userIdentifier = $this->getUser()->getUserIdentifier();
+        $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
+        $array1 = $userId[0];
+        $ID = intval($array1["id"]);
+
+        $noSorty = $sorty->getNoSortie();
+
+        $inscriptionsRepository -> desister($noSorty, $ID);
+
+        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/{noSortie}/inscrir", name="app_sortie_addInscri", methods={"GET","POST"})
+     */
+    public function addInscri(Sorties $sorty, InscriptionsRepository $inscriptionsRepository): Response
+    {
+
+        $noSorty = $sorty;
+        $ID = $this->getUser();
+
+        $inscriptionsRepository -> Sinscrire($noSorty, $ID);
+
+        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 }
