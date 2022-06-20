@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Controller\SortieController;
+use App\Entity\Sorties;
 use App\Entity\Inscriptions;
 use App\Form\InscriptionsType;
 use App\Repository\InscriptionsRepository;
@@ -9,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\ParticipantsRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @Route("/inscriptions")
@@ -77,14 +81,21 @@ class InscriptionsController extends AbstractController
     }
 
     /**
-     * @Route("/{sortiesNoSortie}", name="app_inscriptions_delete", methods={"POST"})
+     * @Route("/{noSortie}", name="app_inscriptions_delete", methods={"POST"})
      */
-    public function delete(Request $request, Inscriptions $inscription, InscriptionsRepository $inscriptionsRepository): Response
+    public function delete(Sorties $sorty, InscriptionsRepository $inscriptionsRepository,  ParticipantsRepository $participantsRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$inscription->getSortiesNoSortie(), $request->request->get('_token'))) {
-            $inscriptionsRepository->remove($inscription, true);
-        }
+        /*$userIdentifier = $this->getUser()->getUserIdentifier();
+        $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
+        $array1 = $userId[0];
+        $ID = intval($array1["id"]);*/
 
-        return $this->redirectToRoute('app_inscriptions_index', [], Response::HTTP_SEE_OTHER);
+        /*$noSorty = $sorty->getNoSortie();*/
+
+        $ID = $this->getUser();
+
+        $inscriptionsRepository -> desister($sorty, $ID);
+
+        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 }

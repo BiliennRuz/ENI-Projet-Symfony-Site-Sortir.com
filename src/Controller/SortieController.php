@@ -3,12 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Lieux;
+<<<<<<< HEAD
+use App\Entity\Sorties;
+use App\Entity\Villes;
+=======
 use App\Entity\ModelView;
 use App\Entity\Sorties;
 use App\Form\SearchFormSorties;
+>>>>>>> 7fb38e9e0168ab695a1068e3134e3f5fbec05245
 use App\Form\SortiesType;
 use App\Repository\SortiesRepository;
 use App\Repository\ParticipantsRepository;
+use App\Repository\InscriptionsRepository;
 use App\Service\SearchDataSorties;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -106,14 +112,13 @@ class SortieController extends AbstractController
     /**
      * @Route("/{noSortie}/edit", name="app_sortie_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Sorties $sorty, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Sorties $sorty, EntityManagerInterface $entityManager, $noSortie): Response
     {
         $form = $this->createForm(SortiesType::class, $sorty);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -128,7 +133,7 @@ class SortieController extends AbstractController
      */
     public function delete(Request $request, Sorties $sorty, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$sorty->getNoSortie(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $sorty->getNoSortie(), $request->request->get('_token'))) {
             $entityManager->remove($sorty);
             $entityManager->flush();
         }
@@ -138,7 +143,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/{noSortie}/annuler", name="app_sortie_annuler", methods={"GET","POST"})
      */
-    public function annuler(Request $request,Sorties $sorty,EntityManagerInterface $entityManager): Response
+    public function annuler(Request $request, Sorties $sorty, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(SortiesType::class, $sorty);
         $form->handleRequest($request);
@@ -153,5 +158,36 @@ class SortieController extends AbstractController
             'sorty' => $sorty,
             'form' => $form,
         ]);
+    }
+
+    /**
+     * @Route("/{noSortie}/desiste", name="app_sortie_deleteInscri", methods={"GET","POST"})
+     */
+    public function deleteInscri(Sorties $sorty, InscriptionsRepository $inscriptionsRepository,  ParticipantsRepository $participantsRepository): Response
+    {
+        $userIdentifier = $this->getUser()->getUserIdentifier();
+        $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
+        $array1 = $userId[0];
+        $ID = intval($array1["id"]);
+
+        $noSorty = $sorty->getNoSortie();
+
+        $inscriptionsRepository -> desister($noSorty, $ID);
+
+        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/{noSortie}/inscrir", name="app_sortie_addInscri", methods={"GET","POST"})
+     */
+    public function addInscri(Sorties $sorty, InscriptionsRepository $inscriptionsRepository): Response
+    {
+
+        $noSorty = $sorty;
+        $ID = $this->getUser();
+
+        $inscriptionsRepository -> Sinscrire($noSorty, $ID);
+
+        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 }
