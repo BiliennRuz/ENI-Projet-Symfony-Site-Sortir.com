@@ -156,4 +156,42 @@ class SortiesRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function inscripBySortie($noSortie){
+    $em = $this->getEntityManager();
+    $dql  = "
+        SELECT p.pseudo, p.prenom, p.nom  FROM App\Entity\Participants p
+        INNER JOIN p.inscriptions i
+        WHERE i.sortiesNoSortie = :sortie
+    ";
+    $query = $em->createQuery($dql);
+    $query->setParameter("sortie",$noSortie);
+    return $query->getResult();
+}
+
+    public function countInscrip($noSortie){
+    $em = $this->getEntityManager();
+    $dql  = "
+        SELECT COUNT(i.participantsNoParticipant) as count
+        FROM App\Entity\Participants p
+        INNER JOIN p.inscriptions i
+        WHERE i.sortiesNoSortie = :sorti
+    ";
+    $query = $em->createQuery($dql);
+    $query     ->setParameter("sorti",$noSortie );
+    return $query->getResult();
+}
+
+    public function inscripTrueFalse($noSortie, $id){
+    $em = $this->getEntityManager();
+    $dql  = "
+        SELECT COUNT(i.participantsNoParticipant) as count
+        FROM App\Entity\Inscriptions i
+        WHERE i.participantsNoParticipant = :parti AND i.sortiesNoSortie = :sorti
+    ";
+    $query = $em->createQuery($dql);
+    $query     ->setParameter("sorti",$noSortie )
+                    ->setParameter( "parti",$id );
+    return $query->getResult();
+}
 }
