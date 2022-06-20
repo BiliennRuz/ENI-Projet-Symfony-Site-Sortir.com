@@ -63,4 +63,29 @@ class InscriptionsRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function Sinscrire($noSortie, $id){
+
+    $inscrit = new Inscriptions();
+    $inscrit->setDateInscription(new \DateTime());
+    $inscrit->setSortiesNoSortie($noSortie);
+    $inscrit->setParticipantsNoParticipant($id);
+
+    $em = $this->getEntityManager();
+    $em->persist($inscrit);
+    $em->flush();
+
+}
+
+public function desister($noSortie, $id){
+    $em = $this->getEntityManager();
+    $dql  = "
+        DELETE App\Entity\Inscriptions i
+        WHERE i.participantsNoParticipant = :parti AND i.sortiesNoSortie = :sorti
+    ";
+    $query = $em->createQuery($dql);
+    $query     ->setParameter("sorti",$noSortie )
+                    ->setParameter( "parti",$id );
+    $query->execute();
+}
 }

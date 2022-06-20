@@ -8,6 +8,7 @@ use App\Entity\Sorties;
 use App\Form\SortiesType;
 use App\Repository\SortiesRepository;
 use App\Repository\ParticipantsRepository;
+use App\Repository\InscriptionsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -142,5 +143,36 @@ class SortieController extends AbstractController
             'sorty' => $sorty,
             'form' => $form,
         ]);
+    }
+
+    /**
+     * @Route("/{noSortie}/desiste", name="app_sortie_deleteInscri", methods={"GET","POST"})
+     */
+    public function deleteInscri(Sorties $sorty, InscriptionsRepository $inscriptionsRepository,  ParticipantsRepository $participantsRepository): Response
+    {
+        $userIdentifier = $this->getUser()->getUserIdentifier();
+        $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
+        $array1 = $userId[0];
+        $ID = intval($array1["id"]);
+
+        $noSorty = $sorty->getNoSortie();
+
+        $inscriptionsRepository -> desister($noSorty, $ID);
+
+        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/{noSortie}/inscrir", name="app_sortie_addInscri", methods={"GET","POST"})
+     */
+    public function addInscri(Sorties $sorty, InscriptionsRepository $inscriptionsRepository): Response
+    {
+
+        $noSorty = $sorty;
+        $ID = $this->getUser();
+
+        $inscriptionsRepository -> Sinscrire($noSorty, $ID);
+
+        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 }
