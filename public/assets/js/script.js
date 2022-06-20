@@ -17,13 +17,13 @@ console.log("yo");
 }
 */
 //Bouton voir une sortie/////////////////////////
-let item2=document.getElementsByClassName("action-button second link");
-item2.addEventListener("mouseover", show2,false);
+
 
 function show2(item2){
-
+    let item2=document.getElementsByClassName("action-button second link");
+    item2.addEventListener("mouseover", show2,false);
     console.log("survol2 ok");
-    item2 = document.getElementsByClassName("action-button second link")
+    item2 = document.getElementsByClassName("action-button second link");
 for (var i = 0; i < item2.length; i++) {
 if (item2[i].getAttribute("class") === "action-button second link"){
    item2.setAttribute("class", "action-button second primary");
@@ -37,7 +37,7 @@ item3.addEventListener("mouseover", out,false);
 
 function out(item3){ 
     console.log("survol2 ok");
-      item3 = document.getElementsByClassName("action-button second primary")
+      item3 = document.getElementsByClassName("action-button second primary");
 for (var i = 0; i < item3.length; i++) {
   if (item3[i].getAttribute("class") === "action-button second primary"){
    item3[i].setAttribute("class", "action-button second link");
@@ -53,7 +53,7 @@ let item4=document.getElementsByClassName("action-button second success");
 function show3(item4){
 
    
-     item4 = document.getElementsByClassName("action-button second success")
+     item4 = document.getElementsByClassName("action-button second success");
 for (var i = 0; i < item4.length; i++) {
   if (item4[i].getAttribute("class") === "action-button second success"){
    item4[i].setAttribute("class", "action-button success");
