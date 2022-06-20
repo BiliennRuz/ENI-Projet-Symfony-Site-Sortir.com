@@ -8,8 +8,8 @@ use App\Entity\Sorties;
 use App\Form\SearchFormSorties;
 use App\Form\SortiesType;
 use App\Repository\SortiesRepository;
-use App\Service\SearchDataSorties;
 use App\Repository\ParticipantsRepository;
+use App\Service\SearchDataSorties;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +27,6 @@ class SortieController extends AbstractController
      * @Route("/", name="app_sortie_index", methods={"GET"})
      */
     public function index(EntityManagerInterface $entityManager, SortiesRepository $sortiesRepository, ParticipantsRepository $participantsRepository, Request $request): Response
-
     {
         $data = new SearchDataSorties();
         $formSearch = $this->createForm(SearchFormSorties::class, $data);
@@ -38,7 +37,7 @@ class SortieController extends AbstractController
             ->findAll();
             ->findSearch($data);
 */
-        $sorties = $repository->findSearch($data);
+        $sorties = $sortiesRepository->findSearch($data);
 
         $userIdentifier = $this->getUser()->getUserIdentifier();
         $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
