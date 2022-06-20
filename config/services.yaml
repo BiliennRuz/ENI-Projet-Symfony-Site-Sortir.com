@@ -25,9 +25,9 @@ services:
 
     #upload d'images 
 
-    parameters:
-    urlphoto_directory: '%kernel.project_dir%/public/uploads/images'
+    #parameters:
+    #urlphoto_directory: '%kernel.project_dir%/public/uploads/images'
 
-     App\Service\FileUploader:
-        arguments:
-            $targetDirectory: '%urlphoto_directory%'
+    # App\Service\FileUploader:
+       # arguments:
+           # $targetDirectory: '%urlphoto_directory%'

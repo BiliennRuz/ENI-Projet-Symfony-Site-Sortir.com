@@ -124,7 +124,7 @@ class SortieController extends AbstractController
             'sorty' => $sorty,
             'form' => $form,*/
         
-    }
+    
 
     /**
      * @Route("/{noSortie}", name="app_sortie_show", methods={"GET"})
