@@ -39,7 +39,10 @@
                 <td>
                     <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second link"  onmouseover="show2()" onmouseout="out()"><span class="mif-eye"></span></a>
                     <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
-                    <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
+                    
+                    {% if  app.user.pseudo == sorty.organisateur  %}
+                        <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
+                    {% endif %}
 
                     {% if  date() < date(sorty.datecloture) %}
                         {% if testinscrits[loop.index0].0.count ==1 %}
@@ -51,7 +54,6 @@
                         {% endif %}
                     {% endif %}
                     {# <a href="{{ path('app_inscriptions_new') }}" class="action-button second success"><span class="mif-plus"></span></a> #}
-
                 </td>
            
             </tr>
