@@ -1,0 +1,75 @@
+
+{{ form_start(formSearch) }}
+
+
+
+<h4 class="text-left">Filtrer les sorties</h4>
+<div class="d-flex flex-row flex-align-center">
+    <div class="d-flex flex-column flex-align-center p-2">
+        <div class="d-flex flex-row flex-justify-between flex-align-center">
+            <div>
+                {{ form_label(formSearch.sites) }}
+            </div>
+            <div>
+                {{ form_widget(formSearch.sites) }}
+            </div>
+        </div>
+        <div class="d-flex flex-row flex-align-center">
+            {{ form_label(formSearch.nom) }}
+            {{ form_widget(formSearch.nom) }}
+        </div>
+        <div class="d-flex flex-row flex-align-center p-2">
+            <div>
+                {{ form_label(formSearch.dateDebut) }}
+            </div>
+            <div>
+                {{ form_widget(formSearch.dateDebut) }}
+            </div>
+            <div>
+                {{ form_label(formSearch.dateFin) }}
+            </div>
+            <div>
+                {{ form_widget(formSearch.dateFin) }}
+            </div>
+        </div>
+    </div>
+    <div>
+        <div>
+            {{ form_label(formSearch.isOrganisateur) }}
+            {{ form_widget(formSearch.isOrganisateur) }}
+        </div>
+        <div>
+            {{ form_label(formSearch.isInscrit) }}
+            {{ form_widget(formSearch.isInscrit) }}
+        </div>
+        <div>
+            {{ form_label(formSearch.isnotInscrit) }}
+            {{ form_widget(formSearch.isnotInscrit) }}
+        </div>
+        <div>
+            {{ form_label(formSearch.isSortiePassee) }}
+            {{ form_widget(formSearch.isSortiePassee) }}
+        </div>
+    </div>
+    <div>
+        <div>
+            {{ form_label(formSearch.isnotSortieArchivee) }}
+            {{ form_widget(formSearch.isnotSortieArchivee) }}
+        </div>
+        <div>
+            {{ form_label(formSearch.isnotSortieCloturee) }}
+            {{ form_widget(formSearch.isnotSortieCloturee) }}
+        </div>
+    </div>
+    <div class="d-flex flex-column flex-align-center p-2">
+        <button type="submit" class="btn action-button rotate success"><span class="icon"><span class="mif-search"></span></span></button>
+    </div>
+    <div>
+        <p>
+            DEBUG : utilisateur connecté : {{ app.user.pseudo }}
+        </p>
+    </div>
+</div>
+
+
+{{ form_end(formSearch) }}
