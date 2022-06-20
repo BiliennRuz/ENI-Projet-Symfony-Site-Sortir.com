@@ -29,7 +29,7 @@
                 <td>{{ sorty.etatsNoEtat }}</td>
                 <td>X {#  if inscriptions with app.user.id et id sortie alors "X" else " "  #}</td>
                 <td><a href="{{ path('app_participants_show', {'pseudo': sorty.organisateur}) }}">{{ sorty.organisateur }}</a></td>
-              
+            
                 <td>
                     <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second link"  onmouseover="show2()" onmouseout="out()"><span class="mif-eye"></span></a>
                     <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
@@ -37,6 +37,7 @@
                     <a href="{{ path('app_inscriptions_new') }}">s'inscrire</a>
                     {# <a href="{{ path('app_inscription_new', {'noSortie': sorty.noSortie, 'id': app.user.id}) }}">s'inscrire</a> #}
                 </td>
+           
             </tr>
         {% else %}
             <tr>
@@ -46,6 +47,6 @@
         </tbody>
     </table>
     <a href="{{ path('app_sortie_new') }}" class="action-button second success"  onmouseover="show3()" onmouseout="out2()"><span class="icon"><span class="mif-plus"></span></span></a>
-    <p>Créer une sortie</p>
+    
     {# // <script src="{{ asset('assets/js/script.js') }}"></script> #}
 {% endblock %}
