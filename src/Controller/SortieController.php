@@ -3,14 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Lieux;
-<<<<<<< HEAD
-use App\Entity\Sorties;
 use App\Entity\Villes;
-=======
 use App\Entity\ModelView;
 use App\Entity\Sorties;
 use App\Form\SearchFormSorties;
->>>>>>> 7fb38e9e0168ab695a1068e3134e3f5fbec05245
 use App\Form\SortiesType;
 use App\Repository\SortiesRepository;
 use App\Service\SearchDataSorties;
@@ -43,7 +39,7 @@ class SortieController extends AbstractController
             ->findAll();
             ->findSearch($data);
 */
-        $sorties = $repository->findSearch($data);
+        $sorties = $sortiesRepository->findSearch($data);
 
         $userIdentifier = $this->getUser()->getUserIdentifier();
         $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);

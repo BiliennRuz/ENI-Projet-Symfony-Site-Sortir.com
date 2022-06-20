@@ -84,10 +84,11 @@
     </div>
 </div>
 
+{# <button class="button primary mif-floppy-disk">{{ button_label|default('Enregistrer')}}</button> #}
 <button class="button primary mif-floppy-disk">{{ button_label|default('Enregistrer')}}</button>
 <a href="{{ path('app_sortie_index', {'noSortie': sorty.noSortie}) }}" class="action-button second warning"><span class="mif-undo"></span></a>
-<a href="{{ path('app_sortie_delete', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
-    
+<a href="{{ path('app_sortie_delete', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span  class="mif-bin"></span></a>
+
 
 {{ form_end(form) }}
 </div>
