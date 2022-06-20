@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Villes;
+use App\Form\SearchFormNom;
 use App\Form\VillesType;
+use App\Repository\VillesRepository;
+use App\Service\SearchDataNom;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,14 +21,20 @@ class VillesController extends AbstractController
     /**
      * @Route("/", name="app_villes", methods={"GET"})
      */
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, VillesRepository $repository, Request $request): Response
     {
-        $villes = $entityManager
-            ->getRepository(Villes::class)
-            ->findAll();
+        $data = new SearchDataNom();
+        $formSearch = $this->createForm(SearchFormNom::class, $data);
+        $formSearch->handleRequest($request);
+
+        $villes = $repository->findSearch($data);
+        // $villes = $entityManager
+        //     ->getRepository(Villes::class)
+        //     ->findAll();
 
         return $this->render('villes/index.html.twig', [
             'villes' => $villes,
+            'formSearch' => $formSearch->createView(),
         ]);
     }
 
