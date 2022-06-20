@@ -29,24 +29,27 @@ class SortieController extends AbstractController
      */
     public function index(EntityManagerInterface $entityManager, SortiesRepository $sortiesRepository, ParticipantsRepository $participantsRepository, Request $request): Response
     {
+        // Gestion de l'affichage de la date actuelle
+        $dateNow = new \DateTime('now');
+        $strDateNow = $dateNow->format('d/m/Y');
+
+        // gestion du formulaire de filtres
         $data = new SearchDataSorties();
         $formSearch = $this->createForm(SearchFormSorties::class, $data);
         $formSearch->handleRequest($request);
-/*
-        $sorties = $entityManager
-            ->getRepository(Sorties::class)
-            ->findAll();
-            ->findSearch($data);
-*/
-        $sorties = $sortiesRepository->findSearch($data);
 
+        // Gestion du user connecté et recherche de son id
         $userIdentifier = $this->getUser()->getUserIdentifier();
         $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
+        dump($userId);
         $array1 = $userId[0];
         $ID = intval($array1["id"]);
 
-        $i = 0;
+        // recupération des data selon le filtre selectionné
+        $sorties = $sortiesRepository->findSearch($data);
 
+        // Gestion des nb d'inscrits de la liste
+        $i = 0;
         foreach ($sorties as $sorty){
             $noSorty = $sorty->getNoSortie();
             $nbinscrit[$i] = $sortiesRepository -> countInscrip($noSorty);
@@ -58,7 +61,10 @@ class SortieController extends AbstractController
            array_push($modelTab;$model).*/
 
         };
+
         return $this->render('sortie/index.html.twig', [
+            'dateNow' => $strDateNow,
+            'currentUser' => $userIdentifier,
             'sorties' => $sorties,
             'formSearch' => $formSearch->createView(),
             'nbinscrits' => $nbinscrit,

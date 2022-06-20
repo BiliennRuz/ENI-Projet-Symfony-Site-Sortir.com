@@ -5,6 +5,9 @@
 
 {% block body %}
 
+    <h4 class="text-right">Date du jour : {{dateNow}}</h4>
+    <h4 class="text-right">Participant : {{app.user.prenom}} {{app.user.nom}}</h4> 
+
     {{ include('sortie/_filter.html.twig') }}
 
     <table class="table striped table-border cell-border cell-center">
