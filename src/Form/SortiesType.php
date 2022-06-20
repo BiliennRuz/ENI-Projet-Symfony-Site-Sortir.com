@@ -7,15 +7,21 @@ use App\Entity\Participants;
 use App\Entity\Sorties;
 use App\Entity\Villes;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\TimeType;
+
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
+use Symfony\Component\Form\Extension\Core\Type\TimeType ;
+use Symfony\Component\Validator\Constraints\File;
+
 
 class SortiesType extends AbstractType
 {
@@ -61,6 +67,30 @@ class SortiesType extends AbstractType
             //     'attr' => array('class' => 'metro-input cell-10')
             //     ])
 
+            // Upload de photo
+              ->add('urlphoto', FileType::class, [
+                'label' => 'Image (fichier image)',
+                'mapped' => false,
+
+                // make it optional so you don't have to re-upload the PDF file
+                // every time you edit the Product details
+                'required' => false,
+
+                // unmapped fields can't define their validation using annotations
+                // in the associated entity, so you can use the PHP constraint classes
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'application/jpeg',//
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez sélectionner un fichier image valide',
+                    ])
+                ],
+            ])
+            // ...
+              
         ;
     }
 
