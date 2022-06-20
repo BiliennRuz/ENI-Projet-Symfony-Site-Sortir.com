@@ -3,14 +3,25 @@
 namespace App\Controller;
 
 use App\Entity\Lieux;
+<<<<<<< HEAD
 use App\Entity\Sorties;
 use App\Entity\Villes;
+=======
+use App\Entity\ModelView;
+use App\Entity\Sorties;
+use App\Form\SearchFormSorties;
+>>>>>>> 7fb38e9e0168ab695a1068e3134e3f5fbec05245
 use App\Form\SortiesType;
+use App\Repository\SortiesRepository;
+use App\Service\SearchDataSorties;
+use App\Repository\ParticipantsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\User;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * @Route("/sortie")
@@ -20,14 +31,44 @@ class SortieController extends AbstractController
     /**
      * @Route("/", name="app_sortie_index", methods={"GET"})
      */
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, SortiesRepository $sortiesRepository, ParticipantsRepository $participantsRepository, Request $request): Response
+
     {
+        $data = new SearchDataSorties();
+        $formSearch = $this->createForm(SearchFormSorties::class, $data);
+        $formSearch->handleRequest($request);
+/*
         $sorties = $entityManager
             ->getRepository(Sorties::class)
             ->findAll();
+            ->findSearch($data);
+*/
+        $sorties = $repository->findSearch($data);
 
+        $userIdentifier = $this->getUser()->getUserIdentifier();
+        $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
+        $array1 = $userId[0];
+        $ID = intval($array1["id"]);
+
+        $i = 0;
+
+        foreach ($sorties as $sorty){
+            $noSorty = $sorty->getNoSortie();
+            $nbinscrit[$i] = $sortiesRepository -> countInscrip($noSorty);
+            $testinscr[$i] = $sortiesRepository -> inscripTrueFalse($noSorty,$ID );
+            $i= $i + 1;
+           /* $model = new ModelView();
+            $model->setSortie ($sorty);
+            $model->setNb (count($nbinscrit));
+           array_push($modelTab;$model).*/
+
+        };
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,
+            'formSearch' => $formSearch->createView(),
+            'nbinscrits' => $nbinscrit,
+            'testinscrits' => $testinscr,
+           /* 'tab'=>$modelTab */
         ]);
     }
 
@@ -56,10 +97,14 @@ class SortieController extends AbstractController
     /**
      * @Route("/{noSortie}", name="app_sortie_show", methods={"GET"})
      */
-    public function show(Sorties $sorty): Response
+    public function show(Sorties $sorty, SortiesRepository $repository): Response
     {
+        $noSorty = $sorty->getNoSortie();
+        $inscrits = $repository->inscripBySortie($noSorty);
+
         return $this->render('sortie/show.html.twig', [
             'sorty' => $sorty,
+            'inscrits' => $inscrits,
         ]);
     }
 
