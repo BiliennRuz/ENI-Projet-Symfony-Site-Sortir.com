@@ -104,4 +104,16 @@ class ParticipantsRepository extends ServiceEntityRepository implements Password
             ->setParameter('query', $usernameOrEmail)
             ->getOneOrNullResult();
     }
+
+    public function IdfromPseudoEmail($userIdentifier){
+        $em = $this->getEntityManager();
+        $dql  = "
+            SELECT p.id
+            FROM App\Entity\Participants p
+            WHERE p.pseudo = :userIdentifier OR p.email = :userIdentifier
+        ";
+        $query = $em->createQuery($dql);
+        $query->setParameter("userIdentifier",$userIdentifier);
+        return $query->getResult();
+    }
 }

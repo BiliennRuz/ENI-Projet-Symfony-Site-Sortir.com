@@ -6,6 +6,10 @@
 {% block body %}
     <h1>Sorties index</h1>
 
+<div class="row">
+        {{ include('sortie/_filter.html.twig') }}
+</div>
+<div class="row">
     <table class="table striped table-border cell-border cell-center">
         <thead class="text-center">
             <tr>
@@ -25,17 +29,31 @@
                 <td>{{ sorty.nom }}</td>
                 <td>{{ sorty.datedebut ? sorty.datedebut|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ sorty.datecloture ? sorty.datecloture|date('Y-m-d H:i:s') : '' }}</td>
-                <td>Hewwo World{#Count inscriptions where id sortie = id de cette sortie    / sorty.nbinscriptionsmax#}</td>
+                <td>{{nbinscrits[loop.index0].0.count}}/{{ sorty.nbinscriptionsmax}}</td>
                 <td>{{ sorty.etatsNoEtat }}</td>
-                <td>X {#  if inscriptions with app.user.id et id sortie alors "X" else " "  #}</td>
+                {% if testinscrits[loop.index0].0.count ==1 %}
+                    <td>X</td>
+                {% else %}
+                    <td>&nbsp;</td>
+                {% endif %}
+                {# <td>{{testinscrits[loop.index0].0.count}}</td> #}
                 <td><a href="{{ path('app_participants_show', {'pseudo': sorty.organisateur}) }}">{{ sorty.organisateur }}</a></td>
-              
+                {#  Test recuperation date actuelle {{ 'now'|date('Y-m-d H:i:s') }} #}
                 <td>
                     <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second primary" id="buttonShow"><span class="mif-eye"></span></a>
                     <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
                     <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
-                    <a href="{{ path('app_inscriptions_new') }}" class="action-button second success"><span class="mif-plus"></span></a>
-                    {# <a href="{{ path('app_inscription_new', {'noSortie': sorty.noSortie, 'id': app.user.id}) }}">s'inscrire</a> #}
+                    {% if testinscrits[loop.index0].0.count ==1 %}
+                        {% if nbinscrits[loop.index0].0.count < sorty.nbinscriptionsmax %}
+                            <a href="{{ path('app_sortie_index') }}">se desister</a>
+                        {% endif %}
+                    {% else %}
+                        {% if nbinscrits[loop.index0].0.count < sorty.nbinscriptionsmax %}
+                            <a href="{{ path('app_sortie_index') }}">s'inscrire</a>
+                        {% endif %}
+                    {% endif %}
+
+                    {# <a href="{{ path('app_inscriptions_new') }}" class="action-button second success"><span class="mif-plus"></span></a> #}
                 </td>
             </tr>
         {% else %}
@@ -45,6 +63,7 @@
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('app_sortie_new') }}" class="action-button rotate success "><span class="mif-plus"></span></a>
+    <a href="{{ path('app_sortie_new') }}" class="action-button rotate success "><span class="icon"><span class="mif-plus"></span></span></a>
+    <p>Créer une sortie</p>
     {# // <script src="{{ asset('assets/js/script.js') }}"></script> #}
 {% endblock %}
