@@ -18,7 +18,7 @@
         <div data-role="appbar" data-expand-point="md">
             <div class="row flex-align-center">
                 <div class=" cell-3 text-left">
-                    <img src="{{asset('assets/img/logo.png')}}" alt="logo sortir.com">
+                    <img src="{{asset('assets/img/logo.jpg')}}" alt="logo sortir.com">
                 </div>
 
                 <div class="cell-9 text-right">
@@ -46,7 +46,7 @@
                             {% elseif ele == 'Mon profil' %}
                             <a href="{{ path('app_monprofil', {'id': app.user.id}) }}">MON PROFIL</a>
                             {% elseif ele == 'Se deconnecter' %}
-                            <a href="{{ path('app_sedeconnecter') }}">SE DECONNECTER</a>
+                            <a href="{{ path('app_sedeconnecter') }}">SE DECONNECTER ({{ app.user.pseudo }})</a>
                             {% elseif ele == 'Villes' %}
                             <a href="{{ path('app_villes') }}">VILLES</a>
                             {% elseif ele == 'Sites' %}

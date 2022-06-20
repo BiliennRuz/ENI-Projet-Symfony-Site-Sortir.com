@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\Lieux;
 use App\Entity\ModelView;
 use App\Entity\Sorties;
+use App\Form\SearchFormSorties;
 use App\Form\SortiesType;
 use App\Repository\SortiesRepository;
 use App\Repository\ParticipantsRepository;
 use App\Repository\InscriptionsRepository;
+use App\Service\SearchDataSorties;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,11 +27,18 @@ class SortieController extends AbstractController
     /**
      * @Route("/", name="app_sortie_index", methods={"GET"})
      */
-    public function index(EntityManagerInterface $entityManager, SortiesRepository $sortiesRepository, ParticipantsRepository $participantsRepository): Response
+    public function index(EntityManagerInterface $entityManager, SortiesRepository $sortiesRepository, ParticipantsRepository $participantsRepository, Request $request): Response
     {
+        $data = new SearchDataSorties();
+        $formSearch = $this->createForm(SearchFormSorties::class, $data);
+        $formSearch->handleRequest($request);
+/*
         $sorties = $entityManager
             ->getRepository(Sorties::class)
             ->findAll();
+            ->findSearch($data);
+*/
+        $sorties = $sortiesRepository->findSearch($data);
 
         $userIdentifier = $this->getUser()->getUserIdentifier();
         $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
@@ -51,6 +60,7 @@ class SortieController extends AbstractController
         };
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,
+            'formSearch' => $formSearch->createView(),
             'nbinscrits' => $nbinscrit,
             'testinscrits' => $testinscr,
            /* 'tab'=>$modelTab */
@@ -67,6 +77,7 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+          // dd($sorty);
             $entityManager->persist($sorty);
             $entityManager->flush();
 
