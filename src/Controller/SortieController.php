@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieux;
 use App\Entity\Sorties;
+use App\Entity\Villes;
 use App\Form\SortiesType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -64,14 +66,13 @@ class SortieController extends AbstractController
     /**
      * @Route("/{noSortie}/edit", name="app_sortie_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Sorties $sorty, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Sorties $sorty, EntityManagerInterface $entityManager, $noSortie): Response
     {
         $form = $this->createForm(SortiesType::class, $sorty);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -86,7 +87,7 @@ class SortieController extends AbstractController
      */
     public function delete(Request $request, Sorties $sorty, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$sorty->getNoSortie(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $sorty->getNoSortie(), $request->request->get('_token'))) {
             $entityManager->remove($sorty);
             $entityManager->flush();
         }
@@ -96,7 +97,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/{noSortie}/annuler", name="app_sortie_annuler", methods={"GET","POST"})
      */
-    public function annuler(Request $request,Sorties $sorty,EntityManagerInterface $entityManager): Response
+    public function annuler(Request $request, Sorties $sorty, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(SortiesType::class, $sorty);
         $form->handleRequest($request);
