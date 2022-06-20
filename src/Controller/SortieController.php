@@ -24,14 +24,9 @@ class SortieController extends AbstractController
     public function index(EntityManagerInterface $entityManager, SortiesRepository $repository, Request $request): Response
     {
 
-     //   $currentUser = $this->getUser();
-    //    dd($currentUser);
-
         $data = new SearchDataSorties();
         $formSearch = $this->createForm(SearchFormSorties::class, $data);
         $formSearch->handleRequest($request);
-//        var_dump($data);
-
 /*
         $sorties = $entityManager
             ->getRepository(Sorties::class)
@@ -39,14 +34,9 @@ class SortieController extends AbstractController
             ->findSearch($data);
 */
         $sorties = $repository->findSearch($data);
- //       $listSites = $entityManager
- //           ->getRepository(Sites::class)
- //           ->findAll();
 
-//        ($sorties);
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,
-//            'listSites' =>$listSites,
             'formSearch' => $formSearch->createView(),
         ]);
     }

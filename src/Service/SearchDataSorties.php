@@ -49,11 +49,11 @@ class SearchDataSorties
     /**
      * @var boolean
      */
-    public $isSortieArchivee = false;
+    public $isnotSortieArchivee = true;
 
     /**
      * @var boolean
      */
-    public $isSortieCloturee = false;
+    public $isnotSortieCloturee = true;
 
 }

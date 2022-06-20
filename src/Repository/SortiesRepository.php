@@ -48,6 +48,8 @@ class SortiesRepository extends ServiceEntityRepository
     public function findSearch(SearchDataSorties $search): array
     {
 
+        dump($search);
+
         $query = $this
             ->createQueryBuilder('so');
         //    ->select('so', 'si')
@@ -106,7 +108,7 @@ class SortiesRepository extends ServiceEntityRepository
                 ->setParameter('dateNow', new \DateTime('now'));
         }
 
-        if (!empty($search->isArchivee)) {
+        if (!empty($search->isnotSortieArchivee) && !empty($search->isSortiePassee)) {
             $dateArchivage = new \DateTime('now');
             $dateArchivage->modify('+1 month');
             $query = $query
@@ -114,7 +116,7 @@ class SortiesRepository extends ServiceEntityRepository
                 ->setParameter('dateArchive', new \DateTime('now'));
         }
 
-        if (!empty($search->isCloturee)) {
+        if (!empty($search->isnotSortieCloturee) && !empty($search->isSortiePassee)) {
             $query = $query
                 ->andWhere('so.datecloture <= :dateNow')
                 ->setParameter('dateNow', new \DateTime('now'));

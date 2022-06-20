@@ -65,11 +65,11 @@ class SearchFormSorties extends AbstractType
                 'label' => 'Sorties passées',
                 'required' => false,
             ])
-            ->add('isSortieArchivee', CheckboxType::class, [
+            ->add('isnotSortieArchivee', CheckboxType::class, [
                 'label' => 'Sorties non archivées',
                 'required' => false,
             ])
-            ->add('isSortieCloturee', CheckboxType::class, [
+            ->add('isnotSortieCloturee', CheckboxType::class, [
                 'label' => 'Sorties non cloturées',
                 'required' => false,
             ])
