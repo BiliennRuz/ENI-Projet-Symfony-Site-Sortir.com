@@ -1,53 +1,90 @@
 {{ form_start(form) }}
 <div class="d-flex flex-justify-center flex-align-center">
-    <div class="cell-3 p-5 ">
+    <div class="cell-2 p-5 ">
         {{ form_label(form.nom) }}
     </div>
-    <div class="cell-9 p-5 ">
+    <div class="cell-3 p-5 ">
         {{ form_widget(form.nom) }}
     </div>
+    <div class="cell-2 p-5 ">
+        Ville organisatrice
+    </div>
+    <div class="cell-3 p-5 ">
+        Ajouter la ville
+    </div>
 </div>
 <div class="d-flex flex-justify-center flex-align-center">
-    <div class="cell-3 p-5 ">
+    <div class="cell-2 p-5 ">
         {{ form_label(form.datedebut) }}
     </div>
-    <div class="cell-9 p-5 ">
+    <div class="cell-3 p-5 ">
         {{ form_widget(form.datedebut) }}
     </div>
+    <div class="cell-2 p-5 ">
+        {{ form_label(form.lieuxNoLieu)}}
+    </div>
+    <div class="cell-3 p-5 ">
+        {{ form_widget(form.lieuxNoLieu)}}
+    </div>
 </div>
 <div class="d-flex flex-justify-center flex-align-center">
-    <div class="cell-3 p-5 ">
+    <div class="cell-2 p-5 ">
         {{ form_label(form.datecloture) }}
     </div>
-    <div class="cell-9 p-5 ">
+    <div class="cell-3 p-5 ">
         {{ form_widget(form.datecloture) }}
     </div>
+    <div class="cell-2 p-5 ">
+        Rue :
+    </div>
+    <div class="cell-3 p-5 ">
+        {# {{ form_widget(form.rue)}} #}
+    </div>
 </div>
 <div class="d-flex flex-justify-center flex-align-center">
-    <div class="cell-3 p-5 ">
+    <div class="cell-2 p-5 ">
         {{ form_label(form.nbinscriptionsmax)}}
     </div>
-    <div class="cell-9 p-5 ">
+    <div class="cell-3 p-5 ">
         {{ form_widget(form.nbinscriptionsmax) }}
+    </div>
+    <div class="cell-2 p-5 ">
+        Code Postal
+    </div>
+    <div class="cell-3 p-5 ">
+        à définir
     </div>
 </div>
 <div class="d-flex flex-justify-center flex-align-center">
-    <div class="cell-3 p-5 ">
-        {{ form_label(form.descriptioninfos)}}
+    <div class="cell-2 p-5 ">
+        {{ form_label(form.duree) }}
     </div>
-    <div class="cell-9 p-5 ">
-        {{ form_widget(form.descriptioninfos) }}
+    <div class="cell-3 p-5 ">
+        {{ form_widget(form.duree) }}
+    </div>
+    <div class="cell-2 p-5 ">
+        Latitude
+    </div>
+    <div class="cell-3 p-5 ">
+        à définir
     </div>
 </div>
-{# <div class="d-flex flex-justify-center flex-align-center">
+<div class="d-flex flex-justify-center flex-align-center">
+    <div class="cell-2 p-5 ">
+        {{ form_label(form.descriptioninfos)}}
+    </div>
     <div class="cell-3 p-5 ">
-        {{ form_label(form.etatsNoEtat)}}
+        {{ form_widget(form.descriptioninfos) }}
     </div>
-    <div class="cell-9 p-5 ">
-        {{ form_widget(form.etatsNoEtat) }}
+    <div class="cell-2 p-5 ">
+        Longitude
     </div>
-</div> #}
-        <button class="button primary"><span class="mif-floppy-disk"></span>{{ button_label|default('Enregistrer')
-            }}</button>
-        {{ form_end(form) }}
+    <div class="cell-3 p-5 ">
+        à définir
     </div>
+</div>
+
+<button class="button primary"><span class="mif-floppy-disk"></span>{{ button_label|default('Enregistrer')
+    }}</button>
+{{ form_end(form) }}
+</div>
