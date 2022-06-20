@@ -5,21 +5,22 @@
 
 {% block body %}
     <h1>Sorties index</h1>
+
 <div class="row">
         {{ include('sortie/_filter.html.twig') }}
 </div>
 <div class="row">
-    <table class="table flex-align-center">
-        <thead>
+    <table class="table striped table-border cell-border cell-center">
+        <thead class="text-center">
             <tr>
-                <th>Nom</th>
-                <th>Datedebut</th>
-                <th>Datecloture</th>
-                <th>Inscrits/Place</th>
-                <th>Etat</th>
-                <th>Inscrit</th>
-                <th>Oragnisateur</th>
-                <th>actions</th>
+                <th class="text-center">Nom</th>
+                <th class="text-center">Date de début</th>
+                <th class="text-center">Date de cloture</th>
+                <th class="text-center">Inscrits/Place</th>
+                <th class="text-center">Etat</th>
+                <th class="text-center">Inscrit</th>
+                <th class="text-center">Organisateur</th>
+                <th class="text-center">actions</th>
             </tr>
         </thead>
         <tbody>
@@ -41,7 +42,7 @@
                 <td>
                     <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second primary" id="buttonShow"><span class="mif-eye"></span></a>
                     <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
-                    <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}">annuler</a>
+                    <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
                     {% if testinscrits[loop.index0].0.count ==1 %}
                         {% if nbinscrits[loop.index0].0.count < sorty.nbinscriptionsmax %}
                             <a href="{{ path('app_sortie_index') }}">se desister</a>
@@ -51,8 +52,8 @@
                             <a href="{{ path('app_sortie_index') }}">s'inscrire</a>
                         {% endif %}
                     {% endif %}
-                    
-                    {# <a href="{{ path('app_inscription_new', {'noSortie': sorty.noSortie, 'id': app.user.id}) }}">s'inscrire</a> #}
+
+                    {# <a href="{{ path('app_inscriptions_new') }}" class="action-button second success"><span class="mif-plus"></span></a> #}
                 </td>
             </tr>
         {% else %}
@@ -62,7 +63,6 @@
         {% endfor %}
         </tbody>
     </table>
-
     <a href="{{ path('app_sortie_new') }}" class="action-button rotate success "><span class="icon"><span class="mif-plus"></span></span></a>
     <p>Créer une sortie</p>
     {# // <script src="{{ asset('assets/js/script.js') }}"></script> #}
