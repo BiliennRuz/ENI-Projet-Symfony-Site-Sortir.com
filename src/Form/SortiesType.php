@@ -23,9 +23,9 @@ class SortiesType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, array('attr' => array( 'class' => 'metro-input cell-7', 'placeholder' => 'nom'),'label' => "Nom de la sortie: "))
-            ->add('datedebut', DateType::class, array('widget' => 'single_text', 'attr' => array('class' => 'metro-input cell-7'),'label' => "Date et heure de la sortie: "))
+            ->add('datedebut', DateTimeType::class, array('widget' => 'single_text', 'attr' => array('class' => 'metro-input cell-7'),'label' => "Date et heure de la sortie: "))
             ->add('duree', IntegerType::class, array('attr' => array('class' => 'metro-input cell-7', 'placeholder' => 'durée'),'label' => "Durée: "))
-            ->add('datecloture', DateType::class, array('widget' => 'single_text','attr' => array('label' => 'Date de clôture', 'class' => 'metro-input cell-7'),'label' => "Date limite d'inscription: "))
+            ->add('datecloture', DateTimeType::class, array('widget' => 'single_text','attr' => array('label' => 'Date de clôture', 'class' => 'metro-input cell-7'),'label' => "Date limite d'inscription: "))
             ->add('nbinscriptionsmax', IntegerType::class, array('attr' => array('class' => 'metro-input cell-7'),'label' => "Nombre de places:"))
             ->add('descriptioninfos', TextAreaType::class, array('attr' => array('style' => 'width: 500px','class' => 'metro-input cell-10'), 'label' => "Description et infos:"))
             
