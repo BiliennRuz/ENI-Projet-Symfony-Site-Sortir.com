@@ -3,4 +3,6 @@
     <div class="p-2">
         <button class="btn button"><span class="mif-checkmark mif-2x fg-green p-2"></span>{{ button_label|default(' Valider') }}</button>
     </div>
+    {#upload d'images#}
+    {{ form_row(form.image) }}
 {{ form_end(form) }}

@@ -77,16 +77,53 @@ class SortieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
           // dd($sorty);
+          //upload d'image
+          $urlPhoto = $form->get('urlphoto')->getData();
+
+          // this condition is needed because the 'urlphoto' field is not required
+          // so thefile must be processed only when a file is uploaded
+          if ($urlPhoto) {
+              $originalFilename = pathinfo($urlPhoto->getClientOriginalName(), PATHINFO_FILENAME);
+              // this is needed to safely include the file name as part of the URL
+              $safeFilename = $slugger->slug($originalFilename);
+              $newFilename = $safeFilename.'-'.uniqid().'.'.$urlPhoto->guessExtension();
+
+              // Move the file to the directory where images are stored
+              try {
+                  $urlPhoto->move(
+                      $this->getParameter('images_directory'),
+                      $newFilename
+                  );
+              } catch (FileException $e) {
+                  // ... handle exception if something happens during file upload
+              }
+
+              // updates the 'brochureFilename' property to store the PDF file name
+              // instead of its contents
+              $sorties->setUrlPhoto($newFilename);
+          }
+
+          // ... persist the $product variable or any other work
+
+          return $this->redirectToRoute('app_sortie_index');
+      }
+
+      return $this->renderForm('sortie/new.html.twig', [
+        'sorty' => $sorty,
+        'form' => $form,
+      ]);
+
+          //
             $entityManager->persist($sorty);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('sortie/new.html.twig', [
+        /*return $this->renderForm('sortie/new.html.twig', [
             'sorty' => $sorty,
-            'form' => $form,
-        ]);
+            'form' => $form,*/
+        
     }
 
     /**
