@@ -22,46 +22,20 @@ class SortiesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom', TextType::class, array('attr' => array('label' => "Nom de la sortie:", 'class' => 'metro-input cell-10', 'placeholder' => 'nom')))
-            ->add('datedebut', DateType::class, array('attr' => array('class' => 'metro-input cell-10')))
-            ->add('duree', IntegerType::class, array('attr' => array('class' => 'metro-input cell-10', 'placeholder' => 'durée')))
-            ->add('datecloture', DateType::class, array('attr' => array('label' => 'Date de clôture', 'class' => 'metro-input cell-10')))
-            ->add('nbinscriptionsmax', IntegerType::class, array('attr' => array('class' => 'metro-input cell-10')))
-            ->add('descriptioninfos', TextAreaType::class, array('attr' => array('class' => 'metro-input cell-10', 'placeholder' => "Description")))
+            ->add('nom', TextType::class, array('attr' => array( 'class' => 'metro-input cell-7', 'placeholder' => 'nom'),'label' => "Nom de la sortie: "))
+            ->add('datedebut', DateType::class, array('widget' => 'single_text', 'attr' => array('class' => 'metro-input cell-7'),'label' => "Date et heure de la sortie: "))
+            ->add('duree', IntegerType::class, array('attr' => array('class' => 'metro-input cell-7', 'placeholder' => 'durée'),'label' => "Durée: "))
+            ->add('datecloture', DateType::class, array('widget' => 'single_text','attr' => array('label' => 'Date de clôture', 'class' => 'metro-input cell-7'),'label' => "Date limite d'inscription: "))
+            ->add('nbinscriptionsmax', IntegerType::class, array('attr' => array('class' => 'metro-input cell-7'),'label' => "Nombre de places:"))
+            ->add('descriptioninfos', TextAreaType::class, array('attr' => array('class' => 'metro-input cell-10', 'placeholder' => "Description"),'label' => "Description et infos:"))
             ->add('lieuxNoLieu', EntityType::class, [
                 'class' => Lieux::class,
                 'choice_label' => 'nomLieu',
-                'label' => "Lieu",
-                'attr' => array('class' => 'metro-input cell-10')
-            ])
+                'label' => "Lieu :",
+                'attr' => array('class' => 'metro-input cell-6')
+            ]);
 
-            // ->add('rue', EntityType::class, [
-            //     'class' => Lieux::class,
-            //     'choice_label' => 'Lieux',
-            //     'label' => "Rue",
-            //     'attr' => array('class' => 'metro-input cell-10')
-            // ])
             
-
-            // ->add('participantsNoParticipant')
-            // ->add('sitesNoSite')
-            // ->add('sitesNoSite', EntityType::class,[
-
-            // 'class' => Participants::class,
-            // 'choice_label' => 'nomSite',
-            // 'label' => "Ville organisatrice",
-            // 'attr' => array('class' => 'metro-input cell-10')
-            // ])
-
-            // -> add ('rue')
-            // , TextType::class,[
-            //     'class' => Lieux::class,
-            //     'choice_label' => 'nomLieu',
-            //     'label' => "Lieu",
-            //     'attr' => array('class' => 'metro-input cell-10')
-            //     ])
-
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
