@@ -40,14 +40,16 @@
                     <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second link"  onmouseover="show2()" onmouseout="out()"><span class="mif-eye"></span></a>
                     <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
                     <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
-                    {% if testinscrits[loop.index0].0.count ==1 %}
-                            <a href="{{ path('app_sortie_deleteInscri',{'noSortie': sorty.noSortie}) }}">se desister</a>
-                    {% else %}
-                        {% if nbinscrits[loop.index0].0.count < sorty.nbinscriptionsmax %}
-                            <a href="{{ path('app_sortie_addInscri',{'noSortie': sorty.noSortie}) }}">s'inscrire</a>
+
+                    {% if  date() < date(sorty.datecloture) %}
+                        {% if testinscrits[loop.index0].0.count ==1 %}
+                                <a href="{{ path('app_sortie_deleteInscri',{'noSortie': sorty.noSortie}) }}">se desister</a>
+                        {% else %}
+                            {% if nbinscrits[loop.index0].0.count < sorty.nbinscriptionsmax %}
+                                <a href="{{ path('app_sortie_addInscri',{'noSortie': sorty.noSortie}) }}">s'inscrire</a>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
-
                     {# <a href="{{ path('app_inscriptions_new') }}" class="action-button second success"><span class="mif-plus"></span></a> #}
 
                 </td>
