@@ -41,16 +41,15 @@
                     <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
                     <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
                     {% if testinscrits[loop.index0].0.count ==1 %}
-                        {% if nbinscrits[loop.index0].0.count < sorty.nbinscriptionsmax %}
-                            <a href="{{ path('app_sortie_index') }}">se desister</a>
-                        {% endif %}
+                            <a href="{{ path('app_sortie_deleteInscri',{'noSortie': sorty.noSortie}) }}">se desister</a>
                     {% else %}
                         {% if nbinscrits[loop.index0].0.count < sorty.nbinscriptionsmax %}
-                            <a href="{{ path('app_sortie_index') }}">s'inscrire</a>
+                            <a href="{{ path('app_sortie_addInscri',{'noSortie': sorty.noSortie}) }}">s'inscrire</a>
                         {% endif %}
                     {% endif %}
 
                     {# <a href="{{ path('app_inscriptions_new') }}" class="action-button second success"><span class="mif-plus"></span></a> #}
+
                 </td>
            
             </tr>
