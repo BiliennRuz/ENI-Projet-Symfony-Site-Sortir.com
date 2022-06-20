@@ -3,14 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Lieux;
-<<<<<<< HEAD
-use App\Entity\Sorties;
 use App\Entity\Villes;
-=======
 use App\Entity\ModelView;
 use App\Entity\Sorties;
 use App\Form\SearchFormSorties;
->>>>>>> 7fb38e9e0168ab695a1068e3134e3f5fbec05245
 use App\Form\SortiesType;
 use App\Repository\SortiesRepository;
 use App\Repository\ParticipantsRepository;
