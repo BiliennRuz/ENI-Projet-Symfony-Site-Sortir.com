@@ -13,8 +13,18 @@ class VillesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nomVille', TextType::class, ["label" => "Nom de la ville"])
-            ->add('codePostal', TextType::class, ["label" => "Code Postal"])
+            ->add('nomVille', TextType::class,
+            [
+                "label" => "Nom de la ville",
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Rechercher dans le nom'
+                ]
+            ])
+            ->add('codePostal', TextType::class, 
+            [
+                "label" => "Code Postal"
+                ])
         ;
     }
 
@@ -22,6 +32,8 @@ class VillesType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Villes::class,
+            'method' => 'GET',
+            'csrf_protection' => false
         ]);
     }
 }
