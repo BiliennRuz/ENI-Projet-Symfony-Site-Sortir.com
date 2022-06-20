@@ -77,6 +77,7 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+          // dd($sorty);
             $entityManager->persist($sorty);
             $entityManager->flush();
 
