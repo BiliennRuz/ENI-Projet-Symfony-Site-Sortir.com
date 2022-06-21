@@ -39,11 +39,10 @@
                 {# <td>{{testinscrits[loop.index0].0.count}}</td> #}
                 <td><a href="{{ path('app_participants_show', {'pseudo': sorty.organisateur}) }}">{{ sorty.organisateur }}</a></td>
                 {#  Test recuperation date actuelle {{ 'now'|date('Y-m-d H:i:s') }} #}
-                <td>
-                    <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second link"  onmouseover="show2()" onmouseout="out()"><span class="mif-eye"></span></a>
-                    <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></span></a>
-                    
+                <td align="left">
+                    <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second link"  onmouseover="show2()" onmouseout="out()"><span class="mif-eye"></span></a>                   
                     {% if  app.user.pseudo == sorty.organisateur  %}
+                        <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
                         <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
                     {% endif %}
 
