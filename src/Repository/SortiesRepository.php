@@ -150,8 +150,8 @@ class SortiesRepository extends ServiceEntityRepository
 //    public function findOneBySomeField($value): ?Sorties
 //    {
 //        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
+//            ->andWhere('s.etatsNoEtat = :2')
+//            ->setParameter('etatsNoEtat', $value)
 //            ->getQuery()
 //            ->getOneOrNullResult()
 //        ;

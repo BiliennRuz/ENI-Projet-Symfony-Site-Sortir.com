@@ -11,16 +11,20 @@
                 </div>
                 <div class="card-content p-2 text-center">
                 <table class="table">
-                    <tr>
-                        <th>Nom de la sortie</th>
-                        <td>{{ sorty.nom }}</td>
-                    </tr>
-                    <tr>
-                        <th>Date de la sortie</th>
-                        <td>{{  sorty.datedebut ? sorty.datedebut|date('Y-m-d') : ''  }}</td>
-                    </tr>
-                    <tr>
-                       
+                    <div class="d-flex flex-justify-center flex-align-center">
+                        <div class="cell-2 p-5 text-left">
+                            {{ form_label(form.nom) }}
+                        </div>
+                        <div class="cell-3 p-5 ">
+                            {{ form_widget(form.nom) }}
+                        </div>
+                        <div class="cell-2 p-5 text-left">
+                            {{ form_label(form.datedebut) }}
+                        </div>
+                        <div class="cell-3 p-5 ">
+                            {{ form_widget(form.datedebut) }}
+                        </div>
+                    </div>
                         <div class="cell-2 p-5 text-left ">
                             {{ form_label(form.organisateur)}}
                         </div>
@@ -47,6 +51,7 @@
                         </div>
                     </tr>
                     </table>
+                    {{ sorty.etatsNoEtat}}
                     <button class="button primary mif-floppy-disk rounded">{{ button_label|default()}}</button>
                     <a href="{{ path('app_sortie_index', {'noSortie': sorty.noSortie}) }}" class="action-button second success"><span class="mif-undo"></span></a>
 
