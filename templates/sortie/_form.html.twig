@@ -3,27 +3,27 @@
     <div class="cell-2 p-5 text-left">
         {{ form_label(form.nom) }}
     </div>
-    <div class="cell-2 p-5 ">
+    <div class="cell-3 p-5 ">
         {{ form_widget(form.nom) }}
     </div>
-    <div class="cell-1 p-5 text-left ">
-        Ville organisatrice :
+    <div class="cell-2 p-5 text-left ">
+        {{ form_label(form.organisateur)}}
     </div>
-    <div class="cell-2 p-5 text-left">
-        {{sorty.LieuxNoLieu.villesNoville.nomVille}}
+    <div class="cell-3 p-5 text-left">
+        {{ form_widget(form.organisateur)}}
     </div>
 </div>
 <div class="d-flex flex-justify-center flex-align-center">
     <div class="cell-2 p-5 text-left">
         {{ form_label(form.datedebut) }}
     </div>
-    <div class="cell-2 p-5 ">
+    <div class="cell-3 p-5 ">
         {{ form_widget(form.datedebut) }}
     </div>
-    <div class="cell-1 p-5 text-left">
+    <div class="cell-2 p-5 text-left">
         {{ form_label(form.lieuxNoLieu)}}
     </div>
-    <div class="cell-2 p-5 ">
+    <div class="cell-3 p-5 ">
         {{ form_widget(form.lieuxNoLieu)}}
     </div>
 </div>
@@ -31,63 +31,64 @@
     <div class="cell-2 p-5 text-left">
         {{ form_label(form.datecloture) }}
     </div>
-    <div class="cell-2 p-5 ">
+    <div class="cell-3 p-5 ">
         {{ form_widget(form.datecloture) }}
     </div>
-    <div class="cell-1 p-5 text-left ">
+    <div class="cell-2 p-5 text-left ">
         Rue :
     </div>
-    <div class="cell-2 p-5 text-left">
-        {{sorty.LieuxNoLieu.rue}}
+    <div class="cell-3 p-5 text-left">
+        {{sorty.LieuxNoLieu.rue|default(' ')}}
     </div>
 </div>
 <div class="d-flex flex-justify-center flex-align-center">
     <div class="cell-2 p-5 text-left">
         {{ form_label(form.nbinscriptionsmax)}}
     </div>
-    <div class="cell-2 p-5 ">
+    <div class="cell-3 p-5 ">
         {{ form_widget(form.nbinscriptionsmax) }}
     </div>
-    <div class="cell-1 p-5 text-left">
-        Code Postal :
-    </div>
     <div class="cell-2 p-5 text-left">
-        {{sorty.LieuxNoLieu.villesNoville.codePostal}}
+        Code Postal et ville:
+    </div>
+    <div class="cell-3 p-5 text-left">
+       {{sorty.LieuxNoLieu.villesNoville.codePostal|default('') ~ " " ~ sorty.LieuxNoLieu.villesNoville.nomVille|default('') }}
     </div>
 </div>
 <div class="d-flex flex-justify-center flex-align-center">
-    <div class="cell-2 p-5 text-left">
+    <div class="cell-2 p-5 text-left ">
         {{ form_label(form.duree) }}
     </div>
-    <div class="cell-2 p-5 ">
+    <div class="cell-3 p-5 ">
         {{ form_widget(form.duree) }}
     </div>
-    <div class="cell-1 p-5 text-left ">
+    <div class="cell-2 p-5 text-left ">
         Latitude :
     </div>
-    <div class="cell-2 p-5 text-left">
-        {{sorty.LieuxNoLieu.Latitude}}
+    <div class="cell-3 p-5 text-left ">
+        {{sorty.LieuxNoLieu.Latitude|default('')}}
     </div>
 </div>
 <div class="d-flex flex-justify-center flex-align-center">
     <div class="cell-2 p-5 text-left">
         {{ form_label(form.descriptioninfos)}}
     </div>
-    <div class="cell-2 p-5 ">
+    <div class="cell-3 p-5 m-0">
         {{ form_widget(form.descriptioninfos) }}
     </div>
-    <div class="cell-1 p-5 text-left">
+    <div class="cell-2 p-5 text-left">
         Longitude :
     </div>
-    <div class="cell-2 p-5 text-left">
-        {{sorty.LieuxNoLieu.Longitude}}
+    <div class="cell-3 p-5 text-left">
+        {{sorty.LieuxNoLieu.Longitude|default(' ')}}
     </div>
 </div>
+{{sorty.etatsNoEtat}}
+{# {{ sorty.etatsNoEtat) {'value':"Création en cours"} }} #}
+
 
 <button class="button primary mif-floppy-disk">{{ button_label|default('Enregistrer')}}</button>
-<a href="{{ path('app_sortie_index', {'noSortie': sorty.noSortie}) }}" class="action-button second warning"><span class="mif-undo"></span></a>
-<a href="{{ path('app_sortie_delete', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
-    
+<a href="{{ path('app_sortie_index', {'noSortie': sorty.noSortie}) }}" class="action-button second success"><span class="mif-undo"></span></a>
+
 
 {{ form_end(form) }}
-</div>
