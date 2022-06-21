@@ -19,14 +19,29 @@
                         <th>Date de la sortie</th>
                         <td>{{  sorty.datedebut ? sorty.datedebut|date('Y-m-d') : ''  }}</td>
                     </tr>
-                    {#<tr>
-                        <th>ville organisatrice</th>
-                        <td>{{ sorty}}</td>
+                    <tr>
+                       
+                        <div class="cell-2 p-5 text-left ">
+                            {{ form_label(form.organisateur)}}
+                        </div>
+                        <div class="cell-3 p-5 text-left">
+                            {{ form_widget(form.organisateur)}}
+                        </div>
+                      
+                        <div class="cell-2 p-5 text-left">
+                            {{ form_label(form.lieuxNoLieu)}}
+                        </div>
+                        <div class="cell-3 p-5 ">
+                            {{ form_widget(form.lieuxNoLieu)}}
+                        </div>
                     </tr>
                     <tr>
-                        <th>Lieu</th>
-                        <td>{{ }}</td>
-                    </tr>#}
+                        <th>Motif</th>
+                        <td></td>
+                    </tr>
                     </table>
+                    <button class="button primary mif-floppy-disk rounded">{{ button_label|default()}}</button>
+                    <a href="{{ path('app_sortie_index', {'noSortie': sorty.noSortie}) }}" class="action-button second success"><span class="mif-undo"></span></a>
+
                 </tbody>
     {% endblock %}
