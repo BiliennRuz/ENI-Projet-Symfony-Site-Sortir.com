@@ -36,8 +36,15 @@
                         </div>
                     </tr>
                     <tr>
-                        <th>Motif</th>
-                        <td></td>
+                       
+                        <div class="d-flex flex-justify-center flex-align-center">
+                            <div class="cell-2 p-5 text-left">
+                                {{ form_label(form.descriptioninfos)}}
+                            </div>
+                            <div class="cell-3 p-5 m-0">
+                                {{ form_widget(form.descriptioninfos) }}
+                            </div>
+                        </div>
                     </tr>
                     </table>
                     <button class="button primary mif-floppy-disk rounded">{{ button_label|default()}}</button>
