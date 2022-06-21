@@ -45,9 +45,17 @@ class SortiesType extends AbstractType
                     'attr' => array('class' => 'metro-input cell-6')
                     ])
                     
-            // ->add('etatsNoEtat', HiddenType::class, array('attr' => array( )));
-            ->add('etatsNoEtat', null,['required'=>false,
-            'empty_data'=>'Création en cours']);
+            // ->add('etatsNoEtat', textType::class);
+            ->add('etatsNoEtat', null, [
+                'required'   => true,
+                'empty_data' => 'Création en cours'
+            ]);
+            
+ 
+            
+            
+            
+            ;
 
             
     }
