@@ -166,7 +166,7 @@ class SortieController extends AbstractController
 
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
-
+        
         return $this->renderForm('sortie/annulerSortie.html.twig', [
             'sorty' => $sorty,
             'form' => $form,
@@ -202,5 +202,23 @@ class SortieController extends AbstractController
         $inscriptionsRepository -> Sinscrire($noSorty, $ID);
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+    }
+    /**
+     * @Route("/{noSortie}/cancel", name="app_sortie_cancel", methods={"GET", "POST"})
+     */
+    public function cancel(Request $request, Sorties $sorty, EntityManagerInterface $entityManager, $noSortie): Response
+    {
+        $form = $this->createForm(SortiesType::class, $sorty);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('sortie/testCancel.html.twig', [
+            'sorty' => $sorty,
+            'form' => $form,
+        ]);
     }
 }
