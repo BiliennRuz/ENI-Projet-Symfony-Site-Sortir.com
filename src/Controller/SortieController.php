@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Lieux;
+use App\Entity\Villes;
 use App\Entity\ModelView;
 use App\Entity\Sorties;
 use App\Form\SearchFormSorties;
