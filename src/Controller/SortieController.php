@@ -11,6 +11,7 @@ use App\Form\SortiesType;
 use App\Repository\SortiesRepository;
 use App\Repository\ParticipantsRepository;
 use App\Repository\InscriptionsRepository;
+use App\Repository\SitesRepository;
 use App\Service\SearchDataSorties;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,11 +29,21 @@ class SortieController extends AbstractController
     /**
      * @Route("/", name="app_sortie_index", methods={"GET"})
      */
-    public function index(EntityManagerInterface $entityManager, SortiesRepository $sortiesRepository, ParticipantsRepository $participantsRepository, Request $request): Response
+    public function index(
+            EntityManagerInterface $entityManager, 
+            SortiesRepository $sortiesRepository, 
+            SitesRepository $sitesRepository, 
+            ParticipantsRepository $participantsRepository, 
+            Request $request
+        ): Response
     {
         // Gestion de l'affichage de la date actuelle
         $dateNow = new \DateTime('now');
         $strDateNow = $dateNow->format('d/m/Y');
+
+        // Gestion de la listye des sites
+        $listSites = $sitesRepository -> findAll();
+        dump($listSites);
 
         // gestion du formulaire de filtres
         $data = new SearchDataSorties();
@@ -42,7 +53,6 @@ class SortieController extends AbstractController
         // Gestion du user connecté et recherche de son id
         $userIdentifier = $this->getUser()->getUserIdentifier();
         $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
-        dump($userId);
         $array1 = $userId[0];
         $ID = intval($array1["id"]);
 
@@ -65,6 +75,7 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/index.html.twig', [
             'dateNow' => $strDateNow,
+            'listSites' => $listSites,
             'currentUser' => $userIdentifier,
             'sorties' => $sorties,
             'formSearch' => $formSearch->createView(),
