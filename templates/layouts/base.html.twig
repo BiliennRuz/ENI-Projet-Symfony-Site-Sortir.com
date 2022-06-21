@@ -29,12 +29,12 @@
                     {% set menuAdminConnected = ["Villes", "Sites", "Accueil","Mon profil","Se deconnecter"] %}
                     {# ,"Mon profil"#}
 
-                    {% if app.user %}
-                    {% set menu = menuConnected %}
-                    {% elseif is_granted("ROLE_ADMIN") %}
-                    {% set menu = menuAdminConnected %}
+                    {% if is_granted("ROLE_ADMIN") %}
+                        {% set menu = menuAdminConnected %}
+                    {% elseif app.user %}
+                        {% set menu = menuConnected %}
                     {% else %}
-                    {% set menu = menuNotConnected %}
+                        {% set menu = menuNotConnected %}
                     {% endif %}
                     <ul class="app-bar-menu">
 
