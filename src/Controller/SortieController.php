@@ -221,4 +221,25 @@ class SortieController extends AbstractController
             'form' => $form,
         ]);
     }
+    /**
+     * @Route("/{noSortie}/cancelTest", name="app_sortie_cancel", methods={"GET", "POST"})
+     */
+    public function cancelTest(Request $request, Sorties $sorty, EntityManagerInterface $em, Sorties $sortie): Response
+    {
+        $participants = $this->getUser();
+        $form = $this->createForm(CancelSortieType::class, $sorty);
+        $form->handleRequest($request);
+
+        $sortie->setDescriptioninfos($form['descriptioninfos']->getData());
+       $sortie->setEtatsNoEtat("Annulée");
+
+        $em->flush();
+        $this->addFlash('success', 'La sortie a été annulée !');
+
+        $this->sortiesListe = $em->getRepository(Sorties::class)->findAll();
+            return $this->redirectToRoute('app_sortie_index');
+        
+
+        
+    }
 }
