@@ -29,35 +29,18 @@ class SortiesType extends AbstractType
             ->add('datecloture', DateTimeType::class, array('widget' => 'single_text','attr' => array('label' => 'Date de clôture', 'class' => 'metro-input cell-7'),'label' => "Date limite d'inscription: "))
             ->add('nbinscriptionsmax', IntegerType::class, array('attr' => array('class' => 'metro-input cell-7'),'label' => "Nombre de places:"))
             ->add('descriptioninfos', TextAreaType::class, array('attr' => array('style' => 'width: 500px','class' => 'metro-input cell-10'), 'label' => "Description et infos:"))
-            
-            
-            
             ->add('organisateur', EntityType::class, [
                 'class' => Participants::class,
                 'choice_label' => 'sitesNosite',
                 'label' => "Ville organisatrice :",
                 'attr' => array('class' => 'metro-input cell-6')
                 ])
-                ->add('lieuxNoLieu', EntityType::class, [
+            ->add('lieuxNoLieu', EntityType::class, [
                     'class' => Lieux::class,
                     'choice_label' => 'nomLieu',
                     'label' => "Lieu :",
                     'attr' => array('class' => 'metro-input cell-6')
-                    ])
-                    
-            // ->add('etatsNoEtat', textType::class);
-            ->add('etatsNoEtat', null, [
-                'required'   => true,
-                'empty_data' => 'Création en cours'
             ]);
-            
- 
-            
-            
-            
-            ;
-
-            
     }
 
     public function configureOptions(OptionsResolver $resolver): void

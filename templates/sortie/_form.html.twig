@@ -85,18 +85,10 @@
     </div>
 </div>
 
-<div id="cache" class="fg-white">
-    {{ form_label(form.etatsNoEtat)}}
-</div>
-<div id="cache" class="fg-white">
-    {{ form_widget(form.etatsNoEtat)}}
-</div>
+<button class="button primary mif-floppy-disk" name="enregistrer" value="enregistrer">{{ button_label|default('')}}</button>
+<button class="button success mif-floppy-disk name="publier" value="publier">{{ button_label|default('')}}</button>
 
-<script>
-    document.getElementById(cache).style.display = none;
-</script>
 
-<button class="button primary mif-floppy-disk">{{ button_label|default('')}}</button>
 <a href="{{ path('app_sortie_index', {'noSortie': sorty.noSortie}) }}" class="action-button second success"><span
         class="mif-undo"></span></a>
 
