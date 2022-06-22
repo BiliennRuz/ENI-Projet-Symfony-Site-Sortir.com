@@ -29,16 +29,22 @@ class ParticipantsController extends AbstractController
     /**
      * @Route("/new", name="app_participants_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, ParticipantsRepository $participantsRepository): Response
+    public function new(Request $request, ParticipantsRepository $participantsRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $participant = new Participants();
         $form = $this->createForm(ParticipantsType::class, $participant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $participant->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $participant,
+                    $form->get('password')->getData()
+                )
+            );
             $participantsRepository->add($participant, true);
 
-            return $this->redirectToRoute('app_participants_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('participants/new.html.twig', [
@@ -68,8 +74,8 @@ class ParticipantsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $participant->setPassword(
                 $userPasswordHasher->hashPassword(
-                        $participant,
-                        $form->get('password')->getData()
+                    $participant,
+                    $form->get('password')->getData()
                 )
             );
             $participantsRepository->add($participant, true);

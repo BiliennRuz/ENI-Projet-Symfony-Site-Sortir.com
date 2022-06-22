@@ -41,9 +41,25 @@
                 {#  Test recuperation date actuelle {{ 'now'|date('Y-m-d H:i:s') }} #}
                 <td align="left">
                     <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second link"  onmouseover="show2()" onmouseout="out()"><span class="mif-eye"></span></a>                   
-                    {% if  app.user.pseudo == sorty.organisateur  %}
-                        <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
-                        <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
+                    
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {% if  sorty.etatsNoEtat == 'Création en cours'  %}
+                            <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
+                        {% else %}
+                            {% if  sorty.etatsNoEtat == 'Inscription ouverte' or sorty.etatsNoEtat == 'Inscription clôturée'  %}
+                                <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if  app.user.pseudo == sorty.organisateur  %}
+                            {% if  sorty.etatsNoEtat == 'Création en cours'  %}
+                                <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
+                            {% else %}
+                                {% if  sorty.etatsNoEtat == 'Inscription ouverte' or sorty.etatsNoEtat == 'Inscription clôturée'  %}
+                                <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
                     {% endif %}
 
                     {% if  date() < date(sorty.datecloture) %}
