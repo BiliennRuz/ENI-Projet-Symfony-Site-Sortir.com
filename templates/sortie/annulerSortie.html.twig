@@ -5,62 +5,13 @@
 
 {% block body %}
 
-	<tbody>
-		<div class="card">
-			<div class="card-header">
-				<h1 class="text-center">Annuler une sortie</h1>
-			</div>
-			<div class="card-content p-2 text-center">
-				<table class="table">
-					<div class="d-flex flex-justify-center flex-align-center">
-						<div class="cell-2 p-5 text-left">
-							{{ form_label(form.nom) }}
-						</div>
-						<div class="cell-3 p-5 ">
-							{{ form_widget(form.nom) }}
-						</div>
-						<div class="cell-2 p-5 text-left">
-							{{ form_label(form.datedebut) }}
-						</div>
-						<div class="cell-3 p-5 ">
-							{{ form_widget(form.datedebut) }}
-						</div>
-					</div>
-					<div class="cell-2 p-5 text-left ">
-						{{ form_label(form.organisateur)}}
-					</div>
-					<div class="cell-3 p-5 text-left">
-						{{ form_widget(form.organisateur)}}
-					</div>
-
-					<div class="cell-2 p-5 text-left">
-						{{ form_label(form.lieuxNoLieu)}}
-					</div>
-					<div class="cell-3 p-5 ">
-						{{ form_widget(form.lieuxNoLieu)}}
-					</div>
-				</tr>
-				<tr>
-
-					<div class="d-flex flex-justify-center flex-align-center">
-						<div class="cell-2 p-5 text-left">
-							{{ form_label(form.descriptioninfos)}}
-							Motif d'annulation
-						</div>
-						<div class="cell-3 p-5 m-0">
-							{{ form_widget(form.descriptioninfos) }}
-						</div>
-					</div>
-				</tr>
-			</table>
-			{{ sorty.etatsNoEtat}}
-
-			<button class="button primary mif-floppy-disk rounded">{{ button_label|default('')}}</button>
-			<a href="{{ path('app_sortie_index', {'noSortie': sorty.noSortie}) }}" class="action-button second success">
-				<span class="mif-undo"></span>
-			</a>
-
-		</tbody>
-
-
-	{% endblock %}
+        <tbody>
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="text-center">Annuler une sortie</h1>
+                </div>
+                <div class="card-content p-2 text-center">
+                    {{ form_start(form) }}
+                {{ form_end(form) }}
+            </div>
+    {% endblock %}

@@ -20,7 +20,7 @@ class SearchFormSorties extends AbstractType
     {
         $builder
             ->add('sites', EntityType::class, [
-               // 'label' => 'Site : ',
+                'label' => 'Site : ',
                 'required' => false,
                 'class' => Sites::class,
                 //'choices' => $listSites->getNomSite(),
@@ -64,16 +64,7 @@ class SearchFormSorties extends AbstractType
             ->add('isSortiePassee', CheckboxType::class, [
                 'label' => 'Sorties passées',
                 'required' => false,
-            ])
-            ->add('isnotSortieArchivee', CheckboxType::class, [
-                'label' => 'Sorties non archivées',
-                'required' => false,
-            ])
-            ->add('isnotSortieCloturee', CheckboxType::class, [
-                'label' => 'Sorties non cloturées',
-                'required' => false,
-            ])
-            
+            ])           
         ;
     }
 

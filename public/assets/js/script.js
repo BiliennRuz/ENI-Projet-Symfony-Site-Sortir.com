@@ -5,24 +5,11 @@
 
 console.log("yo");
 
-/*function show(item)
-{  
-    //let item = document.getElementById("buttonShow");
-   //document.getElementById("buttonShow").className="action-button primary";
-   console.log("survol ok");
-    item = document.getElementsByClassName("action-button second primary");
-   item.replace,"action-button second primary";
- 
-   return item;
-}
-*/
+
 //Bouton voir une sortie/////////////////////////
 let item2=document.getElementsByClassName("action-button second link");
-//item2.addEventListener("mouseover", show2,false);
 
 function show2(item2){
-
-
    
     console.log("survol0 ok");
     item2 = document.getElementsByClassName("action-button second link");
@@ -47,6 +34,7 @@ for (var i = 0; i < item3.length; i++) {
 return item3;
   }
 }
+
 
 //Bouton créer une sortie/////////////////////////
 

@@ -8,18 +8,21 @@ use App\Entity\ModelView;
 use App\Entity\Sorties;
 use App\Form\SearchFormSorties;
 use App\Form\SortiesType;
+use App\Repository\EtatsRepository;
 use App\Repository\SortiesRepository;
 use App\Repository\ParticipantsRepository;
 use App\Repository\InscriptionsRepository;
 use App\Repository\SitesRepository;
 use App\Service\SearchDataSorties;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Validator\Constraints\Length;
+use App\Form\CancelSortieType;
 
 /**
  * @Route("/sortie")
@@ -30,20 +33,57 @@ class SortieController extends AbstractController
      * @Route("/", name="app_sortie_index", methods={"GET"})
      */
     public function index(
-            EntityManagerInterface $entityManager, 
-            SortiesRepository $sortiesRepository, 
-            SitesRepository $sitesRepository, 
-            ParticipantsRepository $participantsRepository, 
-            Request $request
-        ): Response
-    {
-        // Gestion de l'affichage de la date actuelle
-        $dateNow = new \DateTime('now');
-        $strDateNow = $dateNow->format('d/m/Y');
+        EntityManagerInterface $entityManager,
+        SortiesRepository $sortiesRepository,
+        SitesRepository $sitesRepository,
+        EtatsRepository $etatsRepository,
+        ParticipantsRepository $participantsRepository,
+        Request $request
+    ): Response {
+        ////////////////////////////////////////////////
+        // Gestion de l'affichage de la date actuelle //
+        ////////////////////////////////////////////////
+        $dateNow = (new \DateTime('now'))->format('d/m/Y');
 
-        // Gestion de la listye des sites
-        $listSites = $sitesRepository -> findAll();
+        /////////////////////////////////////////////
+        // Gestion auto de l'archivage des sorties //
+        /////////////////////////////////////////////
+        $dateArchivage =  (new \DateTime('now'))->modify('-1 month');
+        // recherche l'état corespondant à l'archivage
+        $etatTerminée = $etatsRepository->findOneBy(['libelle' => 'Activité terminée']);
+        $etatArchivee = $etatsRepository->findOneBy(['libelle' => 'Activité historisée']);
+        // Liste les sorties de plus d'1 mois
+        $listSortiesToArchivee = $sortiesRepository->findByDateDebut($dateArchivage);
+        // update status pour chaque sortie
+        foreach ($listSortiesToArchivee as $sortiesArchivee) {
+            $sortiesArchivee->setEtatsNoEtat($etatArchivee);
+        };
+        // sauvegarde dans la base
+        $entityManager->flush();
+
+        ////////////////////////////////////////////
+        // Gestion auto de la cloture des sorties //
+        ////////////////////////////////////////////
+        $dateCloture = new \DateTime('now');
+        // recherche l'état corespondant à l'état ouverte et cloture
+        $etatOuverte = $etatsRepository->findOneBy(['libelle' => 'Inscription ouverte']);
+        $etatCloture = $etatsRepository->findOneBy(['libelle' => 'Inscription clôturée']);
+        // Liste les sorties passée
+        $listSortiesToCloturee = $sortiesRepository->findByDateClotureAndStatus($dateCloture, $etatOuverte);
+        // update status pour chaque sortie
+        foreach ($listSortiesToCloturee as $sortiesCloturee) {
+            $sortiesCloturee->setEtatsNoEtat($etatCloture);
+        };
+        //dump($listSortiesToCloturee);
+        // sauvegarde dans la base
+        $entityManager->flush();
+
+        ///////////////////////////////////
+        // Gestion de la liste des sites //
+        ///////////////////////////////////
+        $listSites = $sitesRepository->findAll();
         dump($listSites);
+
 
         // gestion du formulaire de filtres
         $data = new SearchDataSorties();
@@ -52,36 +92,40 @@ class SortieController extends AbstractController
 
         // Gestion du user connecté et recherche de son id
         $userIdentifier = $this->getUser()->getUserIdentifier();
-        $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
+        $participant = $participantsRepository->findOneBy(['email' => $userIdentifier]);
+        //dump($participant->getPseudo());
+        $userId = $participantsRepository->IdfromPseudoEmail($userIdentifier);
         $array1 = $userId[0];
         $ID = intval($array1["id"]);
 
         // recupération des data selon le filtre selectionné
         $sorties = $sortiesRepository->findSearch($data);
+        dump($sorties);
 
         // Gestion des nb d'inscrits de la liste
         $i = 0;
-        foreach ($sorties as $sorty){
+        foreach ($sorties as $sorty) {
             $noSorty = $sorty->getNoSortie();
-            $nbinscrit[$i] = $sortiesRepository -> countInscrip($noSorty);
-            $testinscr[$i] = $sortiesRepository -> inscripTrueFalse($noSorty,$ID );
-            $i= $i + 1;
-           /* $model = new ModelView();
+            $nbinscrit[$i] = $sortiesRepository->countInscrip($noSorty);
+            $testinscr[$i] = $sortiesRepository->inscripTrueFalse($noSorty, $ID);
+            $i = $i + 1;
+            /* $model = new ModelView();
             $model->setSortie ($sorty);
             $model->setNb (count($nbinscrit));
            array_push($modelTab;$model).*/
-
         };
+        //dd($nbinscrit);
 
         return $this->render('sortie/index.html.twig', [
-            'dateNow' => $strDateNow,
+            'dateNow' => $dateNow,
             'listSites' => $listSites,
             'currentUser' => $userIdentifier,
+            'Participant' => $participant,
             'sorties' => $sorties,
             'formSearch' => $formSearch->createView(),
             'nbinscrits' => $nbinscrit,
             'testinscrits' => $testinscr,
-           /* 'tab'=>$modelTab */
+            /* 'tab'=>$modelTab */
         ]);
     }
 
@@ -95,7 +139,7 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-          // dd($sorty);
+            // dd($sorty);
             $entityManager->persist($sorty);
             $entityManager->flush();
 
@@ -179,13 +223,13 @@ class SortieController extends AbstractController
     public function deleteInscri(Sorties $sorty, InscriptionsRepository $inscriptionsRepository,  ParticipantsRepository $participantsRepository): Response
     {
         $userIdentifier = $this->getUser()->getUserIdentifier();
-        $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
+        $userId = $participantsRepository->IdfromPseudoEmail($userIdentifier);
         $array1 = $userId[0];
         $ID = intval($array1["id"]);
 
         $noSorty = $sorty->getNoSortie();
 
-        $inscriptionsRepository -> desister($noSorty, $ID);
+        $inscriptionsRepository->desister($noSorty, $ID);
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
@@ -199,47 +243,69 @@ class SortieController extends AbstractController
         $noSorty = $sorty;
         $ID = $this->getUser();
 
-        $inscriptionsRepository -> Sinscrire($noSorty, $ID);
+        $inscriptionsRepository->Sinscrire($noSorty, $ID);
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
-    /**
-     * @Route("/{noSortie}/cancel", name="app_sortie_cancel", methods={"GET", "POST"})
-     */
-    public function cancel(Request $request, Sorties $sorty, EntityManagerInterface $entityManager, $noSortie): Response
-    {
-        $form = $this->createForm(SortiesType::class, $sorty);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
-        }
+    //     /**
+    //  * @Route("/product/status", name="app_sortie_status", methods={"GET", "POST"})
+    //  */
+    // public function updateStatus(ManagerRegistry $doctrine):Response
+    // {
+    //     $entityManager = $doctrine->getManager();
+    //     $listSorties = $entityManager->getRepository(Sorties::class)->findBy($id);
+    //     $dateArchivage = new \DateTime('now');
+    //     $dateArchivage->modify('+1 month');
 
-        return $this->renderForm('sortie/testCancel.html.twig', [
-            'sorty' => $sorty,
-            'form' => $form,
-        ]);
-    }
+    //     if (!$listSorties) {
+    //         throw $this->createNotFoundException(
+    //             'No sorties found'
+    //         );
+    //     }
+    //     if ($listSorties->getDatedebut() >= $dateArchivage) {
+    //         dump($listSorties);
+    //     }
+    //     $product->setName('New product name!');
+    //     $entityManager->flush();
+
+    //     return $this->redirectToRoute('product_show', [
+    //         'id' => $product->getId()
+    //     ]);
+    // }
+
+
     /**
-     * @Route("/{noSortie}/cancelTest", name="app_sortie_cancel", methods={"GET", "POST"})
+     * @Route("/{id}/cancel", name="app_sortie_cancel", methods={"GET","POST"})
      */
-    public function cancelTest(Request $request, Sorties $sorty, EntityManagerInterface $em, Sorties $sortie): Response
-    {
-        $participants = $this->getUser();
+    public function annulerSortie(
+        Request $request,
+        EntityManagerInterface $em,
+        Sorties $sorty,
+        EtatsRepository $etatsRepository,
+        SortiesRepository $sortiesRepository
+    ): Response {
+
         $form = $this->createForm(CancelSortieType::class, $sorty);
         $form->handleRequest($request);
 
-        $sortie->setDescriptioninfos($form['descriptioninfos']->getData());
-       $sortie->setEtatsNoEtat("Annulée");
+        if ($form->isSubmitted() && $form->isValid()) {
+            //dd($form);
 
-        $em->flush();
-        $this->addFlash('success', 'La sortie a été annulée !');
+            $etatAnnulee = $etatsRepository->findOneBy(['libelle' => 'Annulée']);
 
-        $this->sortiesListe = $em->getRepository(Sorties::class)->findAll();
-            return $this->redirectToRoute('app_sortie_index');
-        
+            
+            $sorty->setEtatsNoEtat($etatAnnulee);
 
-        
+            $em->flush();
+            $this->addFlash('success', 'La sortie a été annulée !');
+
+            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('sortie/annulerSortie.html.twig', [
+            'sorty' => $sorty,
+            'form' => $form,
+
+        ]);
     }
 }
