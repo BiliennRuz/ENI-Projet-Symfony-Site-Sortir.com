@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Participants;
 use App\Entity\Sorties;
 use App\Service\SearchDataSorties;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -63,16 +64,16 @@ class SortiesRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function updateArchiveStatus($date, Sorties $entity, bool $flush = false): void{
-        $em = $this->getEntityManager();
-        $dql  = "
-            UPDATE App\Entity\Sortie s
-            SET s.etatsNoEtat = 'Activité historisée'
-            WHERE s.datedebut <= :dateArchive
-        ";
-        $query = $em->createQuery($dql);
-        $query->setParameter("dateArchive",$date);
-    }
+    // public function updateArchiveStatus($date, Sorties $entity, bool $flush = false): void{
+    //     $em = $this->getEntityManager();
+    //     $dql  = "
+    //         UPDATE App\Entity\Sortie s
+    //         SET s.etatsNoEtat = 'Activité historisée'
+    //         WHERE s.datedebut <= :dateArchive
+    //     ";
+    //     $query = $em->createQuery($dql);
+    //     $query->setParameter("dateArchive",$date);
+    // }
 
     // // TODO : pour optimiser  Gestion auto de la cloture des sorties
     // public function updateStatusDateCloture($dateLimite, $currentStatus, $newStatus, Sorties $entity, bool $flush = false): void{
@@ -92,7 +93,7 @@ class SortiesRepository extends ServiceEntityRepository
      * Récupère les sorties en lien avec une recherche
      * @return Sorties[]
      */
-    public function findSearch(SearchDataSorties $search): array
+    public function findSearch(SearchDataSorties $search, Participants $participant): array
     {
 
         dump($search);
@@ -101,7 +102,6 @@ class SortiesRepository extends ServiceEntityRepository
             ->createQueryBuilder('so');
         //    ->select('so', 'si')
         //    ->join('si.nomSite', 'so');
-
             
         if (!empty($search->sites)) {
             $query = $query
@@ -130,9 +130,8 @@ class SortiesRepository extends ServiceEntityRepository
 
         if (!empty($search->isOrganisateur)) {
             $query = $query
-                // TODO : mettre à jour la requete
-                ->andWhere('so.organisateur LIKE :organisateur')
-                ->setParameter('organisateur', $search->nom);
+                ->andWhere('so.organisateur = :participant')
+                ->setParameter('participant', $participant->getId());
         }
         
         if (!empty($search->isInscrit)) {

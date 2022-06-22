@@ -93,13 +93,13 @@ class SortieController extends AbstractController
         // Gestion du user connecté et recherche de son id
         $userIdentifier = $this->getUser()->getUserIdentifier();
         $participant = $participantsRepository -> findOneBy(['email' => $userIdentifier]);
-        //dump($participant->getPseudo());
+        dump($participant);
         $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
         $array1 = $userId[0];
         $ID = intval($array1["id"]);
 
         // recupération des data selon le filtre selectionné
-        $sorties = $sortiesRepository->findSearch($data);
+        $sorties = $sortiesRepository->findSearch($data, $participant);
         dump($sorties);
 
         // Gestion des nb d'inscrits de la liste
