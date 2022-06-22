@@ -1,0 +1,19 @@
+.body {
+        min-height : 60 vh
+}
+.scroller {
+    height: 400px;
+    overflow:auto;
+    /* overflow-y: scroll; */
+    /* scrollbar-color: rebeccapurple green; */
+    /* scrollbar-width: thin; */
+
+}
+
+.scroller2 {
+        height: 20px;
+        /* overflow-y: scroll; */
+        scrollbar-color: rebeccapurple green;
+        scrollbar-width: thin;
+        overflow:auto;
+}
