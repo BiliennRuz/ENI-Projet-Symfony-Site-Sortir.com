@@ -40,10 +40,57 @@ class SortiesRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByDateDebut($date){
+        $em = $this->getEntityManager();
+        $dql  = "
+            SELECT s FROM App\Entity\Sorties s
+            WHERE s.datedebut <= :date
+        ";
+        $query = $em->createQuery($dql);
+        $query->setParameter("date",$date);
+        return $query->getResult();
+    }
+
+    public function findByDateClotureAndStatus($date, $currentStatus){
+        $em = $this->getEntityManager();
+        $dql  = "
+            SELECT s FROM App\Entity\Sorties s
+            WHERE s.datecloture <= :date AND s.etatsNoEtat = :currentStatus 
+        ";
+        $query = $em->createQuery($dql);
+        $query->setParameter("date",$date);
+        $query->setParameter("currentStatus",$currentStatus);
+        return $query->getResult();
+    }
+
+    public function updateArchiveStatus($date, Sorties $entity, bool $flush = false): void{
+        $em = $this->getEntityManager();
+        $dql  = "
+            UPDATE App\Entity\Sortie s
+            SET s.etatsNoEtat = 'Activité historisée'
+            WHERE s.datedebut <= :dateArchive
+        ";
+        $query = $em->createQuery($dql);
+        $query->setParameter("dateArchive",$date);
+    }
+
+    // // TODO : pour optimiser  Gestion auto de la cloture des sorties
+    // public function updateStatusDateCloture($dateLimite, $currentStatus, $newStatus, Sorties $entity, bool $flush = false): void{
+    //     $em = $this->getEntityManager();
+    //     $dql  = "
+    //         UPDATE App\Entity\Sortie s
+    //         SET s.etatsNoEtat = :newStatus
+    //         WHERE s.datecloture <= :dateLimite AND s.etatsNoEtat = :currentStatus
+    //     ";
+    //     $query = $em->createQuery($dql);
+    //     $query->setParameter("dateLimite",$dateLimite);
+    //     $query->setParameter("newStatus",$newStatus);
+    //     $query->setParameter("currentStatus",$currentStatus);
+    // }
 
     /**
-     * Récupère les sites en lien avec une recherche
-     * @return Sites[]
+     * Récupère les sorties en lien avec une recherche
+     * @return Sorties[]
      */
     public function findSearch(SearchDataSorties $search): array
     {
@@ -59,8 +106,8 @@ class SortiesRepository extends ServiceEntityRepository
         if (!empty($search->sites)) {
             $query = $query
                 // TODO : mettre à jour la requete
-                ->andWhere('so.nom LIKE :sites')
-                ->setParameter('nom', "%{$search->nom}%");
+                ->andWhere('so.nom LIKE :site')
+                ->setParameter('site', $search->sites);
         }
 
         if (!empty($search->nom)) {
@@ -84,14 +131,14 @@ class SortiesRepository extends ServiceEntityRepository
         if (!empty($search->isOrganisateur)) {
             $query = $query
                 // TODO : mettre à jour la requete
-                ->andWhere('so.organisateur LIKE :nom')
-                ->setParameter('isOrganisateur', $search->isOrganisateur);
+                ->andWhere('so.organisateur LIKE :organisateur')
+                ->setParameter('organisateur', $search->nom);
         }
         
         if (!empty($search->isInscrit)) {
             $query = $query
                 // TODO : mettre à jour la requete
-                ->andWhere('so.nom LIKE :nom')
+                ->andWhere('so.nom LIKE :participant')
                 ->setParameter('nom', "%{$search->nom}%");
         }
         
@@ -105,20 +152,6 @@ class SortiesRepository extends ServiceEntityRepository
         if (!empty($search->isSortiePassee)) {
             $query = $query
                 ->andWhere('so.datedebut <= :dateNow')
-                ->setParameter('dateNow', new \DateTime('now'));
-        }
-
-        if (!empty($search->isnotSortieArchivee) && !empty($search->isSortiePassee)) {
-            $dateArchivage = new \DateTime('now');
-            $dateArchivage->modify('+1 month');
-            $query = $query
-                ->andWhere('so.datedebut <= :dateArchive')
-                ->setParameter('dateArchive', new \DateTime('now'));
-        }
-
-        if (!empty($search->isnotSortieCloturee) && !empty($search->isSortiePassee)) {
-            $query = $query
-                ->andWhere('so.datecloture <= :dateNow')
                 ->setParameter('dateNow', new \DateTime('now'));
         }
 
