@@ -276,7 +276,7 @@ class SortieController extends AbstractController
 
 
     /**
-     * @Route("/{id}/cancel", name="app_sortie_cancel", methods={"GET","POST"})
+     * @Route("/{noSortie}/cancel", name="app_sortie_cancel", methods={"GET","POST"})
      */
     public function annulerSortie(
         Request $request,
