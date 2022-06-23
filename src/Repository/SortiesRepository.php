@@ -64,6 +64,7 @@ class SortiesRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    // // TODO : pour optimiser  Gestion auto de l'archivage
     // public function updateArchiveStatus($date, Sorties $entity, bool $flush = false): void{
     //     $em = $this->getEntityManager();
     //     $dql  = "
@@ -89,23 +90,6 @@ class SortiesRepository extends ServiceEntityRepository
     //     $query->setParameter("currentStatus",$currentStatus);
     // }
 
-    public function findByParticipant($participant)
-    {
-        $query = $this->getEntityManager()
-            ->createQuery('SELECT so.noSortie
-                                FROM App\Entity\Sorties so
-                                INNER JOIN so.inscriptions i
-                                WHERE i.participantsNoParticipant = :participant
-                        ')
-            ->setParameter('participant', $participant);
-
-        try {
-            return $query->getResult();
-        } catch (\Doctrine\ORM\NoResultException $e) {
-            return null;
-        }
-    }
-
     /**
      * Récupère les sorties en lien avec une recherche
      * @return Sorties[]
@@ -114,15 +98,13 @@ class SortiesRepository extends ServiceEntityRepository
     {
         $query = $this
             ->createQueryBuilder('so');
-        //    ->select('so', 'si')
-        //    ->join('si.nomSite', 'so');
             
         if (!empty($search->sites)) {
             $query = $query
-                // TODO : mettre à jour la requete
-                //->innerJoin('si.nomSite','so')
-                ->andWhere('so.nom LIKE :site')
-                ->setParameter('site', $search->sites);
+                ->innerJoin('so.organisateur','p')
+                ->innerJoin('p.sitesNoSite','si')
+                ->andWhere('si.nomSite = :site')
+                ->setParameter('site', $search->sites->getNomSite());
         }
 
         if (!empty($search->nom)) {

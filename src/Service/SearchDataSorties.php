@@ -7,9 +7,9 @@ class SearchDataSorties
 {
 
     /**
-     * @var Sites[]
+     * @var Sites
      */
-    public $sites = [];
+    public $sites;
 
     /**
      * @var string

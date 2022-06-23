@@ -79,8 +79,9 @@ class SortieController extends AbstractController
         $entityManager->flush();
 
 
-
-        // gestion du formulaire de filtres
+        //////////////////////////////////////
+        // gestion du formulaire de filtres //
+        //////////////////////////////////////
         $data = new SearchDataSorties();
         $formSearch = $this->createForm(SearchFormSorties::class, $data);
         $formSearch->handleRequest($request);
@@ -92,22 +93,6 @@ class SortieController extends AbstractController
         $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
         $array1 = $userId[0];
         $ID = intval($array1["id"]);
-
-        ///////////////////////////////////
-        // Gestion de la liste des sites //
-        ///////////////////////////////////
-        $listSites = $sitesRepository -> findAll();
-        //dump($listSites);
-
-        //$participantSite = $participant->getSitesNoSite();
-        //dd($participantSite);
-        // $sortiesSite = $sortiesRepository->findOneBynoSiteJoinedToSite($participantSite);
-        // dd($sortiesSite);
-        //  $sortiesParticipant = $sortiesRepository->findByParticipant($participant);
-        //  dd($sortiesParticipant);
-
-
-
 
         // recupération des data selon le filtre selectionné
         $sorties = $sortiesRepository->findSearch($data, $participant);
@@ -132,7 +117,6 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/index.html.twig', [
             'dateNow' => $dateNow,
-            'listSites' => $listSites,
             'currentUser' => $userIdentifier,
             'Participant' => $participant,
             'sorties' => $sorties,
