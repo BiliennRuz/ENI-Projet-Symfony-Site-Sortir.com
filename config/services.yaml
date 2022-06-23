@@ -25,3 +25,6 @@ services:
   App\Service\FileUploader:
         arguments:
             $targetDirectory: '%file_directory%'
+
+        parameters:
+    images_directory: '%kernel.project_dir%/public/uploads/images'
