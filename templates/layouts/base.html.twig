@@ -26,7 +26,7 @@
                     {# Création d'une variable sur twig #}
                     {% set menuNotConnected = ["Se connecter"] %}
                     {% set menuConnected = ["Accueil","Mon profil","Se deconnecter"] %}
-                    {% set menuAdminConnected = ["Villes", "Sites", "Accueil","Mon profil","Se deconnecter"] %}
+                    {% set menuAdminConnected = ["Villes", "Sites", "Participants", "Accueil","Mon profil","Se deconnecter"] %}
                     {# ,"Mon profil"#}
 
                     {% if is_granted("ROLE_ADMIN") %}
@@ -42,15 +42,17 @@
                         {% for ele in menu %}
                         <li>
                             {% if ele == 'Accueil' %}
-                            <a href="{{ path('app_sortie_index') }}">ACCUEIL</a>
+                                <a href="{{ path('app_sortie_index') }}">ACCUEIL</a>
                             {% elseif ele == 'Mon profil' %}
-                            <a href="{{ path('app_monprofil', {'id': app.user.id}) }}">MON PROFIL</a>
+                                <a href="{{ path('app_monprofil', {'id': app.user.id}) }}">MON PROFIL</a>
                             {% elseif ele == 'Se deconnecter' %}
-                            <a href="{{ path('app_sedeconnecter') }}">SE DECONNECTER ({{ app.user.pseudo }})</a>
+                                <a href="{{ path('app_sedeconnecter') }}">SE DECONNECTER ({{ app.user.pseudo }})</a>
                             {% elseif ele == 'Villes' %}
-                            <a href="{{ path('app_villes') }}">VILLES</a>
+                                <a href="{{ path('app_villes') }}">VILLES</a>
                             {% elseif ele == 'Sites' %}
-                            <a href="{{ path('app_sites') }}">SITES</a>
+                                <a href="{{ path('app_sites') }}">SITES</a>
+                            {% elseif ele == 'Participants' %}
+                                <a href="{{ path('app_participants_index') }}">PARTICIPANTS</a>
                         </li>
                         {% endif %}
                         {% endfor %}
