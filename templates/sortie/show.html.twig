@@ -4,10 +4,8 @@
 
 {% block body %}
 
-
-
 <div class="row">
-    <div class="cell-8 + offset-4">
+    <div class="cell-12">
         <h1>Afficher une sortie</h1>
         <div class="d-flex flex-justify-center flex-align-center">
             <div class="cell-2 p-5 text-left">
@@ -102,7 +100,7 @@
 
 <h2 class="text-left">Liste des participants inscrits</h2>
 <div class="cell-4">
-<table class="table striped table-border cell-border cell-center subcompact" data-role="table" data-rows="5"
+<table class="table striped table-border cell-border cell-center subcompact" data-show-search="false" data-show-rows-steps="false" data-role="table" data-rows="5"
     data-rows-steps="5, 10" data-show-activity="false">
     <thead>
         <tr>
@@ -125,5 +123,8 @@
     </tbody>
 </table>
 </div>
+
+
+
 
 {% endblock %}
