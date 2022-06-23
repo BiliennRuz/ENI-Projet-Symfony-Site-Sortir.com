@@ -98,9 +98,11 @@
         class="mif-undo"></span></a>
 
 
-<table class="cell-4 table striped table-border cell-border cell-center subcompact ">
-    <h2 class="text-left">Liste des participants inscrits</h2>
-    <thead class="text-center">
+<h2 class="text-left">Liste des participants inscrits</h2>
+<div class="cell-4">
+<table class="table striped table-border cell-border cell-center subcompact" data-role="table" data-rows="5"
+    data-rows-steps="5, 10" data-show-activity="false">
+    <thead>
         <tr>
             <th class="text-center">Pseudo</th>
             <th class="text-center">Nom</th>
@@ -115,10 +117,11 @@
         </tr>
         {% else %}
         <tr>
-            <td colspan="10">no records found</td>
+            <td colspan="2">Il n'y a aucun participant pour cette sortie</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+</div>
 
 {% endblock %}

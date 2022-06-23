@@ -5,11 +5,15 @@
 
 {% block body %}
 
-<h4 class="text-right">Date du jour : {{dateNow}}</h4>
-<h4 class="text-right">Participant : {{app.user.prenom}} {{app.user.nom}}</h4>
+<h5 class="text-right">Date du jour : {{dateNow}}</h5>
+<h5 class="text-right">Participant : {{app.user.prenom}} {{app.user.nom}}</h5>
 
 {{ include('sortie/_filter.html.twig') }}
-<table class="table striped table-border cell-border cell-center">
+
+<table  class="table table-border cell-border cell-center" data-role="table" data-rows="5"
+    data-rows-steps="5, 10" data-show-activity="false" >
+
+
     <thead class="text-center">
         <tr>
             <th class="text text-center"> Nom </th>
@@ -36,7 +40,7 @@
             {% else %}
             <td>&nbsp;</td>
             {% endif %}
-            <td><a href="{{ path('app_participants_show', {'pseudo': sorty.organisateur}) }}">{{sorty.organisateur
+            <td ><a href="{{ path('app_participants_show', {'pseudo': sorty.organisateur}) }}">{{sorty.organisateur
                     }}</a></td>
             <td align="left">
                 <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second link"
@@ -69,10 +73,5 @@
 
 <a href="{{ path('app_sortie_new') }}" class="action-button second success" onmouseover="show3()"
     onmouseout="out2()"><span class="icon"><span class="mif-plus"></span></span></a>
-
-
-
-
-
 
 {% endblock %}
