@@ -10,7 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use App\Service\FileUploader;
+use Doctrine\ORM\EntityManagerInterface;
 /**
  * @Route("/participants")
  */
@@ -29,7 +32,13 @@ class ParticipantsController extends AbstractController
     /**
      * @Route("/new", name="app_participants_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, ParticipantsRepository $participantsRepository, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function new(Request $request, 
+                        ParticipantsRepository $participantsRepository,
+                        SluggerInterface $slugger,FileUploader $fileUploader,
+                        EntityManagerInterface $entityManager, 
+                        UserPasswordHasherInterface $userPasswordHasher
+                       ): Response
+
     {
         $participant = new Participants();
         $form = $this->createForm(ParticipantsType::class, $participant);
@@ -43,7 +52,40 @@ class ParticipantsController extends AbstractController
                 )
             );
             $participantsRepository->add($participant, true);
+            //upload de photo
+            /** @var UploadedFile $photoFile */
+            $photoFile = $form->get('photo')->getData();
 
+           /* if ($photoFile) {
+                $photoFileName = $fileUploader->upload($photoFile);
+                $participant->setPhotoFilename($photoFileName);
+            }*/
+    
+            // this condition is needed because the 'brochure' field is not required
+            // so the  file must be processed only when a file is uploaded
+            if ($photoFile) {
+                $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$photoFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $photoFile->move(
+                        $this->getParameter('file_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $participant->setPhotoFilename($newFilename);
+            }
+        
+            $entityManager->persist($participant);
+            $entityManager->flush();
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
