@@ -13,6 +13,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use App\Service\FileUploader;
+use Doctrine\ORM\EntityManagerInterface;
 /**
  * @Route("/participants")
  */
@@ -31,7 +32,7 @@ class ParticipantsController extends AbstractController
     /**
      * @Route("/new", name="app_participants_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, ParticipantsRepository $participantsRepository,SluggerInterface $slugger,FileUploader $fileUploader): Response
+    public function new(Request $request, ParticipantsRepository $participantsRepository,SluggerInterface $slugger,FileUploader $fileUploader,EntityManagerInterface $entityManager): Response
     {
         $participant = new Participants();
         $form = $this->createForm(ParticipantsType::class, $participant);
@@ -71,8 +72,9 @@ class ParticipantsController extends AbstractController
                 $participant->setPhotoFilename($newFilename);
             }
         
-            // ... //
-            return $this->redirectToRoute('app_participants_index', [], Response::HTTP_SEE_OTHER);
+            $entityManager->persist($participant);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('participants/new.html.twig', [
