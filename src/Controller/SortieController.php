@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Form\ClickableInterface;
 
 /**
  * @Route("/sortie")
@@ -130,7 +131,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/new", name="app_sortie_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EtatsRepository $etatsRepository, EntityManagerInterface $entityManager): Response
     {
         $sorty = new Sorties();
         $form = $this->createForm(SortiesType::class, $sorty);
@@ -138,6 +139,14 @@ class SortieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
           // dd($sorty);
+
+        if( isset($_POST['enregistrer']) ){
+            $etat = $etatsRepository->findOneBy(['libelle' => 'Création en cours']);
+            $sorty->setEtatsNoEtat($etat);
+        }elseif( isset($_POST['publier'])){
+            $etat = $etatsRepository->findOneBy(['libelle' => 'Inscription ouverte']);
+            $sorty->setEtatsNoEtat($etat);
+        }
             $entityManager->persist($sorty);
             $entityManager->flush();
 
@@ -167,12 +176,21 @@ class SortieController extends AbstractController
     /**
      * @Route("/{noSortie}/edit", name="app_sortie_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Sorties $sorty, EntityManagerInterface $entityManager, $noSortie): Response
+    public function edit(Request $request, Sorties $sorty, EntityManagerInterface $entityManager, EtatsRepository $etatsRepository,  $noSortie): Response
     {
         $form = $this->createForm(SortiesType::class, $sorty);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if( isset($_POST['enregistrer']) ){
+                $etat = $etatsRepository->findOneBy(['libelle' => 'Création en cours']);
+                $sorty->setEtatsNoEtat($etat);
+            }elseif( isset($_POST['publier'])){
+                $etat = $etatsRepository->findOneBy(['libelle' => 'Inscription ouverte']);
+                $sorty->setEtatsNoEtat($etat);
+            }
+
             $entityManager->flush();
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
