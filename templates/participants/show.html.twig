@@ -5,7 +5,9 @@
 {% block body %}
     <h1>{{ participant.pseudo }}</h1>
 
-    <table class="table">
+    <div class="cell-4 + offset-4 mt-5">
+
+    <table class="table table-border cell-border cell-left mt-5" >
         <tbody>
             <tr>
                 <th>Prenom</th>
@@ -29,6 +31,8 @@
             </tr>
         </tbody>
     </table>
+
+</div>
 
     <a href="{{ path('app_sortie_index') }}">RETOUR</a>
 {% endblock %}
