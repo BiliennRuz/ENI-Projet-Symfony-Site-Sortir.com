@@ -65,3 +65,37 @@ for (var i = 0; i < item5.length; i++) {
 return item5;
   }
 }
+
+
+let btn1 = document.getElementById("btn1");
+document.getElementById ("btn1").addEventListener ("click", btn, false);
+function btn(){
+  console.log("j'entre dans la recherche");
+  let d1 = document.getElementById("d1");
+if(getComputedStyle(d1).display != "block"){
+    //d1.setAttribute("style","display:block");
+    d1.style.display = "block";
+    btn1.setAttribute("class","btn action-button second rotate link");
+}
+/*if  (d1.getAttribute("style")=== "display:block"){
+    d1.setAttribute("style","display:none");
+    btn1.setAttribute("class","btn action-button second rotate primary");
+}*/
+//return d1;
+}
+/*btn1.addEventListener("click", () => {
+  console.log("louche");
+  if(getComputedStyle(d1).display != "block"){
+    d1.style.display = "block";
+  } else {
+    d1.style.display = "none";
+  }
+})
+function btn(){
+  if(getComputedStyle(d1).display != "block"){
+    d1.style.display = "block";
+  } else {
+    d1.style.display = "none";
+  }
+};
+btn1.onclick = btn;*/
