@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ParticipantsType extends AbstractType
 {
@@ -29,6 +30,10 @@ class ParticipantsType extends AbstractType
                 'second_options' => ['label' => ' ']        
         ])
         ->add('photo', FileType::class, [
+            'attr' => ['type' => 'file',
+                        'data-role' => 'file',
+                        'data-mode'=>'drop'],
+
             'label' => 'Photo Image file (jpg, jpeg, png, gif)',
             'mapped' => false,
             'required' => false,

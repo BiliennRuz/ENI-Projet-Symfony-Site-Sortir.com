@@ -68,9 +68,9 @@ class ParticipantsController extends AbstractController
 
                 // updates the 'brochureFilename' property to store the PDF file name
                 // instead of its contents
-                $participant->setPhoto($newFilename);
+                $participant->setPhotoFilename($newFilename);
             }
-
+        
             // ... //
             return $this->redirectToRoute('app_participants_index', [], Response::HTTP_SEE_OTHER);
         }

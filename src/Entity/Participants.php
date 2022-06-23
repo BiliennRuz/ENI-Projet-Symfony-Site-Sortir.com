@@ -78,7 +78,7 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $photo;
+    private $photoFilename;
 
     /**
      * @var Sites
@@ -233,15 +233,15 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getPhotoFilename(): ?string
     {
-        return $this->photo;
+        return $this->photoFilename;
     }
 
     /**
-     * @param mixed $photo
+     * @param mixed $photoFilename
      */
-    public function setPhotoFilename($photo): void
+    public function setPhotoFilename($photoFilename): void
     {
-        $this->photo = $photo;
+        $this->photoFilename = $photoFilename;
     }
     
     public function getSitesNoSite(): ?Sites
