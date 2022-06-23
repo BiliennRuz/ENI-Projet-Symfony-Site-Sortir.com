@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-
+use App\Service\FileUploader;
 /**
  * @Route("/participants")
  */
@@ -31,7 +31,7 @@ class ParticipantsController extends AbstractController
     /**
      * @Route("/new", name="app_participants_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, ParticipantsRepository $participantsRepository,SluggerInterface $slugger): Response
+    public function new(Request $request, ParticipantsRepository $participantsRepository,SluggerInterface $slugger,FileUploader $fileUploader): Response
     {
         $participant = new Participants();
         $form = $this->createForm(ParticipantsType::class, $participant);
@@ -40,9 +40,14 @@ class ParticipantsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $participantsRepository->add($participant, true);
             //upload de photo
-            /** @var UploadedFile $brochureFile */
+            /** @var UploadedFile $photoFile */
             $photoFile = $form->get('photo')->getData();
 
+            if ($photoFile) {
+                $photoFileName = $fileUploader->upload($photoFile);
+                $participant->setPhotoFilename($photoFileName);
+            }
+    
             // this condition is needed because the 'brochure' field is not required
             // so the  file must be processed only when a file is uploaded
             if ($photoFile) {
@@ -53,7 +58,7 @@ class ParticipantsController extends AbstractController
 
                 // Move the file to the directory where brochures are stored
                 try {
-                    $brochureFile->move(
+                    $photoFile->move(
                         $this->getParameter('file_directory'),
                         $newFilename
                     );

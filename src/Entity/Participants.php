@@ -231,7 +231,7 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return mixed
      */
-    public function getPhoto(): ?string
+    public function getPhotoFilename(): ?string
     {
         return $this->photo;
     }
@@ -239,7 +239,7 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param mixed $photo
      */
-    public function setPhoto($photo): void
+    public function setPhotoFilename($photo): void
     {
         $this->photo = $photo;
     }
