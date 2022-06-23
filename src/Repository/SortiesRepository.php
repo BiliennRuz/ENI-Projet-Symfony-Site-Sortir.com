@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Participants;
 use App\Entity\Sorties;
 use App\Service\SearchDataSorties;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -63,16 +64,17 @@ class SortiesRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function updateArchiveStatus($date, Sorties $entity, bool $flush = false): void{
-        $em = $this->getEntityManager();
-        $dql  = "
-            UPDATE App\Entity\Sortie s
-            SET s.etatsNoEtat = 'Activité historisée'
-            WHERE s.datedebut <= :dateArchive
-        ";
-        $query = $em->createQuery($dql);
-        $query->setParameter("dateArchive",$date);
-    }
+    // // TODO : pour optimiser  Gestion auto de l'archivage
+    // public function updateArchiveStatus($date, Sorties $entity, bool $flush = false): void{
+    //     $em = $this->getEntityManager();
+    //     $dql  = "
+    //         UPDATE App\Entity\Sortie s
+    //         SET s.etatsNoEtat = 'Activité historisée'
+    //         WHERE s.datedebut <= :dateArchive
+    //     ";
+    //     $query = $em->createQuery($dql);
+    //     $query->setParameter("dateArchive",$date);
+    // }
 
     // // TODO : pour optimiser  Gestion auto de la cloture des sorties
     // public function updateStatusDateCloture($dateLimite, $currentStatus, $newStatus, Sorties $entity, bool $flush = false): void{
@@ -92,22 +94,17 @@ class SortiesRepository extends ServiceEntityRepository
      * Récupère les sorties en lien avec une recherche
      * @return Sorties[]
      */
-    public function findSearch(SearchDataSorties $search): array
+    public function findSearch(SearchDataSorties $search, Participants $participant): array
     {
-
-        dump($search);
-
         $query = $this
             ->createQueryBuilder('so');
-        //    ->select('so', 'si')
-        //    ->join('si.nomSite', 'so');
-
             
         if (!empty($search->sites)) {
             $query = $query
-                // TODO : mettre à jour la requete
-                ->andWhere('so.nom LIKE :site')
-                ->setParameter('site', $search->sites);
+                ->innerJoin('so.organisateur','p')
+                ->innerJoin('p.sitesNoSite','si')
+                ->andWhere('si.nomSite = :site')
+                ->setParameter('site', $search->sites->getNomSite());
         }
 
         if (!empty($search->nom)) {
@@ -130,23 +127,26 @@ class SortiesRepository extends ServiceEntityRepository
 
         if (!empty($search->isOrganisateur)) {
             $query = $query
-                // TODO : mettre à jour la requete
-                ->andWhere('so.organisateur LIKE :organisateur')
-                ->setParameter('organisateur', $search->nom);
+                ->andWhere('so.organisateur = :participant')
+                ->setParameter('participant', $participant->getId());
         }
         
         if (!empty($search->isInscrit)) {
             $query = $query
-                // TODO : mettre à jour la requete
-                ->andWhere('so.nom LIKE :participant')
-                ->setParameter('nom', "%{$search->nom}%");
+                ->innerJoin('so.inscriptions','i')
+                ->andWhere('i.participantsNoParticipant = :participant')
+                ->setParameter('participant', $participant);
         }
         
         if (!empty($search->isnotInscrit)) {
             $query = $query
-                // TODO : mettre à jour la requete
-                ->andWhere('so.nom LIKE :nom')
-                ->setParameter('nom', "%{$search->nom}%");
+            ->andWhere('so.noSortie NOT IN (SELECT so2.noSortie
+                                            FROM App\Entity\Sorties so2
+                                            INNER JOIN so2.inscriptions i2
+                                            WHERE i2.participantsNoParticipant = :participant
+                                            )
+                        ')
+            ->setParameter('participant', $participant);
         }
 
         if (!empty($search->isSortiePassee)) {
@@ -156,13 +156,6 @@ class SortiesRepository extends ServiceEntityRepository
         }
 
         return $query->getQuery()->getResult();
-        /*
-        return $this->paginator->paginate(
-            $query,
-            $search->page,
-            9
-        );
-        */
     }
 
 //    /**

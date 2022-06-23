@@ -79,14 +79,10 @@ class SortieController extends AbstractController
         // sauvegarde dans la base
         $entityManager->flush();
 
-        ///////////////////////////////////
-        // Gestion de la liste des sites //
-        ///////////////////////////////////
-        $listSites = $sitesRepository -> findAll();
-        dump($listSites);
 
-
-        // gestion du formulaire de filtres
+        //////////////////////////////////////
+        // gestion du formulaire de filtres //
+        //////////////////////////////////////
         $data = new SearchDataSorties();
         $formSearch = $this->createForm(SearchFormSorties::class, $data);
         $formSearch->handleRequest($request);
@@ -94,17 +90,19 @@ class SortieController extends AbstractController
         // Gestion du user connecté et recherche de son id
         $userIdentifier = $this->getUser()->getUserIdentifier();
         $participant = $participantsRepository -> findOneBy(['email' => $userIdentifier]);
-        //dump($participant->getPseudo());
+        dump($participant);
         $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
         $array1 = $userId[0];
         $ID = intval($array1["id"]);
 
         // recupération des data selon le filtre selectionné
-        $sorties = $sortiesRepository->findSearch($data);
+        $sorties = $sortiesRepository->findSearch($data, $participant);
         dump($sorties);
 
         // Gestion des nb d'inscrits de la liste
         $i = 0;
+        $nbinscrit[0] = 0;
+        $testinscr[0] = 0;
         foreach ($sorties as $sorty){
             $noSorty = $sorty->getNoSortie();
             $nbinscrit[$i] = $sortiesRepository -> countInscrip($noSorty);
@@ -120,7 +118,6 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/index.html.twig', [
             'dateNow' => $dateNow,
-            'listSites' => $listSites,
             'currentUser' => $userIdentifier,
             'Participant' => $participant,
             'sorties' => $sorties,
