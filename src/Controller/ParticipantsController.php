@@ -32,13 +32,25 @@ class ParticipantsController extends AbstractController
     /**
      * @Route("/new", name="app_participants_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, ParticipantsRepository $participantsRepository,SluggerInterface $slugger,FileUploader $fileUploader,EntityManagerInterface $entityManager): Response
+    public function new(Request $request, 
+                        ParticipantsRepository $participantsRepository,
+                        SluggerInterface $slugger,FileUploader $fileUploader,
+                        EntityManagerInterface $entityManager, 
+                        UserPasswordHasherInterface $userPasswordHasher
+                       ): Response
+
     {
         $participant = new Participants();
         $form = $this->createForm(ParticipantsType::class, $participant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $participant->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $participant,
+                    $form->get('password')->getData()
+                )
+            );
             $participantsRepository->add($participant, true);
             //upload de photo
             /** @var UploadedFile $photoFile */
@@ -104,8 +116,8 @@ class ParticipantsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $participant->setPassword(
                 $userPasswordHasher->hashPassword(
-                        $participant,
-                        $form->get('password')->getData()
+                    $participant,
+                    $form->get('password')->getData()
                 )
             );
             $participantsRepository->add($participant, true);

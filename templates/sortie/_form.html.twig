@@ -52,7 +52,8 @@
         Code Postal et ville:
     </div>
     <div class="cell-3 p-5 text-left">
-       {{sorty.LieuxNoLieu.villesNoville.codePostal|default('') ~ " " ~ sorty.LieuxNoLieu.villesNoville.nomVille|default('') }}
+        {{sorty.LieuxNoLieu.villesNoville.codePostal|default('') ~ " " ~
+        sorty.LieuxNoLieu.villesNoville.nomVille|default('') }}
     </div>
 </div>
 <div class="d-flex flex-justify-center flex-align-center">
@@ -83,12 +84,13 @@
         {{sorty.LieuxNoLieu.Longitude|default(' ')}}
     </div>
 </div>
-{{sorty.etatsNoEtat}}
-{# {{ sorty.etatsNoEtat) {'value':"Création en cours"} }} #}
+
+<button class="button primary mif-floppy-disk" name="enregistrer" value="enregistrer">{{ button_label|default('')}}</button>
+<button class="button success mif-floppy-disk name="publier" value="publier">{{ button_label|default('')}}</button>
 
 
-<button class="button primary mif-floppy-disk">{{ button_label|default('Enregistrer')}}</button>
-<a href="{{ path('app_sortie_index', {'noSortie': sorty.noSortie}) }}" class="action-button second success"><span class="mif-undo"></span></a>
+<a href="{{ path('app_sortie_index', {'noSortie': sorty.noSortie}) }}" class="action-button second success"><span
+        class="mif-undo"></span></a>
 
 
 {{ form_end(form) }}

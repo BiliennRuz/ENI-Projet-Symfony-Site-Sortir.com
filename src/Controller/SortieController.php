@@ -23,6 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Validator\Constraints\Length;
 use App\Form\CancelSortieType;
+use Symfony\Component\Form\ClickableInterface;
 
 /**
  * @Route("/sortie")
@@ -78,33 +79,30 @@ class SortieController extends AbstractController
         // sauvegarde dans la base
         $entityManager->flush();
 
-        ///////////////////////////////////
-        // Gestion de la liste des sites //
-        ///////////////////////////////////
-        $listSites = $sitesRepository->findAll();
-        dump($listSites);
-
-
-        // gestion du formulaire de filtres
+        //////////////////////////////////////
+        // gestion du formulaire de filtres //
+        //////////////////////////////////////
         $data = new SearchDataSorties();
         $formSearch = $this->createForm(SearchFormSorties::class, $data);
         $formSearch->handleRequest($request);
 
         // Gestion du user connecté et recherche de son id
         $userIdentifier = $this->getUser()->getUserIdentifier();
-        $participant = $participantsRepository->findOneBy(['email' => $userIdentifier]);
-        //dump($participant->getPseudo());
-        $userId = $participantsRepository->IdfromPseudoEmail($userIdentifier);
+        $participant = $participantsRepository -> findOneBy(['email' => $userIdentifier]);
+        dump($participant);
+        $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
         $array1 = $userId[0];
         $ID = intval($array1["id"]);
 
         // recupération des data selon le filtre selectionné
-        $sorties = $sortiesRepository->findSearch($data);
+        $sorties = $sortiesRepository->findSearch($data, $participant);
         dump($sorties);
 
         // Gestion des nb d'inscrits de la liste
         $i = 0;
-        foreach ($sorties as $sorty) {
+        $nbinscrit[0] = 0;
+        $testinscr[0] = 0;
+        foreach ($sorties as $sorty){
             $noSorty = $sorty->getNoSortie();
             $nbinscrit[$i] = $sortiesRepository->countInscrip($noSorty);
             $testinscr[$i] = $sortiesRepository->inscripTrueFalse($noSorty, $ID);
@@ -118,7 +116,6 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/index.html.twig', [
             'dateNow' => $dateNow,
-            'listSites' => $listSites,
             'currentUser' => $userIdentifier,
             'Participant' => $participant,
             'sorties' => $sorties,
@@ -132,14 +129,22 @@ class SortieController extends AbstractController
     /**
      * @Route("/new", name="app_sortie_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EtatsRepository $etatsRepository, EntityManagerInterface $entityManager): Response
     {
         $sorty = new Sorties();
         $form = $this->createForm(SortiesType::class, $sorty);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // dd($sorty);
+          // dd($sorty);
+
+        if( isset($_POST['enregistrer']) ){
+            $etat = $etatsRepository->findOneBy(['libelle' => 'Création en cours']);
+            $sorty->setEtatsNoEtat($etat);
+        }elseif( isset($_POST['publier'])){
+            $etat = $etatsRepository->findOneBy(['libelle' => 'Inscription ouverte']);
+            $sorty->setEtatsNoEtat($etat);
+        }
             $entityManager->persist($sorty);
             $entityManager->flush();
 
@@ -169,12 +174,21 @@ class SortieController extends AbstractController
     /**
      * @Route("/{noSortie}/edit", name="app_sortie_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Sorties $sorty, EntityManagerInterface $entityManager, $noSortie): Response
+    public function edit(Request $request, Sorties $sorty, EntityManagerInterface $entityManager, EtatsRepository $etatsRepository,  $noSortie): Response
     {
         $form = $this->createForm(SortiesType::class, $sorty);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if( isset($_POST['enregistrer']) ){
+                $etat = $etatsRepository->findOneBy(['libelle' => 'Création en cours']);
+                $sorty->setEtatsNoEtat($etat);
+            }elseif( isset($_POST['publier'])){
+                $etat = $etatsRepository->findOneBy(['libelle' => 'Inscription ouverte']);
+                $sorty->setEtatsNoEtat($etat);
+            }
+
             $entityManager->flush();
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }

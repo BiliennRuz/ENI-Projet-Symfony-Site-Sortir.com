@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Sites;
+use App\Repository\ParticipantsRepository;
 use App\Service\SearchDataSorties;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -18,16 +19,16 @@ class SearchFormSorties extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        
         $builder
             ->add('sites', EntityType::class, [
                 'label' => 'Site : ',
                 'required' => false,
                 'class' => Sites::class,
-                //'choices' => $listSites->getNomSite(),
-                // uses the Sites.nomSite property as the visible option string
                 'choice_label' => 'nomSite',
+                'placeholder' => '<Choisir un site>',
                 'expanded' => false,
-                'multiple' => true
+                'multiple' => false
             ])
 
             ->add('nom', TextType::class, [
