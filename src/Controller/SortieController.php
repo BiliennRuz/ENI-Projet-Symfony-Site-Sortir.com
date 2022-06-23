@@ -8,18 +8,21 @@ use App\Entity\ModelView;
 use App\Entity\Sorties;
 use App\Form\SearchFormSorties;
 use App\Form\SortiesType;
+use App\Repository\EtatsRepository;
 use App\Repository\SortiesRepository;
 use App\Repository\ParticipantsRepository;
 use App\Repository\InscriptionsRepository;
 use App\Repository\SitesRepository;
 use App\Service\SearchDataSorties;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Form\ClickableInterface;
 
 /**
  * @Route("/sortie")
@@ -33,17 +36,55 @@ class SortieController extends AbstractController
             EntityManagerInterface $entityManager, 
             SortiesRepository $sortiesRepository, 
             SitesRepository $sitesRepository, 
+            EtatsRepository $etatsRepository, 
             ParticipantsRepository $participantsRepository, 
             Request $request
         ): Response
     {
-        // Gestion de l'affichage de la date actuelle
-        $dateNow = new \DateTime('now');
-        $strDateNow = $dateNow->format('d/m/Y');
+        ////////////////////////////////////////////////
+        // Gestion de l'affichage de la date actuelle //
+        ////////////////////////////////////////////////
+        $dateNow = (new \DateTime('now'))->format('d/m/Y');
 
-        // Gestion de la listye des sites
+        /////////////////////////////////////////////
+        // Gestion auto de l'archivage des sorties //
+        /////////////////////////////////////////////
+        $dateArchivage =  (new \DateTime('now'))->modify('-1 month');
+        // recherche l'état corespondant à l'archivage
+        $etatTerminée = $etatsRepository->findOneBy(['libelle' => 'Activité terminée']);
+        $etatArchivee = $etatsRepository->findOneBy(['libelle' => 'Activité historisée']);
+        // Liste les sorties de plus d'1 mois
+        $listSortiesToArchivee = $sortiesRepository->findByDateDebut($dateArchivage);
+        // update status pour chaque sortie
+        foreach ($listSortiesToArchivee as $sortiesArchivee){
+            $sortiesArchivee->setEtatsNoEtat($etatArchivee);
+        };
+        // sauvegarde dans la base
+        $entityManager->flush();
+
+        ////////////////////////////////////////////
+        // Gestion auto de la cloture des sorties //
+        ////////////////////////////////////////////
+        $dateCloture = new \DateTime('now');
+        // recherche l'état corespondant à l'état ouverte et cloture
+        $etatOuverte = $etatsRepository->findOneBy(['libelle' => 'Inscription ouverte']);
+        $etatCloture = $etatsRepository->findOneBy(['libelle' => 'Inscription clôturée']);
+        // Liste les sorties passée
+        $listSortiesToCloturee = $sortiesRepository->findByDateClotureAndStatus($dateCloture, $etatOuverte);
+        // update status pour chaque sortie
+        foreach ($listSortiesToCloturee as $sortiesCloturee){
+            $sortiesCloturee->setEtatsNoEtat($etatCloture);
+        };
+        //dump($listSortiesToCloturee);
+        // sauvegarde dans la base
+        $entityManager->flush();
+
+        ///////////////////////////////////
+        // Gestion de la liste des sites //
+        ///////////////////////////////////
         $listSites = $sitesRepository -> findAll();
         dump($listSites);
+
 
         // gestion du formulaire de filtres
         $data = new SearchDataSorties();
@@ -52,12 +93,15 @@ class SortieController extends AbstractController
 
         // Gestion du user connecté et recherche de son id
         $userIdentifier = $this->getUser()->getUserIdentifier();
+        $participant = $participantsRepository -> findOneBy(['email' => $userIdentifier]);
+        //dump($participant->getPseudo());
         $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
         $array1 = $userId[0];
         $ID = intval($array1["id"]);
 
         // recupération des data selon le filtre selectionné
         $sorties = $sortiesRepository->findSearch($data);
+        dump($sorties);
 
         // Gestion des nb d'inscrits de la liste
         $i = 0;
@@ -72,11 +116,13 @@ class SortieController extends AbstractController
            array_push($modelTab;$model).*/
 
         };
+        //dd($nbinscrit);
 
         return $this->render('sortie/index.html.twig', [
-            'dateNow' => $strDateNow,
+            'dateNow' => $dateNow,
             'listSites' => $listSites,
             'currentUser' => $userIdentifier,
+            'Participant' => $participant,
             'sorties' => $sorties,
             'formSearch' => $formSearch->createView(),
             'nbinscrits' => $nbinscrit,
@@ -88,7 +134,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/new", name="app_sortie_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EtatsRepository $etatsRepository, EntityManagerInterface $entityManager): Response
     {
         $sorty = new Sorties();
         $form = $this->createForm(SortiesType::class, $sorty);
@@ -96,6 +142,14 @@ class SortieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
           // dd($sorty);
+
+        if( isset($_POST['enregistrer']) ){
+            $etat = $etatsRepository->findOneBy(['libelle' => 'Création en cours']);
+            $sorty->setEtatsNoEtat($etat);
+        }elseif( isset($_POST['publier'])){
+            $etat = $etatsRepository->findOneBy(['libelle' => 'Inscription ouverte']);
+            $sorty->setEtatsNoEtat($etat);
+        }
             $entityManager->persist($sorty);
             $entityManager->flush();
 
@@ -125,12 +179,21 @@ class SortieController extends AbstractController
     /**
      * @Route("/{noSortie}/edit", name="app_sortie_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Sorties $sorty, EntityManagerInterface $entityManager, $noSortie): Response
+    public function edit(Request $request, Sorties $sorty, EntityManagerInterface $entityManager, EtatsRepository $etatsRepository,  $noSortie): Response
     {
         $form = $this->createForm(SortiesType::class, $sorty);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if( isset($_POST['enregistrer']) ){
+                $etat = $etatsRepository->findOneBy(['libelle' => 'Création en cours']);
+                $sorty->setEtatsNoEtat($etat);
+            }elseif( isset($_POST['publier'])){
+                $etat = $etatsRepository->findOneBy(['libelle' => 'Inscription ouverte']);
+                $sorty->setEtatsNoEtat($etat);
+            }
+
             $entityManager->flush();
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -203,4 +266,30 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    //     /**
+    //  * @Route("/product/status", name="app_sortie_status", methods={"GET", "POST"})
+    //  */
+    // public function updateStatus(ManagerRegistry $doctrine):Response
+    // {
+    //     $entityManager = $doctrine->getManager();
+    //     $listSorties = $entityManager->getRepository(Sorties::class)->findBy($id);
+    //     $dateArchivage = new \DateTime('now');
+    //     $dateArchivage->modify('+1 month');
+
+    //     if (!$listSorties) {
+    //         throw $this->createNotFoundException(
+    //             'No sorties found'
+    //         );
+    //     }
+    //     if ($listSorties->getDatedebut() >= $dateArchivage) {
+    //         dump($listSorties);
+    //     }
+    //     $product->setName('New product name!');
+    //     $entityManager->flush();
+
+    //     return $this->redirectToRoute('product_show', [
+    //         'id' => $product->getId()
+    //     ]);
+    // }
 }

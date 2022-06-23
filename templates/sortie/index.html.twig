@@ -51,13 +51,40 @@
                 <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}"
                     class="action-button second alert"><span class="mif-bin"></span></a>
                 {% endif %}
-                {% if date() < date(sorty.datecloture) %} {% if testinscrits[loop.index0].0.count==1 %} <a
-                    href="{{ path('app_sortie_deleteInscri',{'noSortie': sorty.noSortie}) }}">se desister</a>
+
+                {# <td>{{testinscrits[loop.index0].0.count}}</td> #}
+                <td><a href="{{ path('app_participants_show', {'pseudo': sorty.organisateur}) }}">{{ sorty.organisateur }}</a></td>
+                {#  Test recuperation date actuelle {{ 'now'|date('Y-m-d H:i:s') }} #}
+                <td align="left">
+                    <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second link"  onmouseover="show2()" onmouseout="out()"><span class="mif-eye"></span></a>                   
+                    
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {% if  sorty.etatsNoEtat == 'Création en cours'  %}
+                            <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
+                        {% else %}
+                            {% if  sorty.etatsNoEtat == 'Inscription ouverte' or sorty.etatsNoEtat == 'Inscription clôturée'  %}
+                                <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
+                            {% endif %}
+                        {% endif %}
                     {% else %}
-                    {% if nbinscrits[loop.index0].0.count < sorty.nbinscriptionsmax %} <a
-                        href="{{ path('app_sortie_addInscri',{'noSortie': sorty.noSortie}) }}">s'inscrire</a>
+                        {% if  app.user.pseudo == sorty.organisateur  %}
+                            {% if  sorty.etatsNoEtat == 'Création en cours'  %}
+                                <a href="{{ path('app_sortie_edit', {'noSortie': sorty.noSortie}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
+                            {% else %}
+                                {% if  sorty.etatsNoEtat == 'Inscription ouverte' or sorty.etatsNoEtat == 'Inscription clôturée'  %}
+                                <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
+                                {% endif %}
+                            {% endif %}
                         {% endif %}
-                        {% endif %}
+                    {% endif %}
+
+                    {% if  date() < date(sorty.datecloture) %}
+                        {% if testinscrits[loop.index0].0.count ==1 %}
+                                <a href="{{ path('app_sortie_deleteInscri',{'noSortie': sorty.noSortie}) }}">se desister</a>
+                        {% else %}
+                            {% if nbinscrits[loop.index0].0.count < sorty.nbinscriptionsmax %}
+                                <a href="{{ path('app_sortie_addInscri',{'noSortie': sorty.noSortie}) }}">s'inscrire</a>
+                            {% endif %}
                         {% endif %}
             </td>
         </tr>
