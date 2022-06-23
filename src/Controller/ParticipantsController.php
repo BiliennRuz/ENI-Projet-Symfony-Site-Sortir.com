@@ -43,10 +43,10 @@ class ParticipantsController extends AbstractController
             /** @var UploadedFile $photoFile */
             $photoFile = $form->get('photo')->getData();
 
-            if ($photoFile) {
+           /* if ($photoFile) {
                 $photoFileName = $fileUploader->upload($photoFile);
                 $participant->setPhotoFilename($photoFileName);
-            }
+            }*/
     
             // this condition is needed because the 'brochure' field is not required
             // so the  file must be processed only when a file is uploaded

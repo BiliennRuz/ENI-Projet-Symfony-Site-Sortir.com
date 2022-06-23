@@ -32,7 +32,7 @@ class ParticipantsType extends AbstractType
         ->add('photo', FileType::class, [
             'attr' => ['type' => 'file',
                         'data-role' => 'file',
-                        'data-mode'=>'drop'],
+                        ],
 
             'label' => 'Photo Image file (jpg, jpeg, png, gif)',
             'mapped' => false,

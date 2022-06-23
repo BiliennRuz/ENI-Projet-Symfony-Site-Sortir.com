@@ -55,6 +55,7 @@
     </div>
     <div class="cell-9 p-5 ">
         {{ form_widget(form.photo) }}
+        <a href="{{ asset('uploads/images/' ~ participant.photoFilename) }}"></a>
     </div>
 </div>
 
@@ -68,5 +69,5 @@
 </div>
 
 </div>
-<button class="action-button second primary mif-floppy-disk">{{ button_label|default('Save') }}</button>
+<button class="action-button second primary mif-floppy-disk">{{ button_label|default('') }}</button>
 {{form_end(form)}}

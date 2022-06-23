@@ -7,6 +7,9 @@
 
     <table class="table">
         <tbody>
+            <div class="img-container">
+                <img src="{{asset('uploads/images/' ~ product.photoFilename)}}">
+            </div>
             <tr>
                 <th>Prenom</th>
                 <td>{{ participant.prenom }}</td>
