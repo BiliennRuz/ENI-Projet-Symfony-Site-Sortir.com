@@ -9,6 +9,9 @@
 
     <table class="table table-border cell-border cell-left mt-5" >
         <tbody>
+            <div class="cycle polaroid"">
+                <img src="{{asset('uploads/images/' ~ participant.photoFilename)}}">
+            </div>
             <tr>
                 <th>Prenom</th>
                 <td>{{ participant.prenom }}</td>

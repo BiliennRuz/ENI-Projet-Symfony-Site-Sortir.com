@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Validator\Constraints\Length;
+use App\Form\CancelSortieType;
 use Symfony\Component\Form\ClickableInterface;
 
 /**
@@ -33,14 +34,13 @@ class SortieController extends AbstractController
      * @Route("/", name="app_sortie_index", methods={"GET"})
      */
     public function index(
-            EntityManagerInterface $entityManager, 
-            SortiesRepository $sortiesRepository, 
-            SitesRepository $sitesRepository, 
-            EtatsRepository $etatsRepository, 
-            ParticipantsRepository $participantsRepository, 
-            Request $request
-        ): Response
-    {
+        EntityManagerInterface $entityManager,
+        SortiesRepository $sortiesRepository,
+        SitesRepository $sitesRepository,
+        EtatsRepository $etatsRepository,
+        ParticipantsRepository $participantsRepository,
+        Request $request
+    ): Response {
         ////////////////////////////////////////////////
         // Gestion de l'affichage de la date actuelle //
         ////////////////////////////////////////////////
@@ -56,7 +56,7 @@ class SortieController extends AbstractController
         // Liste les sorties de plus d'1 mois
         $listSortiesToArchivee = $sortiesRepository->findByDateDebut($dateArchivage);
         // update status pour chaque sortie
-        foreach ($listSortiesToArchivee as $sortiesArchivee){
+        foreach ($listSortiesToArchivee as $sortiesArchivee) {
             $sortiesArchivee->setEtatsNoEtat($etatArchivee);
         };
         // sauvegarde dans la base
@@ -72,13 +72,12 @@ class SortieController extends AbstractController
         // Liste les sorties passée
         $listSortiesToCloturee = $sortiesRepository->findByDateClotureAndStatus($dateCloture, $etatOuverte);
         // update status pour chaque sortie
-        foreach ($listSortiesToCloturee as $sortiesCloturee){
+        foreach ($listSortiesToCloturee as $sortiesCloturee) {
             $sortiesCloturee->setEtatsNoEtat($etatCloture);
         };
         //dump($listSortiesToCloturee);
         // sauvegarde dans la base
         $entityManager->flush();
-
 
         //////////////////////////////////////
         // gestion du formulaire de filtres //
@@ -105,14 +104,13 @@ class SortieController extends AbstractController
         $testinscr[0] = 0;
         foreach ($sorties as $sorty){
             $noSorty = $sorty->getNoSortie();
-            $nbinscrit[$i] = $sortiesRepository -> countInscrip($noSorty);
-            $testinscr[$i] = $sortiesRepository -> inscripTrueFalse($noSorty,$ID );
-            $i= $i + 1;
-           /* $model = new ModelView();
+            $nbinscrit[$i] = $sortiesRepository->countInscrip($noSorty);
+            $testinscr[$i] = $sortiesRepository->inscripTrueFalse($noSorty, $ID);
+            $i = $i + 1;
+            /* $model = new ModelView();
             $model->setSortie ($sorty);
             $model->setNb (count($nbinscrit));
            array_push($modelTab;$model).*/
-
         };
         //dd($nbinscrit);
 
@@ -124,7 +122,7 @@ class SortieController extends AbstractController
             'formSearch' => $formSearch->createView(),
             'nbinscrits' => $nbinscrit,
             'testinscrits' => $testinscr,
-           /* 'tab'=>$modelTab */
+            /* 'tab'=>$modelTab */
         ]);
     }
 
@@ -226,7 +224,7 @@ class SortieController extends AbstractController
 
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
-
+        
         return $this->renderForm('sortie/annulerSortie.html.twig', [
             'sorty' => $sorty,
             'form' => $form,
@@ -239,13 +237,13 @@ class SortieController extends AbstractController
     public function deleteInscri(Sorties $sorty, InscriptionsRepository $inscriptionsRepository,  ParticipantsRepository $participantsRepository): Response
     {
         $userIdentifier = $this->getUser()->getUserIdentifier();
-        $userId = $participantsRepository -> IdfromPseudoEmail($userIdentifier);
+        $userId = $participantsRepository->IdfromPseudoEmail($userIdentifier);
         $array1 = $userId[0];
         $ID = intval($array1["id"]);
 
         $noSorty = $sorty->getNoSortie();
 
-        $inscriptionsRepository -> desister($noSorty, $ID);
+        $inscriptionsRepository->desister($noSorty, $ID);
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
@@ -259,7 +257,7 @@ class SortieController extends AbstractController
         $noSorty = $sorty;
         $ID = $this->getUser();
 
-        $inscriptionsRepository -> Sinscrire($noSorty, $ID);
+        $inscriptionsRepository->Sinscrire($noSorty, $ID);
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
@@ -289,4 +287,41 @@ class SortieController extends AbstractController
     //         'id' => $product->getId()
     //     ]);
     // }
+
+
+    /**
+     * @Route("/{noSortie}/cancel", name="app_sortie_cancel", methods={"GET","POST"})
+     */
+    public function annulerSortie(
+        Request $request,
+        EntityManagerInterface $em,
+        Sorties $sorty,
+        EtatsRepository $etatsRepository,
+        SortiesRepository $sortiesRepository
+    ): Response {
+
+        $form = $this->createForm(CancelSortieType::class, $sorty);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //dd($form);
+
+            $etatAnnulee = $etatsRepository->findOneBy(['libelle' => 'Annulée']);
+
+            
+            $sorty->setEtatsNoEtat($etatAnnulee);
+            $sorty->setDescriptioninfos('');
+            $sorty->getDescriptioninfos('');
+            $em->flush();
+           
+
+            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'La sortie a été annulée !');
+        }
+        return $this->renderForm('sortie/annulerSortie.html.twig', [
+            'sorty' => $sorty,
+            'form' => $form,
+
+        ]);
+    }
 }
