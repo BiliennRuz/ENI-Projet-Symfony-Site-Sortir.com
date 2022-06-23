@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-
+use Symfony\Component\Validator\Constraints\File;
 
 class ParticipantsType extends AbstractType
 {
@@ -26,7 +26,25 @@ class ParticipantsType extends AbstractType
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class, 'options' => ['attr' => ['class' => 'password-field metro-input cell-9','placeholder'=>"mdp"]],
                 'first_options'  => ['label' => ' '] , 
-                'second_options' => ['label' => ' ']
+                'second_options' => ['label' => ' ']        
+        ])
+        ->add('photo', FileType::class, [
+            'label' => 'Photo Image file (jpg, jpeg, png, gif)',
+            'mapped' => false,
+            'required' => false,
+            'constraints' => [
+                new File([
+                    'maxSize' => '4096k',
+                    'mimeTypes' => [
+                        'image/jpeg',
+                        'image/jpg',
+                        'image/png',
+                        'image/gif',
+                        // jpg, jpeg, png, gif
+                    ],
+                    'mimeTypesMessage' => 'Please upload a valid vignette Media file',
+                ])
+            ],
         ])
             ->add('sitesNoSite', EntityType::class, [
 

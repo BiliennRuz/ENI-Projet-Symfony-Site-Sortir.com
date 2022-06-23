@@ -296,11 +296,13 @@ class SortieController extends AbstractController
 
             
             $sorty->setEtatsNoEtat($etatAnnulee);
-
+            $sorty->setDescriptioninfos('');
+            $sorty->getDescriptioninfos('');
             $em->flush();
-            $this->addFlash('success', 'La sortie a été annulée !');
+           
 
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'La sortie a été annulée !');
         }
         return $this->renderForm('sortie/annulerSortie.html.twig', [
             'sorty' => $sorty,
