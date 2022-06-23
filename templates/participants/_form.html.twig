@@ -49,6 +49,15 @@
         {{ form_widget(form.password) }}
     </div>
    </div>
+   <div class="d-flex flex-justify-center flex-align-center">
+    <div class="cell-3 p-5 ">
+        {{ form_label(form.photo) }}
+    </div>
+    <div class="cell-9 p-5 ">
+        {{ form_widget(form.photo) }}
+        <a href="{{ asset('uploads/images/' ~ participant.photoFilename) }}"></a>
+    </div>
+</div>
 
 <div class="d-flex flex-justify-center flex-align-center">
     <div class="cell-3 p-5 ">
@@ -60,5 +69,5 @@
 </div>
 
 </div>
-<button class="action-button second primary mif-floppy-disk">{{ button_label|default('Save') }}</button>
+<button class="action-button second primary mif-floppy-disk">{{ button_label|default('') }}</button>
 {{form_end(form)}}
