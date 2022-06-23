@@ -78,11 +78,6 @@ class SortieController extends AbstractController
         // sauvegarde dans la base
         $entityManager->flush();
 
-        ///////////////////////////////////
-        // Gestion de la liste des sites //
-        ///////////////////////////////////
-        $listSites = $sitesRepository -> findAll();
-        dump($listSites);
 
 
         // gestion du formulaire de filtres
@@ -98,12 +93,30 @@ class SortieController extends AbstractController
         $array1 = $userId[0];
         $ID = intval($array1["id"]);
 
+        ///////////////////////////////////
+        // Gestion de la liste des sites //
+        ///////////////////////////////////
+        $listSites = $sitesRepository -> findAll();
+        //dump($listSites);
+
+        //$participantSite = $participant->getSitesNoSite();
+        //dd($participantSite);
+        // $sortiesSite = $sortiesRepository->findOneBynoSiteJoinedToSite($participantSite);
+        // dd($sortiesSite);
+        //  $sortiesParticipant = $sortiesRepository->findByParticipant($participant);
+        //  dd($sortiesParticipant);
+
+
+
+
         // recupération des data selon le filtre selectionné
         $sorties = $sortiesRepository->findSearch($data, $participant);
         dump($sorties);
 
         // Gestion des nb d'inscrits de la liste
         $i = 0;
+        $nbinscrit[0] = 0;
+        $testinscr[0] = 0;
         foreach ($sorties as $sorty){
             $noSorty = $sorty->getNoSortie();
             $nbinscrit[$i] = $sortiesRepository -> countInscrip($noSorty);

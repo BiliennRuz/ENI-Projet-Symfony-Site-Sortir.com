@@ -89,15 +89,29 @@ class SortiesRepository extends ServiceEntityRepository
     //     $query->setParameter("currentStatus",$currentStatus);
     // }
 
+    public function findByParticipant($participant)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('SELECT so.noSortie
+                                FROM App\Entity\Sorties so
+                                INNER JOIN so.inscriptions i
+                                WHERE i.participantsNoParticipant = :participant
+                        ')
+            ->setParameter('participant', $participant);
+
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+
     /**
      * Récupère les sorties en lien avec une recherche
      * @return Sorties[]
      */
     public function findSearch(SearchDataSorties $search, Participants $participant): array
     {
-
-        dump($search);
-
         $query = $this
             ->createQueryBuilder('so');
         //    ->select('so', 'si')
@@ -106,6 +120,7 @@ class SortiesRepository extends ServiceEntityRepository
         if (!empty($search->sites)) {
             $query = $query
                 // TODO : mettre à jour la requete
+                //->innerJoin('si.nomSite','so')
                 ->andWhere('so.nom LIKE :site')
                 ->setParameter('site', $search->sites);
         }
@@ -136,16 +151,20 @@ class SortiesRepository extends ServiceEntityRepository
         
         if (!empty($search->isInscrit)) {
             $query = $query
-                // TODO : mettre à jour la requete
-                ->andWhere('so.nom LIKE :participant')
-                ->setParameter('nom', "%{$search->nom}%");
+                ->innerJoin('so.inscriptions','i')
+                ->andWhere('i.participantsNoParticipant = :participant')
+                ->setParameter('participant', $participant);
         }
         
         if (!empty($search->isnotInscrit)) {
             $query = $query
-                // TODO : mettre à jour la requete
-                ->andWhere('so.nom LIKE :nom')
-                ->setParameter('nom', "%{$search->nom}%");
+            ->andWhere('so.noSortie NOT IN (SELECT so2.noSortie
+                                            FROM App\Entity\Sorties so2
+                                            INNER JOIN so2.inscriptions i2
+                                            WHERE i2.participantsNoParticipant = :participant
+                                            )
+                        ')
+            ->setParameter('participant', $participant);
         }
 
         if (!empty($search->isSortiePassee)) {
@@ -155,13 +174,6 @@ class SortiesRepository extends ServiceEntityRepository
         }
 
         return $query->getQuery()->getResult();
-        /*
-        return $this->paginator->paginate(
-            $query,
-            $search->page,
-            9
-        );
-        */
     }
 
 //    /**
