@@ -66,6 +66,8 @@ return item5;
   }
 }
 
+////////BOUTON VOIR LES FILTRES/////////////
+
 
 let btn1 = document.getElementById("btn1");
 document.getElementById ("btn1").addEventListener ("click", btn, false);
@@ -77,11 +79,15 @@ if(getComputedStyle(d1).display != "block"){
     d1.style.display = "block";
     btn1.setAttribute("class","btn action-button second rotate link");
 }
-/*if  (d1.getAttribute("style")=== "display:block"){
-    d1.setAttribute("style","display:none");
+}
+document.getElementById ("btn1").addEventListener ("dblclick", btn2, false);
+function btn2(){
+  let d2 = document.getElementById("d1");
+if(getComputedStyle(d1).display != "none"){
+  d2.style.display = "none";
     btn1.setAttribute("class","btn action-button second rotate primary");
-}*/
-//return d1;
+}
+
 }
 /*btn1.addEventListener("click", () => {
   console.log("louche");
