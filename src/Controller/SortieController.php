@@ -129,11 +129,15 @@ class SortieController extends AbstractController
     /**
      * @Route("/new", name="app_sortie_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EtatsRepository $etatsRepository, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EtatsRepository $etatsRepository,  ParticipantsRepository $participantsRepository, EntityManagerInterface $entityManager): Response
     {
         $sorty = new Sorties();
         $form = $this->createForm(SortiesType::class, $sorty);
         $form->handleRequest($request);
+
+        $userIdentifier = $this->getUser()->getUserIdentifier();
+        $participant = $participantsRepository -> findOneBy(['email' => $userIdentifier]);
+        dump($participant);
 
         if ($form->isSubmitted() && $form->isValid()) {
           // dd($sorty);
@@ -145,6 +149,7 @@ class SortieController extends AbstractController
             $etat = $etatsRepository->findOneBy(['libelle' => 'Inscription ouverte']);
             $sorty->setEtatsNoEtat($etat);
         }
+            $sorty->setOrganisateur($participant);
             $entityManager->persist($sorty);
             $entityManager->flush();
 
@@ -154,6 +159,7 @@ class SortieController extends AbstractController
         return $this->renderForm('sortie/new.html.twig', [
             'sorty' => $sorty,
             'form' => $form,
+            'organi' => $participant,
         ]);
     }
 
@@ -174,10 +180,14 @@ class SortieController extends AbstractController
     /**
      * @Route("/{noSortie}/edit", name="app_sortie_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Sorties $sorty, EntityManagerInterface $entityManager, EtatsRepository $etatsRepository,  $noSortie): Response
+    public function edit(Request $request, Sorties $sorty, EntityManagerInterface $entityManager, EtatsRepository $etatsRepository, ParticipantsRepository $participantsRepository, $noSortie): Response
     {
         $form = $this->createForm(SortiesType::class, $sorty);
         $form->handleRequest($request);
+
+        $userIdentifier = $this->getUser()->getUserIdentifier();
+        $participant = $participantsRepository -> findOneBy(['email' => $userIdentifier]);
+        dump($participant);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -196,6 +206,7 @@ class SortieController extends AbstractController
         return $this->renderForm('sortie/edit.html.twig', [
             'sorty' => $sorty,
             'form' => $form,
+            'organi' => $participant,
         ]);
     }
 

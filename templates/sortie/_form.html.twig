@@ -6,11 +6,11 @@
     <div class="cell-3 p-5 ">
         {{ form_widget(form.nom) }}
     </div>
-    <div class="cell-2 p-5 text-left ">
-        {{ form_label(form.organisateur)}}
+     <div class="cell-2 p-5 text-left ">
+        Ville organisatrice : 
     </div>
     <div class="cell-3 p-5 text-left">
-        {{ form_widget(form.organisateur)}}
+        {{sorty.organisateur.sitesNoSite.nomSite|default(organi.sitesNoSite.nomSite)}}
     </div>
 </div>
 <div class="d-flex flex-justify-center flex-align-center">
