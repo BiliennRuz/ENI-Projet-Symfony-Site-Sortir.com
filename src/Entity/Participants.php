@@ -76,6 +76,11 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
     private $actif;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photoFilename;
+
+    /**
      * @var Sites
      *
      * @ORM\ManyToOne(targetEntity="Sites")
@@ -223,6 +228,22 @@ class Participants implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPhotoFilename(): ?string
+    {
+        return $this->photoFilename;
+    }
+
+    /**
+     * @param mixed $photoFilename
+     */
+    public function setPhotoFilename($photoFilename): void
+    {
+        $this->photoFilename = $photoFilename;
+    }
+    
     public function getSitesNoSite(): ?Sites
     {
         return $this->sitesNoSite;

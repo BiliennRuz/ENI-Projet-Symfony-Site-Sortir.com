@@ -10,14 +10,14 @@
 
 {{ include('sortie/_filter.html.twig') }}
 
-<table class="table table-border cell-border cell-center" data-role="table" data-rows="5" data-rows-steps="5, 10"
+<table class="table table-border cell-border cell-center" data-show-search="false" data-show-rows-steps="false" data-role="table" data-rows="5" data-rows-steps="5, 10"
     data-show-activity="false">
 
 
     <thead class="text-center">
         <tr>
             <th class="text text-center">Nom </th>
-            <th class="text text-center">Date de début </th>
+            <th class="text text-center">Date de début</th>
             <th class="text text-center">Date de cloture </th>
             <th class="text text-center">Inscrits/Place</th>
             <th class="text text-center">Etat</th>
@@ -43,7 +43,7 @@
 
             <td><a href="{{ path('app_participants_show', {'pseudo': sorty.organisateur}) }}">{{ sorty.organisateur
                     }}</a></td>
-            {# Test recuperation date actuelle {{ 'now'|date('Y-m-d H:i:s') }} #}
+            
             <td align="left">
                 <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second link"
                     onmouseover="show2()" onmouseout="out()"><span class="mif-eye"></span></a>
@@ -54,7 +54,7 @@
                     class="action-button second yellow"><span class="mif-pencil"></a>
                 {% else %}
                 {% if sorty.etatsNoEtat == 'Inscription ouverte' or sorty.etatsNoEtat == 'Inscription clôturée' %}
-                <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}"
+                <a href="{{ path('app_sortie_cancel', {'noSortie': sorty.noSortie}) }}"
                     class="action-button second alert"><span class="mif-bin"></span></a>
                 {% endif %}
                 {% endif %}
