@@ -68,7 +68,7 @@
                     class="action-button second yellow"><span class="mif-pencil"></a>
                 {% else %}
                 {% if sorty.etatsNoEtat == 'Inscription ouverte' or sorty.etatsNoEtat == 'Inscription clôturée' %}
-                <a href="{{ path('app_sortie_annuler', {'noSortie': sorty.noSortie}) }}"
+                <a href="{{ path('app_sortie_cancel', {'noSortie': sorty.noSortie}) }}"
                     class="action-button second alert"><span class="mif-bin"></span></a>
                 {% endif %}
                 {% endif %}
