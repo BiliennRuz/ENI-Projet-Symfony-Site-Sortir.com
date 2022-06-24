@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_inscriptions_deleteInscri', {'noSortie': inscription.sortiesNoSortie}) }}" onsubmit="return confirm('Etes vous sur de vouloir vous désister ?');">
+    <input type="hidden" name="_token" value="{{ sorty.nooSortie}}">
+    <button class="btn">Delete</button>
+</form>

@@ -1,0 +1,44 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Gérer les sites ENI{% endblock %}
+{% block javascript %}{% endblock %}
+
+{% block body %}
+    <h1>Gérer les sites ENI</h1>
+
+    <div class="d-flex flex-column flex-align-center">
+        {{ include('sites/_filter.html.twig') }}
+    </div>
+    <div>
+        <table class="table striped table-border cell-border cell-center">
+            <thead class="text-center">
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Ville</th>
+                    <th class="text-center">actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for site in sites %}
+                <tr>
+                    <td>{{ site.noSite }}</td>
+                    <td>{{ site.nomSite }}</td>
+                    <td>
+                        <a href="{{ path('app_sites_edit', {'noSite': site.noSite}) }}" class="action-button second yellow"><span class="mif-pencil"></a>
+                        <a href="{{ path('app_sites_delete', {'noSite': site.noSite}) }}" class="action-button second alert"><span class="mif-bin"></span></a>
+                        </td>
+                    </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="p-5">
+        <a href="{{ path('app_sites_new') }}" class="action-button second success" onmouseover="show3()" onmouseout="out2()"><span class="icon"><span class="mif-plus"></span></span></a>
+    </div>    
+        
+        {% endblock %}
+        

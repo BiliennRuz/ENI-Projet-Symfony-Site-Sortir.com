@@ -1,0 +1,50 @@
+{{ form_start(form) }}
+<div class="d-flex flex-justify-center flex-align-center">
+    <div class="cell-2 p-5 text-left">
+        {{ form_label(form.nom) }}
+    </div>
+    <div class="cell-3 p-5 ">
+        {{ form_widget(form.nom) }}
+    </div>
+    <div class="cell-2 p-5 text-left">
+        {{ form_label(form.datedebut) }}
+    </div>
+    <div class="cell-3 p-5 ">
+        {{ form_widget(form.datedebut) }}
+    </div>
+   
+</div>
+<div class="d-flex flex-justify-center flex-align-center">
+   
+    <div class="cell-2 p-5 text-left ">
+        {{ form_label(form.organisateur)}}
+    </div>
+    <div class="cell-3 p-5 text-left">
+        {{ form_widget(form.organisateur)}}
+    </div>
+    <div class="cell-2 p-5 text-left">
+        {{ form_label(form.lieuxNoLieu)}}
+    </div>
+    <div class="cell-3 p-5 ">
+        {{ form_widget(form.lieuxNoLieu)}}
+    </div>
+</div>
+
+<div class="d-flex flex-justify-center flex-align-center">
+    <div class="cell-2 p-5 text-left">
+        {{ form_label(form.descriptioninfos)}}
+    </div>
+    <div class="cell-3 p-5 m-0">
+        {{ form_widget(form.descriptioninfos) }}
+    </div>
+    
+</div>
+{{sorty.etatsNoEtat}}
+ {#{{ sorty.etatsNoEtat {'value':"Annulée"} }} #}
+
+
+<button class="button primary mif-floppy-disk">{{ button_label|default('Enregistrer')}}</button>
+<a href="{{ path('app_sortie_index', {'noSortie': sorty.noSortie}) }}" class="action-button second success"><span class="mif-undo"></span></a>
+
+
+

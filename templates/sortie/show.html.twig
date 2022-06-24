@@ -1,0 +1,249 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Afficher sorties{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="cell-12">
+        <h1>Afficher une sortie</h1>
+        <div class="d-flex flex-justify-center flex-align-center">
+            <div class="cell-2 p-5 text-left">
+                Nom de la sortie :
+            </div>
+            <div class="cell-2 p-5 text-left ">
+                {{sorty.Nom|default(' ')}}
+            </div>
+            <div class="cell-2 p-5 text-left ">
+                Ville organisatrice :
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{sorty.organisateur.sitesNoSite.nomSite}}
+            </div>
+        </div>
+        <div class="d-flex flex-justify-center flex-align-center">
+            <div class="cell-2 p-5 text-left">
+                Date limite d'inscription :
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{ sorty.datedebut ? sorty.datedebut|date('Y-m-d H:i:s') : '' }}
+            </div>
+            <div class="cell-2 p-5 text-left">
+                Lieu :
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{ sorty.lieuxNoLieu}}
+            </div>
+        </div>
+        <div class="d-flex flex-justify-center flex-align-center">
+            <div class="cell-2 p-5 text-left">
+                Date limite d'inscription :
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{ sorty.datecloture ? sorty.datecloture|date('Y-m-d H:i:s') : '' }}
+            </div>
+            <div class="cell-2 p-5 text-left ">
+                Rue :
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{sorty.LieuxNoLieu.rue|default(' ')}}
+            </div>
+        </div>
+        <div class="d-flex flex-justify-center flex-align-center">
+            <div class="cell-2 p-5 text-left">
+                Nombre de place :
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{sorty.nbinscriptionsmax}}
+            </div>
+            <div class="cell-2 p-5 text-left">
+                Code Postal et ville:
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{sorty.LieuxNoLieu.villesNoville.codePostal|default('') ~ " " ~
+                sorty.LieuxNoLieu.villesNoville.nomVille|default('') }}
+            </div>
+        </div>
+        <div class="d-flex flex-justify-center flex-align-center">
+            <div class="cell-2 p-5 text-left ">
+                Durée :
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{sorty.duree}} minutes
+            </div>
+            <div class="cell-2 p-5 text-left ">
+                Latitude :
+            </div>
+            <div class="cell-2 p-5 text-left ">
+                {{sorty.LieuxNoLieu.Latitude|default('')}}
+            </div>
+        </div>
+        <div class="d-flex flex-justify-center flex-align-center">
+            <div class="cell-2 p-5 text-left">
+                Description et infos :
+            </div>
+            <div class="cell-2 p-5 m-0 text-left">
+                {{sorty.descriptioninfos}}
+            </div>
+            <div class="cell-2 p-5 text-left">
+                Longitude :
+            </div>
+            <div class="cell-2 p-5 justify-top text-left">
+                {{sorty.LieuxNoLieu.Longitude|default(' ')}}
+            </div>
+        </div>
+    </div>
+</div>
+<a href="{{ path('app_sortie_index', {'noSortie': sorty.noSortie}) }}" class="action-button second success"><span
+        class="mif-undo"></span></a>
+
+
+<h2 class="text-left">Liste des participants inscrits</h2>
+<div class="cell-4">
+<table class="table striped table-border cell-border cell-center subcompact" data-show-search="false" data-show-rows-steps="false" data-role="table" data-rows="5"
+    data-rows-steps="5, 10" data-show-activity="false">
+    <thead>
+        <tr>
+            <th class="text-center">Pseudo</th>
+            <th class="text-center">Nom</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for inscrit in inscrits %}
+        <tr>
+            <td><a href="{{ path('app_participants_show', {'pseudo': inscrit.pseudo}) }}">
+                    {{ inscrit.pseudo}}</a></td>
+            <td>{{inscrit.prenom}} {{ inscrit.nom }} </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="2">Il n'y a aucun participant pour cette sortie</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{# ***********************sauvegarde ... ************************************** #}
+
+<div class="row">
+    <div class="cell-12">
+        <h1>Afficher une sortie</h1>
+        <div class="d-flex flex-justify-center flex-align-center">
+            <div class="cell-2 p-5 text-left">
+                Nom de la sortie :
+            </div>
+            <div class="cell-2 p-5 text-left ">
+                {{sorty.Nom|default(' ')}}
+            </div>
+            <div class="cell-2 p-5 text-left ">
+                Ville organisatrice :
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{sorty.organisateur.sitesNoSite.nomSite}}
+            </div>
+        </div>
+        <div class="d-flex flex-justify-center flex-align-center">
+            <div class="cell-2 p-5 text-left">
+                Date limite d'inscription :
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{ sorty.datedebut ? sorty.datedebut|date('Y-m-d H:i:s') : '' }}
+            </div>
+            <div class="cell-2 p-5 text-left">
+                Lieu :
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{ sorty.lieuxNoLieu}}
+            </div>
+        </div>
+        <div class="d-flex flex-justify-center flex-align-center">
+            <div class="cell-2 p-5 text-left">
+                Date limite d'inscription :
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{ sorty.datecloture ? sorty.datecloture|date('Y-m-d H:i:s') : '' }}
+            </div>
+            <div class="cell-2 p-5 text-left ">
+                Rue :
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{sorty.LieuxNoLieu.rue|default(' ')}}
+            </div>
+        </div>
+        <div class="d-flex flex-justify-center flex-align-center">
+            <div class="cell-2 p-5 text-left">
+                Nombre de place :
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{sorty.nbinscriptionsmax}}
+            </div>
+            <div class="cell-2 p-5 text-left">
+                Code Postal et ville:
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{sorty.LieuxNoLieu.villesNoville.codePostal|default('') ~ " " ~
+                sorty.LieuxNoLieu.villesNoville.nomVille|default('') }}
+            </div>
+        </div>
+        <div class="d-flex flex-justify-center flex-align-center">
+            <div class="cell-2 p-5 text-left ">
+                Durée :
+            </div>
+            <div class="cell-2 p-5 text-left">
+                {{sorty.duree}} minutes
+            </div>
+            <div class="cell-2 p-5 text-left ">
+                Latitude :
+            </div>
+            <div class="cell-2 p-5 text-left ">
+                {{sorty.LieuxNoLieu.Latitude|default('')}}
+            </div>
+        </div>
+        <div class="d-flex flex-justify-center flex-align-center">
+            <div class="cell-2 p-5 text-left">
+                Description et infos :
+            </div>
+            <div class="cell-2 p-5 m-0 text-left">
+                {{sorty.descriptioninfos}}
+            </div>
+            <div class="cell-2 p-5 text-left">
+                Longitude :
+            </div>
+            <div class="cell-2 p-5 justify-top text-left">
+                {{sorty.LieuxNoLieu.Longitude|default(' ')}}
+            </div>
+        </div>
+    </div>
+</div>
+<a href="{{ path('app_sortie_index', {'noSortie': sorty.noSortie}) }}" class="action-button second success"><span
+        class="mif-undo"></span></a>
+
+
+<h2 class="text-left">Liste des participants inscrits</h2>
+<div class="cell-4">
+<table class="table striped table-border cell-border cell-center subcompact" data-role="table" data-rows="5"
+    data-rows-steps="5, 10" data-show-activity="false">
+    <thead>
+        <tr>
+            <th class="text-center">Pseudo</th>
+            <th class="text-center">Nom</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for inscrit in inscrits %}
+        <tr>
+            <td><a href="{{ path('app_participants_show', {'pseudo': inscrit.pseudo}) }}">
+                    {{ inscrit.pseudo}}</a></td>
+            <td>{{inscrit.prenom}} {{ inscrit.nom }} </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="2">Il n'y a aucun participant pour cette sortie</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Participants index{% endblock %}
+
+{% block body %}
+<h1>Participants</h1>
+
+<table class="table table-border cell-border cell-center" data-show-search="false" data-show-rows-steps="false"
+    data-role="table" data-rows="9" data-show-activity="false" data-hide="Password">
+    <thead>
+        <tr>
+            <th class="text text-center">Id</th>
+            <th class="text text-center">Pseudo</th>
+            <th class="text text-center">Nom</th>
+            <th class="text text-center">Prenom</th>
+            <th class="text text-center">Telephone</th>
+            <th class="text text-center">Email</th>
+            <th class="text text-center">Roles</th>
+            <th class="text text-center" data-show="false">Password</th>
+            <th class="text text-center">Actif</th>
+            <th class="text text-center">actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for participant in participants %}
+        <tr>
+            <td>{{ participant.id }}</td>
+            <td>{{ participant.pseudo }}</td>
+            <td>{{ participant.nom }}</td>
+            <td>{{ participant.prenom }}</td>
+            <td>{{ participant.telephone }}</td>
+            <td>{{ participant.email }}</td>
+            <td>{{ participant.roles ? participant.roles|json_encode : '' }}</td>
+            <td>{{ participant.password }}</td>
+            <td>{{ participant.actif ? 'Yes' : 'No' }}</td>
+            <td>
+                <a href="{{ path('app_participants_show', {'pseudo': participant.pseudo}) }}"
+                    class="action-button second link" onmouseover="show2()" onmouseout="out()"><span
+                        class="mif-eye"></span></a>
+                <a href="{{ path('app_monprofil', {'id': participant.id}) }}"
+                    class="action-button second yellow"><span class="mif-pencil"></a>
+
+                {# <a href="{{ path('app_monprofil', {'id': participant.id}) }}">edit</a> #}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="10">no records found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ path('app_participants_new') }}" class="action-button second success" onmouseover="show3()"
+    onmouseout="out2()"><span class="icon"><span class="mif-plus"></span></span></a>
+{% endblock %}

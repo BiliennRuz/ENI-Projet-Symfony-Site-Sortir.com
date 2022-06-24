@@ -1,0 +1,95 @@
+{{ form_start(form) }}
+<div class="d-flex flex-justify-center flex-align-center">
+    <div class="cell-2 p-5 text-left">
+        {{ form_label(form.nom) }}
+    </div>
+    <div class="cell-3 p-5 ">
+        {{ form_widget(form.nom) }}
+    </div>
+     <div class="cell-2 p-5 text-left ">
+        Ville organisatrice : 
+    </div>
+    <div class="cell-3 p-5 text-left">
+        {{sorty.organisateur.sitesNoSite.nomSite|default(organi.sitesNoSite.nomSite)}}
+    </div>
+</div>
+<div class="d-flex flex-justify-center flex-align-center">
+    <div class="cell-2 p-5 text-left">
+        {{ form_label(form.datedebut) }}
+    </div>
+    <div class="cell-3 p-5 ">
+        {{ form_widget(form.datedebut) }}
+    </div>
+    <div class="cell-2 p-5 text-left">
+        {{ form_label(form.lieuxNoLieu)}}
+    </div>
+    <div class="cell-3 p-5 ">
+        {{ form_widget(form.lieuxNoLieu)}}
+    </div>
+</div>
+<div class="d-flex flex-justify-center flex-align-center">
+    <div class="cell-2 p-5 text-left">
+        {{ form_label(form.datecloture) }}
+    </div>
+    <div class="cell-3 p-5 ">
+        {{ form_widget(form.datecloture) }}
+    </div>
+    <div class="cell-2 p-5 text-left ">
+        Rue :
+    </div>
+    <div class="cell-3 p-5 text-left">
+        {{sorty.LieuxNoLieu.rue|default(' ')}}
+    </div>
+</div>
+<div class="d-flex flex-justify-center flex-align-center">
+    <div class="cell-2 p-5 text-left">
+        {{ form_label(form.nbinscriptionsmax)}}
+    </div>
+    <div class="cell-3 p-5 ">
+        {{ form_widget(form.nbinscriptionsmax) }}
+    </div>
+    <div class="cell-2 p-5 text-left">
+        Code Postal et ville:
+    </div>
+    <div class="cell-3 p-5 text-left">
+        {{sorty.LieuxNoLieu.villesNoville.codePostal|default('') ~ " " ~
+        sorty.LieuxNoLieu.villesNoville.nomVille|default('') }}
+    </div>
+</div>
+<div class="d-flex flex-justify-center flex-align-center">
+    <div class="cell-2 p-5 text-left ">
+        {{ form_label(form.duree) }}
+    </div>
+    <div class="cell-3 p-5 ">
+        {{ form_widget(form.duree) }}
+    </div>
+    <div class="cell-2 p-5 text-left ">
+        Latitude :
+    </div>
+    <div class="cell-3 p-5 text-left ">
+        {{sorty.LieuxNoLieu.Latitude|default('')}}
+    </div>
+</div>
+<div class="d-flex flex-justify-center flex-align-center">
+    <div class="cell-2 p-5 text-left">
+        {{ form_label(form.descriptioninfos)}}
+    </div>
+    <div class="cell-3 p-5 m-0">
+        {{ form_widget(form.descriptioninfos) }}
+    </div>
+    <div class="cell-2 p-5 text-left">
+        Longitude :
+    </div>
+    <div class="cell-3 p-5 text-left">
+        {{sorty.LieuxNoLieu.Longitude|default(' ')}}
+    </div>
+</div>
+
+<button class="button primary mif-floppy-disk" name="enregistrer" value="enregistrer">{{ button_label|default('')}}</button>
+<button class="button success mif-floppy-disk" name="publier" value="publier">{{ button_label|default('')}}</button>
+
+<a href="{{ path('app_sortie_index', {'noSortie': sorty.noSortie}) }}" class="action-button second success"><span
+        class="mif-undo"></span></a>
+
+
+{{ form_end(form) }}

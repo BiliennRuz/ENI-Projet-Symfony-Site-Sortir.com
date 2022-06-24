@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Edit Participants{% endblock %}
+
+{% block body %}
+
+<h1>Mon profil</h1>
+<div class="row grid m-5 flex-align-center text-center ">
+    <div class="cell-12 p-5 ">
+
+        {{ include('participants/_form.html.twig', {'button_label': ' '}) }}
+
+     </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Log in !{% endblock %}
+
+{% block body %}
+
+<div class="grid">
+    <div class="row sm mt-5 flex-align-center text-center ">
+        <div class="mt-5">
+            <form method="post">
+
+                {% if error %}
+                <div class="bg-red fg-white">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+                {% endif %}
+
+                {% if app.user %}
+                <div class="mb-3-md">
+                    Vous êtes connecté en tant que : {{ app.user.userIdentifier }}, <a
+                        href="{{ path('app_sedeconnecter') }}">Logout</a>
+                </div>
+                {% endif %}
+        </div>
+    </div>
+
+    <div class="row sm mt-5 flex-align-center text-center">
+        <h1 class="cell-sm-4 cell-md-3 offset-sm-4 offset-md-5"> Connexion </h1>
+    </div>
+
+    <div class="row sm mt-2 flex-align-center">
+        <input class="cell-sm-4 cell-md-3 offset-sm-4 offset-md-5" type="text" placeholder="Entrez votre email ou pseudo"
+            value="{{ last_username }}" name="email" id="inputEmail" class="metro-input" autocomplete="email" required
+            autofocus>
+    </div>
+
+    <div class="row mt-2 flex-align-center">
+        <p class="cell-sm-4 cell-md-3 offset-sm-4 offset-md-5">
+            <input type="password" placeholder="Entrez votre mot de passe" name="password"
+                id="inputPassword" class="metro-input" autocomplete="current-password" required>
+        </p>
+    </div>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+
+    <div class="row mt-2 flex-align-center">
+        <button class="button success cell-sm-4 cell-md-3 offset-sm-4 offset-md-5" type="submit">
+            Connexion
+        </button>
+    </div>
+
+    <div class="row mt-5 flex-align-center">
+        <p class="cell-sm-4 cell-md-3 offset-sm-4 offset-md-5">
+            <input type="checkbox" data-role="checkbox" data-caption="Se souvenir de moi">
+        </p>
+    </div>
+    </form>
+
+</div>
+
+</div>
+
+{% endblock %}

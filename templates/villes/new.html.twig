@@ -1,0 +1,11 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}New Villes{% endblock %}
+
+{% block body %}
+    <h1>Create new Villes</h1>
+
+    {{ include('villes/_form.html.twig') }}
+
+    <a href="{{ path('app_villes') }}">back to list</a>
+{% endblock %}

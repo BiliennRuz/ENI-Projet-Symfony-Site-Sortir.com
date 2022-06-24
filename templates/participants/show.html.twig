@@ -1,0 +1,41 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Participants{% endblock %}
+
+{% block body %}
+    <h1>{{ participant.pseudo }}</h1>
+
+    <div class="cell-4 + offset-4 mt-5">
+
+    <table class="table table-border cell-border cell-left mt-5" >
+        <tbody>
+            <div class="cycle polaroid">
+                <img src="{{asset('uploads/images/' ~ participant.photoFilename)}}">
+            </div>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ participant.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ participant.nom }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ participant.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ participant.email }}</td>
+            </tr>
+            <tr>
+                <th>Ville de rattachement</th>
+                <td>{{ participant.sitesNoSite }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<a href="{{ path('app_sortie_index') }}" class="action-button second success"><span
+    class="mif-undo"></span></a>
+{% endblock %}
