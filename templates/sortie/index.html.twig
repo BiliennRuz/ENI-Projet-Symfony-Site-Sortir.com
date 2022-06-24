@@ -20,7 +20,7 @@
     <thead class="text-center">
         <tr>
             <th class="text text-center">Nom </th>
-            <th class="text text-center">Date de début </th>
+            <th class="text text-center">Date de début</th>
             <th class="text text-center">Date de cloture </th>
             <th class="text text-center">Inscrits/Place</th>
             <th class="text text-center">Etat</th>
@@ -46,7 +46,7 @@
 
             <td><a href="{{ path('app_participants_show', {'pseudo': sorty.organisateur}) }}">{{ sorty.organisateur
                     }}</a></td>
-            {# Test recuperation date actuelle {{ 'now'|date('Y-m-d H:i:s') }} #}
+            
             <td align="left">
                 <a href="{{ path('app_sortie_show', {'noSortie': sorty.noSortie}) }}" class="action-button second link"
                     onmouseover="show2()" onmouseout="out()"><span class="mif-eye"></span></a>
