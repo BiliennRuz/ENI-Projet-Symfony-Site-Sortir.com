@@ -46,7 +46,7 @@
                             {% elseif ele == 'Mon profil' %}
                                 <a href="{{ path('app_monprofil', {'id': app.user.id}) }}">MON PROFIL</a>
                             {% elseif ele == 'Se deconnecter' %}
-                                <a href="{{ path('app_sedeconnecter') }}"class="button primary cycle mini alert"><span class="icon"><span class="mif-exit"></span></span>({{ app.user.pseudo }})</a>
+                                <a href="{{ path('app_sedeconnecter') }}"><span class="icon"><span class="mif-exit"></span></span>({{ app.user.pseudo }})</a>
                             {% elseif ele == 'Villes' %}
                                 <a href="{{ path('app_villes') }}">VILLES</a>
                             {% elseif ele == 'Sites' %}
