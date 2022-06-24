@@ -48,8 +48,8 @@
     <div class="cell-9 p-5 ">
         {{ form_widget(form.password) }}
     </div>
-   </div>
-   <div class="d-flex flex-justify-center flex-align-center">
+</div>
+<div class="d-flex flex-justify-center flex-align-center">
     <div class="cell-3 p-5 ">
         {{ form_label(form.photo) }}
     </div>
@@ -68,6 +68,7 @@
     </div>
 </div>
 
-</div>
 <button class="action-button second primary mif-floppy-disk">{{ button_label|default('') }}</button>
+<a href="{{ path('app_participants_index') }}" class="action-button second success"><span
+    class="mif-undo"></span></a>
 {{form_end(form)}}

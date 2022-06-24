@@ -9,8 +9,8 @@
 
     <table class="table table-border cell-border cell-left mt-5" >
         <tbody>
-            <div class="cycle polaroid"">
-                <img src="{{asset('uploads/images/' ~ participant.photoFilename)}}">
+            <div >
+                <img class="avatar" src="{{asset('uploads/images/' ~ participant.photoFilename)}}">
             </div>
             <tr>
                 <th>Prenom</th>
@@ -36,6 +36,6 @@
     </table>
 
 </div>
-
-    <a href="{{ path('app_sortie_index') }}">RETOUR</a>
+<a href="{{ path('app_sortie_index') }}" class="action-button second success"><span
+    class="mif-undo"></span></a>
 {% endblock %}
